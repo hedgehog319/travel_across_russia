@@ -1,6 +1,7 @@
 # Установки
 
 ## Django
+Папку backend необходимо пометить как sources root
 
 pip install Django  
 pip install djangorestframework  
@@ -15,11 +16,12 @@ pip install psycopg2
 
 ## Vue 3
 
-npm install -g @vue/cli @vue/cli-service-global
+npm install -g @vue/cli @vue/cli-service-global  
+vue create -n name - создание проэкта без гит репозитория
 
 ```
 1) Features: Babel, TS, Router, Vuex, CSS Pre-processors, Linter
-2) Vue version: 3
+2) Vue version: 2
 3) Class-style syntax: Yes
 4) Babel alongside TypeScript: Yes
 5) History mode for router: Yes
@@ -27,4 +29,7 @@ npm install -g @vue/cli @vue/cli-service-global
 7) Linter / formatter config: Basic (first)
 ```
 
-npm install --save axios vue-axios
+#### Дополнительные пакеты:
+- npm install --save axios vue-axios
+- npm install vuelidate --save
+- npm install vue-material --save
