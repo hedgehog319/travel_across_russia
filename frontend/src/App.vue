@@ -31,6 +31,10 @@
   }
 }
 
+::selection {
+  background-color: #448aff !important;
+}
+
 .container {
   text-align: center;
   margin-left: auto;
