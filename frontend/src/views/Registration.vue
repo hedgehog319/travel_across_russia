@@ -2,83 +2,58 @@
   <form novalidate class="container mw-400" @submit.prevent="validateUser">
     <md-card class="md-layout-item">
       <md-card-header>
-        <div class="md-title">Users</div>
+        <div class="md-title">Регистрация</div>
       </md-card-header>
 
       <md-card-content>
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('firstName')">
-              <label for="first-name">First Name</label>
-              <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName"
-                        :disabled="sending"/>
-              <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
-              <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
-            </md-field>
-          </div>
-
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('lastName')">
-              <label for="last-name">Last Name</label>
-              <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName"
-                        :disabled="sending"/>
-              <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
-              <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
-            </md-field>
-          </div>
-        </div>
-
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('gender')">
-              <label for="gender">Gender</label>
-              <md-select name="gender" id="gender" v-model="form.gender" md-dense :disabled="sending">
-                <md-option value="Male">Male</md-option>
-                <md-option value="Female">Female</md-option>
-              </md-select>
-              <span class="md-error">The gender is required</span>
-            </md-field>
-          </div>
-
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('age')">
-              <label for="age">Age</label>
-              <md-input type="number" id="age" name="age" autocomplete="age" v-model="form.age"
-                        :disabled="sending"/>
-              <span class="md-error" v-if="!$v.form.age.required">The age is required</span>
-              <span class="md-error" v-else-if="!$v.form.age.maxlength">Invalid age</span>
-            </md-field>
-          </div>
+        <div class="md-layout-item md-small-size-100">
+          <md-field :class="getValidationClass('login')">
+            <label for="login">Логин</label>
+            <md-input name="first-name" id="login" autocomplete="given-name" v-model="form.login"
+                      :disabled="sending"/>
+            <span class="md-error" v-if="!$v.form.login.required">Введите логин</span>
+            <span class="md-error" v-else-if="!$v.form.login.minlength">Логин должен быть больше 3 символов</span>
+            <span class="md-error" v-else-if="!$v.form.login.maxlength">Логин должен быть меньше 20 символов</span>
+          </md-field>
         </div>
 
         <md-field :class="getValidationClass('email')">
           <label for="email">Email</label>
           <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email"
                     :disabled="sending"/>
-          <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-          <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+          <span class="md-error" v-if="!$v.form.email.required">Введите email</span>
+          <span class="md-error" v-else-if="!$v.form.email.email">Неверный email</span>
         </md-field>
+
+        <div class="md-layout-item md-small-size-100">
+          <md-field :class="getValidationClass('password')">
+            <label for="password">Пароль</label>
+            <md-input type="password" name="password" id="password" autocomplete="password"
+                      v-model="form.password"></md-input>
+            <span class="md-error" v-if="!$v.form.password.required">Введите пароль</span>
+          </md-field>
+        </div>
       </md-card-content>
 
       <md-progress-bar md-mode="indeterminate" v-if="sending"/>
 
       <md-card-actions>
-        <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
+        <md-button type="submit" class="md-primary" :disabled="sending">Создать</md-button>
       </md-card-actions>
     </md-card>
 
-    <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
+    <md-snackbar :md-active.sync="userSaved">Пользователь {{ form.login }} успешно создан!</md-snackbar>
   </form>
 </template>
 
-<script>
+<script lang="js">
 import {validationMixin} from 'vuelidate'
+import axios from 'axios'
 import {
   required,
   email,
   minLength,
   maxLength,
-  between
 } from 'vuelidate/lib/validators'
 
 export default {
@@ -86,11 +61,9 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     form: {
-      firstName: null,
-      lastName: null,
-      gender: null,
-      age: null,
+      login: null,
       email: null,
+      password: null
     },
     userSaved: false,
     sending: false,
@@ -98,25 +71,17 @@ export default {
   }),
   validations: {
     form: {
-      firstName: {
+      login: {
         required,
-        minLength: minLength(3)
-      },
-      lastName: {
-        required,
-        minLength: minLength(3)
-      },
-      age: {
-        required,
-        maxLength: maxLength(3),
-        between: between(0, 120)
-      },
-      gender: {
-        required
+        minlength: minLength(3),  // TODO проверить минимальное кол-во символов
+        maxLength: maxLength(20)  // TODO проверить максимальное кол-во символов
       },
       email: {
         required,
         email
+      },
+      password: {
+        required
       }
     }
   },
@@ -132,22 +97,32 @@ export default {
     },
     clearForm() {
       this.$v.$reset()
-      this.form.firstName = null
-      this.form.lastName = null
-      this.form.age = null
-      this.form.gender = null
+      this.form.login = null
       this.form.email = null
+      this.form.password = null
     },
     saveUser() {
       this.sending = true
 
-      // Instead of this timeout, here you can call your API
-      window.setTimeout(() => {
-        this.lastUser = `${this.form.firstName} ${this.form.lastName}`
-        this.userSaved = true
-        this.sending = false
-        this.clearForm()
-      }, 1500)
+      const post = {
+        'login': this.form.login,
+        'access_right': 0,
+        'password': this.form.password
+      }
+
+      const http = axios.create({baseURL: 'http://localhost:8000/'});
+      http.post('/api/users/', post)
+          .then((response) => {
+            console.log(response)
+            if (response.statusText === "Created") { // status code 201
+              this.sending = false
+              this.userSaved = true
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      // TODO проверка на наличие логина
     },
     validateUser() {
       this.$v.$touch()
