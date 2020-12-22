@@ -6,14 +6,15 @@
       </md-card-header>
 
       <md-card-content>
+        <span class="md-body-1 error" v-if="invalidUser">Неверный логин или пароль</span>
+
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('email')">
-              <label for="login">Email</label>
-              <md-input name="login" id="login" autocomplete="given-name" v-model="form.email"
+            <md-field :class="getValidationClass('login')">
+              <label for="login">Login</label>
+              <md-input name="login" id="login" autocomplete="given-name" v-model="form.login"
                         :disabled="sending"/>
-              <span class="md-error" v-if="!$v.form.email.required">Необходимо указать email</span>
-              <span class="md-error" v-else-if="!$v.form.email.email">Не верный email</span>
+              <span class="md-error" v-if="!$v.form.login.required">Необходимо указать логин</span>
             </md-field>
           </div>
 
@@ -33,35 +34,30 @@
       <md-card-actions>
         <md-button type="submit" class="md-primary" :disabled="sending">Войти</md-button>
       </md-card-actions>
+      <router-link to="register">Зарегистрироваться</router-link>
     </md-card>
-
-    <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
   </form>
 </template>
 
 <script>
-import {
-  required,
-  email
-} from 'vuelidate/lib/validators'
+import axios from 'axios';
+import {required} from 'vuelidate/lib/validators';
 
-
+// TODO убирать "неверный логин или пароль" при вводе
 export default {
   name: "Login",
   data: () => ({
     form: {
-      email: null,
+      login: null,
       password: null
     },
-    userSaved: false,
+    invalidUser: false,
     sending: false,
-    lastUser: null
   }),
   validations: {
     form: {
-      email: {
+      login: {
         required,
-        email
       },
       password: {
         required
@@ -70,7 +66,7 @@ export default {
   },
   methods: {
     getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
+      const field = this.$v.form[fieldName]
 
       if (field) {
         return {
@@ -80,25 +76,33 @@ export default {
     },
     clearForm() {
       this.$v.$reset()
-      this.form.email = null;
-      this.form.password = null;
+      this.form.email = null
+      this.form.password = null
     },
-    saveUser() {
-      this.sending = true;
+    checkUser() {
+      this.sending = true
 
-      // Instead of this timeout, here you can call your API
-      window.setTimeout(() => {
-        this.lastUser = `${this.form.email} ${this.form.password}`
-        this.userSaved = true
-        this.sending = false
-        this.clearForm()
-      }, 1500);
+      // TODO поправить запрос
+      const http = axios.create({baseURL: 'http://127.0.0.1:8000/'});
+      http.get(`/api/users/?login=${this.form.login}`)
+          .then((response) => {
+            if (response.data.length !== 0) {
+              if (response.data[0].password === this.form.password) {
+                console.log('ok');
+              } else {
+                this.invalidUser = true
+              }
+            } else {
+              this.invalidUser = true
+            }
+            this.sending = false
+          });
     },
     validateUser() {
-      this.$v.$touch();
+      this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.saveUser();
+        this.checkUser()
       }
     }
   }
@@ -107,5 +111,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.error {
+  color: #ff1744;
+}
 
 </style>
