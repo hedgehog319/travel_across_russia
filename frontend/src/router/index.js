@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 
 // input views
 import LoginPage from "@/views/LoginPage";
+import RegistrationPage from "@/views/RegistrationPage";
 
 
 const routes = [
@@ -19,6 +20,11 @@ const routes = [
         name: 'login',
         component: LoginPage
     },
+    {
+        path: '/registration',
+        name: 'registration',
+        component: RegistrationPage
+    }
 ]
 
 const router = new VueRouter({
