@@ -14,13 +14,13 @@ pip install psycopg2
 - Для запуска кластера необходимо запустить файл db_claster\start.py
 
 
-## Vue 3
+## Vue
 
 npm install -g @vue/cli @vue/cli-service-global  
 vue create -n name - создание проэкта без гит репозитория
 
 ```
-1) Features: Babel, TS, Router, Vuex, CSS Pre-processors, Linter
+1) Features: Babel, Router, Vuex, CSS Pre-processors, Linter
 2) Vue version: 2
 3) Class-style syntax: Yes
 4) Babel alongside TypeScript: Yes

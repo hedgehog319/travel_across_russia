@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>
-      |
+      <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
@@ -29,27 +28,5 @@
       color: #42b983;
     }
   }
-}
-
-::selection {
-  background-color: #448aff !important;
-}
-
-.container {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mw-300 {
-  max-width: 300px;
-}
-
-.mw-400 {
-  max-width: 400px;
-}
-
-.mw-600 {
-  max-width: 600px;
 }
 </style>
