@@ -5,15 +5,12 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
 import '@/assets/styles/my-style.sass'
 
 export default {
   name: 'App',
 
-  components: {
-    // HelloWorld,
-  },
+  components: {},
 
   data: () => ({
     //
