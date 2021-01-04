@@ -3,7 +3,7 @@
     <v-form @submit.prevent="validateUser">
       <v-container class="mw-400">
         <v-card elevation="2" class="round">
-          <v-card-title class="text-center">Вход</v-card-title>
+          <v-card-title class="text-center">Регистрация</v-card-title>
           <v-container>
             <v-text-field label="Логин" v-model="form.login"
                           :error-messages="loginErrors"
@@ -29,7 +29,7 @@
               <v-btn elevation="0" block class="rounded-pill primary" type="submit">Загрегистрироваться</v-btn>
               <div style="margin-top: 10px">
                 <span>Уже зарегистрировались? </span>
-                <router-link to="/" class="text-decoration-none blue--text text--darken-2 hover">
+                <router-link to="/login" class="text-decoration-none blue--text text--darken-2 hover">
                   Войти
                 </router-link>
               </div>

@@ -24,7 +24,7 @@
               <v-btn elevation="0" block class="rounded-pill primary" type="submit">Войти</v-btn>
               <div style="margin-top: 10px">
                 <span>Нет аккаунта? </span>
-                <router-link to="/" class="text-decoration-none blue--text text--darken-2 hover">
+                <router-link to="/registration" class="text-decoration-none blue--text text--darken-2 hover">
                   Зарегистрируйся
                 </router-link>
               </div>
