@@ -24,9 +24,5 @@ export default {
     FooterComponent,
     NavbarComponent
   },
-
-  data: () => ({
-    //
-  }),
 };
 </script>

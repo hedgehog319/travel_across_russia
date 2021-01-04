@@ -1,53 +1,39 @@
 <template>
   <div id="navbar">
-    <v-app-bar
-        absolute
-        color="white"
-        scroll-target="#scrolling-techniques-7"
-    >
-      <v-toolbar-title v-if="isSmall" >
+    <v-app-bar absolute color="white"
+               scroll-target="#scrolling-techniques-7">
+      <v-toolbar-title v-if="isSmall">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </v-toolbar-title>
       <router-link to="/" class="text-decoration-none hover">
-        <v-toolbar-title v-if="!isSmall" >
-          <v-img
-              style=" overflow-x: hidden"
-              max-height="100"
-              max-width="180"
-              src="@/assets/logo.jpg"></v-img>
+        <v-toolbar-title v-if="!isSmall">
+          <v-img max-height="100" max-width="180" src="@/assets/logo.jpg"/>
         </v-toolbar-title>
       </router-link>
 
-      <v-spacer></v-spacer>
+      <v-spacer/>
 
       <div class="text-center">
-        <v-menu
-            offset-y
-            rounded="b-xl">
+        <v-menu offset-y
+                rounded="b-xl">
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
-                <v-btn
-                    style="background: #FFFFFF;" elevation="0"
-                    v-bind="attrs"
-                    v-on="{ ...tooltip, ...menu }"
-                >
-                  <v-icon>
-                    mdi-map-marker
-                  </v-icon>
-                  {{currentCity}}
+                <v-btn color="white" elevation="0"
+                       v-bind="attrs"
+                       v-on="{ ...tooltip, ...menu }">
+                  <v-icon>mdi-map-marker</v-icon>
+                  {{ currentCity }}
                 </v-btn>
               </template>
               <span>Выбрать город</span>
             </v-tooltip>
           </template>
           <v-list>
-            <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                @click="selectedItem(item)"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item v-for="(city, index) in cities"
+                         :key="index"
+                         @click="selectedItem(city)">
+              <v-list-item-title>{{ city }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -55,15 +41,10 @@
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px">
-            <v-icon
-                style="margin: 10px"
-                large
-                color="#000000"
-                dark
-                v-bind="attrs"
-                v-on="on"
-            >
+          <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px"
+                 v-bind="attrs"
+                 v-on="on">
+            <v-icon style="margin: 10px" large color="black" dark>
               mdi-heart-outline
             </v-icon>
           </v-btn>
@@ -72,18 +53,13 @@
       </v-tooltip>
 
       <div class="text-center">
-        <v-menu
-            offset-y
-        >
+        <v-menu offset-y>
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
-                <v-btn
-                    style="background: #FFFFFF;" elevation="0"
-                    v-bind="attrs"
-                    v-on="{ ...tooltip, ...menu }"
-                    icon
-                >
+                <v-btn icon
+                       v-bind="attrs"
+                       v-on="{ ...tooltip, ...menu }">
                   <v-icon size="40px">mdi-account-circle</v-icon>
                 </v-btn>
               </template>
@@ -91,30 +67,18 @@
             </v-tooltip>
           </template>
           <v-list>
-            <v-list-item
-                v-for="(item, index) in profileItems"
-                :key="index"
-            >
+            <v-list-item v-for="(item, index) in profileItems" :key="index">  <!--TODO убрать v-for-->
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </div>
     </v-app-bar>
-    <v-navigation-drawer
-        v-model="drawer"
-        absolute
-        left
-        temporary
-    >
-      <v-list
-          nav
-          dense
-      >
-        <v-list-item-group
-            v-model="group"
-            active-class="deep-purple--text text--accent-4"
-        >
+    <!--TODO что сюда пихнуть?-->
+    <v-navigation-drawer v-model="drawer" absolute left temporary>
+      <v-list nav dense>
+        <v-list-item-group v-model="group"
+                           active-class="deep-purple--text text--accent-4">
           <v-list-item>
             <v-list-item-title>Foo</v-list-item-title>
           </v-list-item>
@@ -143,35 +107,27 @@ export default {
     return {
       isSmall: false,
       currentCity: "Владивосток",
-      items: [{title: 'Владивосток'}, {title: 'Москва'}, {title: 'Казань'}, {title: 'Ростов-на-Дону'}, {title: 'Уфа'}],
+      cities: ['Владивосток', 'Москва', 'Казань', 'Ростов-на-Дону', 'Уфа'],
       profileItems: [{title: 'Личные данные'}, {title: 'Выйти'}],
       drawer: false,
       group: null,
     }
   },
   methods: {
-    selectedItem(item) {
-      this.currentCity = item.title
-    },
-    onResize () {
-      this.isSmall = window.innerWidth < 500
-      console.log(this.isSmall)
-    },
+    selectedItem: city => this.currentCity = city,
+    onResize: () => this.isSmall = window.innerWidth < 500,
   },
+  beforeDestroy() {
+    if (typeof window === 'undefined') return // REDO изменить
 
-  beforeDestroy () {
-    if (typeof window === 'undefined') return
-
-    window.removeEventListener('resize', this.onResize, { passive: true })
+    window.removeEventListener('resize', this.onResize, {passive: true})
   },
-
-  mounted () {
+  mounted() {
     this.onResize()
-
-    window.addEventListener('resize', this.onResize, { passive: true })
+    window.addEventListener('resize', this.onResize, {passive: true})
   },
   watch: {
-    group () {
+    group() {
       this.drawer = false
     },
   },
