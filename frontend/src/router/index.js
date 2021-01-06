@@ -7,6 +7,8 @@ Vue.use(VueRouter)
 // input views
 import LoginPage from "@/views/LoginPage";
 import RegistrationPage from "@/views/RegistrationPage";
+import AccountPage from "@/views/AccountPage";
+import HomePage from "@/views/HomePage";
 
 
 const routes = [
@@ -24,6 +26,16 @@ const routes = [
         path: '/registration',
         name: 'registration',
         component: RegistrationPage
+    },
+    {
+        path: '/account',
+        name: 'account',
+        component: AccountPage
+    },
+    {
+        path: '/',
+        name: 'home',
+        component: HomePage
     }
 ]
 

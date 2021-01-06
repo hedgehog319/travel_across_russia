@@ -53,7 +53,7 @@
       </v-tooltip>
 
       <div class="text-center">
-        <v-menu offset-y>
+        <v-menu v-if="isLogin" offset-y>
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
@@ -67,11 +67,54 @@
             </v-tooltip>
           </template>
           <v-list>
-            <v-list-item v-for="(item, index) in profileItems" :key="index">  <!--TODO убрать v-for-->
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <router-link to="/account" class="text-decoration-none">
+              <v-list-item>
+                <v-list-item-title>Личные данные</v-list-item-title>
+              </v-list-item>
+            </router-link>
+            <!-- TODO выход из аккаунта -->
+            <v-list-item>
+              <div>
+                <v-dialog v-model="dialog" width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn style="background: #FFFFFF; color: red; width: 120px"
+                           elevation="0"
+                           dark
+                           v-bind="attrs"
+                           v-on="on">Выйти</v-btn>
+                  </template>
+
+                  <v-card>
+                    <v-card-title class="headline grey lighten-2">
+                      Выход
+                    </v-card-title>
+                    <v-card-text style="margin-top: 15px">
+                      Вы действительно хотите выйти?
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="red" text @click="dialog = false">Нет</v-btn>
+                      <v-btn color="primary" text @click="dialog = false">Да</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
             </v-list-item>
           </v-list>
         </v-menu>
+        <v-tooltip v-if="!isLogin" bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <router-link to="/login" class="text-decoration-none hover">
+              <v-btn elevation="0" style="background: #FFFFFF; width: 50px"
+                     v-bind="attrs"
+                     v-on="on">
+                Войти
+              </v-btn>
+            </router-link>
+          </template>
+          <span>Вход в аккаунт</span>
+        </v-tooltip>
       </div>
     </v-app-bar>
     <!--TODO что сюда пихнуть?-->
@@ -105,10 +148,12 @@ export default {
   name: "NavbarComponent",
   data() {
     return {
+      dialog: false,
+      // TODO заменить на cookie
+      isLogin: true,
       isSmall: false,
       currentCity: "Владивосток",
       cities: ['Владивосток', 'Москва', 'Казань', 'Ростов-на-Дону', 'Уфа'],
-      profileItems: [{title: 'Личные данные'}, {title: 'Выйти'}],
       drawer: false,
       group: null,
     }
