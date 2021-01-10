@@ -1,1 +1,1 @@
-pip install Django djangorestframework django-filter django-cors-headers psycopg2
+pip install django django-filter djangorestframework django-cors-headers psycopg2 djoser djangorestframework-jwt djangorestframework-jsonapi
