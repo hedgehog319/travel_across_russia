@@ -9,6 +9,9 @@ import LoginPage from "@/views/LoginPage";
 import RegistrationPage from "@/views/RegistrationPage";
 import AccountPage from "@/views/AccountPage";
 import HomePage from "@/views/HomePage";
+import SearchPage from "@/views/SearchPage";
+import TourBookingPage from "@/views/TourBookingPage";
+import FavoritesPage from "@/views/FavoritesPage";
 
 
 const routes = [
@@ -33,10 +36,25 @@ const routes = [
         component: AccountPage
     },
     {
+        path: '/search',
+        name: 'search',
+        component: SearchPage
+    },
+    {
+        path: '/booking',
+        name: 'booking',
+        component: TourBookingPage
+    },
+    {
+        path: '/favorites',
+        name: 'favorites',
+        component: FavoritesPage
+    },
+    {
         path: '/',
         name: 'home',
         component: HomePage
-    }
+    },
 ]
 
 const router = new VueRouter({
