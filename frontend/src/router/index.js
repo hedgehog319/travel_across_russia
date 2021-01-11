@@ -15,11 +15,11 @@ import FavoritesPage from "@/views/FavoritesPage";
 
 
 const routes = [
-    // {
-    //     path: '/',
-    //     name: 'Home',
-    //     component: App
-    // },
+    {
+        path: '/',
+        name: 'home',
+        component: HomePage
+    },
     {
         path: '/login',
         name: 'login',
@@ -49,11 +49,6 @@ const routes = [
         path: '/favorites',
         name: 'favorites',
         component: FavoritesPage
-    },
-    {
-        path: '/',
-        name: 'home',
-        component: HomePage
     },
 ]
 
