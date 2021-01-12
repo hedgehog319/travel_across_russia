@@ -9,8 +9,8 @@
                 <v-col cols="4">Место отбытия</v-col>
                 <v-col cols="8" class="text--secondary">
                   <v-fade-transition leave-absolute>
-                    <span v-if="open" key="0">Владивосток</span>
-                    <span v-else key="1">{{ trip.name }}</span>
+                    <span v-if="open" :key="0">Владивосток</span>
+                    <span v-else :key="1">{{ trip.name }}</span>
                   </v-fade-transition>
                 </v-col>
               </v-row>
@@ -27,8 +27,8 @@
               <v-col cols="4">Место путешествия</v-col>
               <v-col cols="8" class="text--secondary">
                 <v-fade-transition leave-absolute>
-                  <span v-if="open" key="0">Выберите страну для путешествия</span>
-                  <span v-else key="1">{{ trip.location }}</span>
+                  <span v-if="open" :key="0">Выберите страну для путешествия</span>
+                  <span v-else :key="1">{{ trip.location }}</span>
 
                 </v-fade-transition>
               </v-col>
@@ -43,10 +43,6 @@
               </v-col>
               <v-col cols="3">
                 <span style="margin-bottom: 5px">Город</span>
-                <v-select v-model="trip.location" item-text="name" :items="locations" solo flat></v-select>
-              </v-col>
-              <v-col cols="3">
-                <span style="margin-bottom: 5px">Отель</span>
                 <v-select v-model="trip.location" item-text="name" :items="locations" solo flat></v-select>
               </v-col>
             </v-row>
