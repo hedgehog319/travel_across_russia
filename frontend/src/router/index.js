@@ -12,7 +12,8 @@ import HomePage from "@/views/HomePage";
 import SearchPage from "@/views/SearchPage";
 import TourBookingPage from "@/views/TourBookingPage";
 import FavoritesPage from "@/views/FavoritesPage";
-
+import NotFoundPage from "@/views/NotFoundPage";
+import TourPage from "@/views/TourPage";
 
 const routes = [
     {
@@ -49,6 +50,16 @@ const routes = [
         path: '/favorites',
         name: 'favorites',
         component: FavoritesPage
+    },
+    {
+        path: '/tour',
+        name: 'tour',
+        component: TourPage
+    },
+    {
+        path: '*',
+        name: 'notfound',
+        component: NotFoundPage
     },
 ]
 

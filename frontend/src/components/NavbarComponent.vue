@@ -1,7 +1,6 @@
 <template>
   <div id="navbar">
-    <v-app-bar absolute color="white"
-               scroll-target="#scrolling-techniques-7">
+    <v-app-bar absolute color="white">
       <v-toolbar-title v-if="isSmall">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </v-toolbar-title>

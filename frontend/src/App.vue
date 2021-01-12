@@ -2,7 +2,8 @@
   <v-app>
     <NavbarComponent/>
     <router-view
-        style="padding-top: 100px;
+        style="
+        padding-top: 100px;
         padding-bottom: 50px;
         height: 100%;
         margin-bottom: 100px;
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import '@/assets/styles/my-style.sass'
+import '@/assets/styles/my-style.css'
 import NavbarComponent from "@/components/NavbarComponent";
 import FooterComponent from "@/components/FooterComponent";
 
