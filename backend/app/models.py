@@ -19,6 +19,9 @@ class FavouriteTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user.username} - {self.tour.name}'
+
 
 class Document(models.Model):
     series = models.IntegerField()
