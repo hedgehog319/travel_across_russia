@@ -34,21 +34,22 @@ class Tourist(models.Model):
 
 # Забронированные туры
 class BookedTour(models.Model):
-    tour = models.ForeignKey('TourCatalog', on_delete=models.CASCADE)
-    departure_date = models.DateField(auto_now_add=True)
-    arrival_date = models.DateField(auto_now_add=True)
+    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
     airline = models.ForeignKey('Airline', on_delete=models.CASCADE)
     insurance = models.ForeignKey('Insurance', on_delete=models.CASCADE)
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'Id {self.id}: tour_id {self.tour.id}'
 
 
-class TourCatalog(models.Model):
+class Tour(models.Model):
     name = models.CharField(max_length=150)
-    tour_price = models.DecimalField(max_digits=8, decimal_places=2)
-    country = models.ForeignKey('Country', on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    city = models.ForeignKey('City', on_delete=models.CASCADE)
     hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
+    count_days = models.PositiveIntegerField()
 
     def __str__(self):
         return f'Id {self.id}: {self.name}'
@@ -82,10 +83,19 @@ class Country(models.Model):
 
 
 class Hotel(models.Model):
+    FOOD_CHOICES = (
+        (1, 'Без питания'),
+        (2, 'Скромный завтрак'),
+        (3, 'Завтрак'),
+        (4, 'Завтрак + ужин'),
+        (5, 'Завтрак + обед + ужин'),
+        (6, 'Все включено'),
+    )
+
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=300)
     number_of_rooms = models.IntegerField()
-    type_of_food = models.IntegerField()
+    type_of_food = models.PositiveSmallIntegerField(choices=FOOD_CHOICES)
     price_for_night = models.DecimalField(max_digits=8, decimal_places=2)
     city = models.ForeignKey('City', on_delete=models.CASCADE)
 

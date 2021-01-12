@@ -163,7 +163,7 @@ REST_FRAMEWORK = {
 DJOSER = {
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-        'user_create': 'new_app.serializers.UserRegistrationSerializer'
+        'user_create': 'app.serializers.UserRegistrationSerializer'
     }
 }
 
