@@ -5,7 +5,24 @@ class IsAdminOrReadOnly(BasePermission):
     def has_permission(self, request, view):
         return bool(
             request.method in SAFE_METHODS or
-            request.user and request.user.is_staff)
+            request.user and request.user.is_staff
+        )
+
+
+class IsAdminOrCreateOnly(BasePermission):
+    def has_permission(self, request, view):
+        return bool(
+            request.method == 'POST' or
+            request.user and request.user.is_staff
+        )
+
+
+class IsStaffOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        return bool(
+            request.method in SAFE_METHODS or
+            request.user and request.user.access_right > 0
+        )
 
 
 class IsOwnerOrAdminOrReadOnly(BasePermission):
