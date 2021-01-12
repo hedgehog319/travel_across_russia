@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth import get_user_model
 
-from app.models import Document, Tourist, BookedTour, Tour, Airline, Insurance, Country, Hotel, City
+from app.models import Document, Tourist, BookedTour, Tour, Airline, Insurance, Country, Hotel, City, FavouriteTour
 
 
 @admin.register(get_user_model())
@@ -32,6 +32,7 @@ admin.site.register(BookedTour)
 admin.site.register(Tour)
 admin.site.register(Airline)
 admin.site.register(Insurance)
+admin.site.register(FavouriteTour)
 
 
 
