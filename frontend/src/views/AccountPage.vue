@@ -75,8 +75,7 @@
 <script>
 export default {
   name: "AccountPage",
-  data: () => ({
-  }),
+  data: () => ({}),
 }
 </script>
 
