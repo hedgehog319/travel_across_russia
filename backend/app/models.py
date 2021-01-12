@@ -10,6 +10,7 @@ class User(AbstractUser):
     )
     access_right = models.PositiveSmallIntegerField(choices=FOOD_CHOICES, default=0)
     document = models.ForeignKey('Document', on_delete=models.SET_NULL, null=True, blank=True)
+    fav_tours = models.ManyToManyField('Tour', through='FavouriteTour')
 
     def __str__(self):
         return f'Id: {self.id}: {self.username}'
@@ -32,7 +33,7 @@ class Document(models.Model):
     birthdate = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'Id {self.id}: {self.series} {self.number}'
+        return f'Id {self.id}: {self.first_name} {self.last_name}'
 
 
 class Tourist(models.Model):
