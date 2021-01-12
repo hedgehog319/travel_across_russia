@@ -11,7 +11,7 @@ router.register('documents', DocumentView)
 router.register('fav-tours', FavouriteTourView)  # /fav-tour/TOUR_ID/ - удаление
 router.register('countries', CountryView)
 router.register('cities', CityView)  # ?country=COUNTRY_ID, или ?country_name=Россия
-router.register('hotels', HotelView)
+router.register('hotels', HotelView)  # ?city=CITY_NAME & country=COUNTRY_NAME & type_of_food=1
 router.register('airlines', AirlineView)
 router.register('insurances', InsuranceView)
 
