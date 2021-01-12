@@ -41,17 +41,23 @@
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="country_id" null="1" autoincrement="0">
+<row name="name" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="countres" row="id" />
+<default>NULL</default></row>
+<row name="price" null="1" autoincrement="0">
+<datatype>DECIMAL</datatype>
+<default>NULL</default></row>
+<row name="count_days" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="city_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="cities" row="id" />
 </row>
 <row name="hotel_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="hotels" row="id" />
 </row>
-<row name="price" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
-<default>NULL</default></row>
 <row name="airline_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="airlines" row="id" />
@@ -82,11 +88,11 @@
 <part>id</part>
 </key>
 </table>
-<table x="1021" y="5" name="countres">
+<table x="1158" y="30" name="countres">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="country_name" null="1" autoincrement="0">
+<row name="name" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="is_visa" null="1" autoincrement="0">
@@ -96,44 +102,38 @@
 <part>id</part>
 </key>
 </table>
-<table x="1250" y="93" name="cities">
+<table x="1005" y="10" name="cities">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
 <row name="country_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="countres" row="id" />
 </row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="786" y="232" name="airlines">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="city_name" null="1" autoincrement="0">
+<row name="name" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="809" y="172" name="airlines">
+<table x="768" y="349" name="insurences">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="airline_name" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<row name="airline_country" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>id</part>
-</key>
-</table>
-<table x="797" y="304" name="insurences">
-<row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="price" null="1" autoincrement="0">
+<row name="price_for_day" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<row name="end_date" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="refund" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
@@ -142,14 +142,14 @@
 <part>id</part>
 </key>
 </table>
-<table x="1018" y="132" name="hotels">
+<table x="929" y="137" name="hotels">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="hotel_name" null="1" autoincrement="0">
+<row name="name" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
-<row name="hotel_adress" null="1" autoincrement="0">
+<row name="address" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="number_of_rooms" null="1" autoincrement="0">
