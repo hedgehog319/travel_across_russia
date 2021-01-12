@@ -27,6 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
   
+      - run: cd frontend
       - run: npm i
       - run: npm run build --if-present
 
