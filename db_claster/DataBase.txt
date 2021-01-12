@@ -37,8 +37,17 @@
 		<type label="SET" length="1" sql="SET" quote=""/>
 		<type label="Bit" length="0" sql="bit" quote=""/>
 	</group>
-</datatypes><table x="525" y="85" name="tours">
-<row name="tour_id" null="1" autoincrement="1">
+</datatypes><table x="609" y="0" name=" tours">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="price" null="1" autoincrement="0">
+<datatype>DECIMAL</datatype>
+<default>NULL</default></row>
+<row name="count_days" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="city_id" null="1" autoincrement="0">
@@ -49,28 +58,7 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="hotels" row="id" />
 </row>
-<row name="price" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>tour_id</part>
-</key>
-</table>
-<table x="302" y="142" name="booked_tours">
-<row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="tour_id" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="tours" row="tour_id" />
-</row>
-<row name="start_date" null="1" autoincrement="0">
-<datatype>DATETIME</datatype>
-<default>NULL</default></row>
-<row name="end_date" null="1" autoincrement="0">
-<datatype>DATETIME</datatype>
-<default>NULL</default></row>
-<row name=" airline_id" null="1" autoincrement="0">
+<row name="airline_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="airlines" row="id" />
 </row>
@@ -82,7 +70,25 @@
 <part>id</part>
 </key>
 </table>
-<table x="1004" y="56" name="countres">
+<table x="349" y="139" name="booked_tours">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="tour_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table=" tours" row="id" />
+</row>
+<row name=" start_date" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="end_date" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="1158" y="30" name="countres">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -96,41 +102,38 @@
 <part>id</part>
 </key>
 </table>
-<table x="862" y="35" name="cities">
+<table x="1005" y="10" name="cities">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="country_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="countres" row="id" />
 </row>
-<row name="city_name" null="1" autoincrement="0">
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="786" y="232" name="airlines">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="523" y="227" name="airlines">
+<table x="768" y="349" name="insurences">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="airline_name" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>id</part>
-</key>
-</table>
-<table x="523" y="327" name="insurences">
-<row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="price" null="1" autoincrement="0">
+<row name="price_for_day" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<row name="end_date" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="refund" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
@@ -139,7 +142,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="680" y="162" name="hotels">
+<table x="929" y="137" name="hotels">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -166,7 +169,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="308" y="371" name="tourists">
+<table x="472" y="307" name="tourists">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -181,14 +184,11 @@
 <row name="email" null="0" autoincrement="0">
 <datatype>MEDIUMTEXT</datatype>
 </row>
-<row name="adult" null="1" autoincrement="0">
-<datatype>BINARY</datatype>
-<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="480" y="469" name="documents">
+<table x="265" y="352" name="documents">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -214,7 +214,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="683" y="421" name="users">
+<table x="62" y="270" name="users">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -233,6 +233,22 @@
 <row name="document_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="documents" row="id" />
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="129" y="12" name="favorite_tour">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="user_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="users" row="id" />
+</row>
+<row name="tour_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table=" tours" row="id" />
 </row>
 <key type="PRIMARY" name="">
 <part>id</part>
