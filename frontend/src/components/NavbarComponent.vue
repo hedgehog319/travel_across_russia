@@ -157,7 +157,6 @@
 
       </div>
     </v-app-bar>
-    <!--TODO что сюда пихнуть?-->
     <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list nav dense>
         <v-list-item-group v-model="group"

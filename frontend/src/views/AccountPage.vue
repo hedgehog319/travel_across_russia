@@ -4,11 +4,11 @@
       <v-container style="width: 60%;">
         <v-card>
           <v-toolbar flat color="primary" dark>
-            <v-toolbar-title>Имя Фамилия</v-toolbar-title>
+            <v-toolbar-title>Профиль</v-toolbar-title>
           </v-toolbar>
           <v-tabs vertical>
             <v-tab>Информация</v-tab>
-            <v-tab>Избранное</v-tab>
+            <v-tab>Измение данных</v-tab>
             <v-tab>Мои туры</v-tab>
 
             <v-tab-item>
@@ -17,16 +17,15 @@
                   <template v-slot:default>
                     <thead class="hover-none">
                     <tr>
-                      <th class="text-left" style="font-size: 30px">
-                        Аккаунт
-                      </th>
+                      <th class="text-left" style="font-size: 30px">Аккаунт</th>
                       <th class="text-left"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="hover-none">
                       <td>Логин</td>
-                      <td>testlogin</td>
+                      <td> <v-text-field v-model="name" :counter="10" :error-messages="errors" label="Name" required
+                      ></v-text-field></td>
                     </tr>
                     <tr class="hover-none">
                       <td>Имя</td>
@@ -49,13 +48,18 @@
                 </v-simple-table>
               </v-card>
             </v-tab-item>
+
             <v-tab-item>
-              <v-card flat>
-                <v-card-text style="text-align: center">
-                  <p>Ваш список избранного пуст</p>
-                </v-card-text>
-              </v-card>
+            <v-card flat>
+              <v-card-text style="text-align: center">
+                <p>
+                  <!--TODO форма измения данных-->
+                  Ваш список туров пуст
+                </p>
+              </v-card-text>
+            </v-card>
             </v-tab-item>
+
             <v-tab-item>
               <v-card flat>
                 <v-card-text style="text-align: center">

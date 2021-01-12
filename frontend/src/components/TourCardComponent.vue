@@ -5,8 +5,8 @@
              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"/>
 
       <div style="position: absolute; bottom: 110px; left: 15px">
-        <v-icon color="#fff">mdi-calendar</v-icon>
-        <span style="color: #fff; padding-left: 5px">{{ tour.start }}-{{ tour.end }}</span>
+        <v-icon color="#fff">mdi-calendar-clock</v-icon>
+        <span style="color: #fff; padding-left: 5px">{{tour.days}}</span>
       </div>
 
       <div style="position: absolute; bottom: 110px; right: 15px">
