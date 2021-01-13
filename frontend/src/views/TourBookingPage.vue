@@ -3,11 +3,12 @@
     <v-container>
       <v-stepper v-model="e1">
         <v-stepper-header>
-          <v-stepper-step :complete="e1 > 1" step="1">Выбор тура</v-stepper-step>
+          <v-stepper-step editable :complete="e1 > 1" step="1" class="unselectable">Выбор тура</v-stepper-step>
           <v-divider/>
-          <v-stepper-step :complete="e1 > 2" step="2">Заполнение документов</v-stepper-step>
+          <v-stepper-step editable :complete="e1 > 2" step="2" class="unselectable">Заполнение документов
+          </v-stepper-step>
           <v-divider/>
-          <v-stepper-step step="3">Оплата тура</v-stepper-step>
+          <v-stepper-step editable step="3" class="unselectable">Оплата тура</v-stepper-step>
         </v-stepper-header>
 
         <v-stepper-items>

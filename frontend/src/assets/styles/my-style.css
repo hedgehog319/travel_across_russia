@@ -9,14 +9,12 @@
 
 .hover:hover {
     opacity: 0.8 !important;
+    cursor: pointer;
 }
 
 .hover-card:hover {
     background-color: rgba(44, 44, 47, 0.7) !important;
-}
-
-.hover-none:hover {
-    background-color: white !important;
+    cursor: pointer;
 }
 
 .scrollbar {
@@ -41,6 +39,14 @@
 .scrollbar::-webkit-scrollbar-thumb {
     border-radius: 8px;
     background-color: #757575;
+}
+
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
 }
 
 .mw-300 {

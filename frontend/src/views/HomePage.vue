@@ -71,17 +71,14 @@
         <v-container class="pa-1">
           <v-item-group multiple>
             <v-row>
-              <v-col v-for="(item, i) in items" :key="i" cols="12" lg="4" md="6" sm="6"
-                     style="padding: 0 !important; margin:0  !important;"
-                     xs="6">
+              <v-col cols="12" lg="4" md="6" sm="6" xs="6" style="padding: 0; margin:0"
+                     v-for="(item, i) in items" :key="i">
                 <v-item>
-                  <v-img :src='item.src' class="text-right" height="200" style="background-color: rgba(0, 0, 0, 0.6);">
+                  <v-img :src='item.src' class="text-right" height="200">
                     <v-sheet class="hover-card"
-                             style="align-items: center;text-align: center;z-index: 9999; background-color: rgba(44,44,47,0.3); width: 100%; height: 100%; ">
-                      <span
-                          style="color: #ffffff; z-index: 9999; position: relative; justify-content: center;align-items: center;font-size: 30px">{{
-                          item.title
-                        }}</span>
+                             style="text-align: center; width: 100%; height: 100%;
+                             background-color: rgba(44,44,47,0.3);">
+                      <span style="color: #fff; font-size: 30px" class="unselectable">{{ item.title }}</span>
                     </v-sheet>
                   </v-img>
                 </v-item>
