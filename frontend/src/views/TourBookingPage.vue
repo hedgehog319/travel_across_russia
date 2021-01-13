@@ -23,9 +23,9 @@
             <v-card class="mb-12" color="grey lighten-1" height="200px">
 
             </v-card>
-            <v-btn style="margin-right: 5px;" color="primary" @click="e1 = 3">Далее</v-btn>
-
-            <v-btn text @click="e1 = 1">Отмена</v-btn>
+              <v-btn style="margin-right: 5px;" color="primary" @click="e1 = 3">Далее</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn text @click="e1 = 1">Отмена</v-btn>
           </v-stepper-content>
 
           <v-stepper-content step="3">

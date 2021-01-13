@@ -2,7 +2,7 @@
   <div id="navbar">
     <v-app-bar absolute color="white">
       <v-toolbar-title v-if="isSmall">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       </v-toolbar-title>
       <router-link to="/" class="text-decoration-none hover">
         <v-toolbar-title v-if="!isSmall">
@@ -13,15 +13,11 @@
       <v-spacer/>
 
       <div class="text-center">
-        <v-menu offset-y
-                rounded="b-xl"
-                v-if="!isSmall">
+        <v-menu offset-y rounded="b-xl" v-if="!isSmall">
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
-                <v-btn color="white" elevation="0"
-                       v-bind="attrs"
-                       v-on="{ ...tooltip, ...menu }">
+                <v-btn color="white" elevation="0" v-bind="attrs" v-on="{ ...tooltip, ...menu }">
                   <v-icon>mdi-map-marker</v-icon>
                   {{ currentCity }}
                 </v-btn>
@@ -30,9 +26,7 @@
             </v-tooltip>
           </template>
           <v-list>
-            <v-list-item v-for="(city, index) in cities"
-                         :key="index"
-                         @click="selectedItem(city)">
+            <v-list-item v-for="(city, index) in cities" :key="index" @click="selectedItem(city)">
               <v-list-item-title>{{ city }}</v-list-item-title>
             </v-list-item>
           </v-list>
@@ -42,12 +36,8 @@
       <router-link to="/booking" class="text-decoration-none hover">
         <v-tooltip bottom v-if="!isSmall">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px"
-                   v-bind="attrs"
-                   v-on="on">
-              <v-icon style="margin: 10px" large color="black" dark>
-                mdi-book-plus
-              </v-icon>
+            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
+              <v-icon style="margin: 10px" large color="black" dark>mdi-book-plus</v-icon>
             </v-btn>
           </template>
           <span>Бронирование тура</span>
@@ -57,12 +47,8 @@
       <router-link to="/search" class="text-decoration-none hover">
         <v-tooltip bottom v-if="!isSmall">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px"
-                   v-bind="attrs"
-                   v-on="on">
-              <v-icon style="margin: 10px" large color="black" dark>
-                mdi-map-search
-              </v-icon>
+            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
+              <v-icon style="margin: 10px" large color="black" dark>mdi-map-search</v-icon>
             </v-btn>
           </template>
           <span>Поиск тура</span>
@@ -72,12 +58,8 @@
       <router-link to="/favorites" class="text-decoration-none hover">
         <v-tooltip bottom v-if="!isSmall">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px"
-                   v-bind="attrs"
-                   v-on="on">
-              <v-icon style="margin: 10px" large color="black" dark>
-                mdi-heart-outline
-              </v-icon>
+            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
+              <v-icon style="margin: 10px" large color="black" dark>mdi-heart-outline</v-icon>
             </v-btn>
           </template>
           <span>Избранное</span>
@@ -89,9 +71,7 @@
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
-                <v-btn icon
-                       v-bind="attrs"
-                       v-on="{ ...tooltip, ...menu }">
+                <v-btn icon v-bind="attrs" v-on="{ ...tooltip, ...menu }">
                   <v-icon size="40px">mdi-account-circle</v-icon>
                 </v-btn>
               </template>
@@ -109,11 +89,9 @@
               <div>
                 <v-dialog v-model="dialog" width="500">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn style="background: #FFFFFF; color: red; width: 120px"
-                           elevation="0"
-                           dark
-                           v-bind="attrs"
-                           v-on="on">Выйти
+                    <v-btn style="background: #FFFFFF; color: red; width: 120px" elevation="0" dark v-bind="attrs"
+                           v-on="on">
+                      Выйти
                     </v-btn>
                   </template>
 
@@ -124,9 +102,9 @@
                     <v-card-text style="margin-top: 15px">
                       Вы действительно хотите выйти?
                     </v-card-text>
-                    <v-divider></v-divider>
+                    <v-divider/>
                     <v-card-actions>
-                      <v-spacer></v-spacer>
+                      <v-spacer/>
                       <v-btn color="red" text @click="dialog = false">Нет</v-btn>
                       <v-btn color="primary" text @click="dialog = false">Да</v-btn>
                     </v-card-actions>
@@ -139,9 +117,7 @@
         <v-tooltip v-if="!isLogin && !isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
             <router-link to="/login" class="text-decoration-none hover">
-              <v-btn elevation="0" style="background: #FFFFFF; width: 50px"
-                     v-bind="attrs"
-                     v-on="on">
+              <v-btn elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
                 Войти
               </v-btn>
             </router-link>
@@ -159,8 +135,7 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list nav dense>
-        <v-list-item-group v-model="group"
-                           active-class=" text--accent-4">
+        <v-list-item-group v-model="group" active-class=" text--accent-4">
           <router-link to="/account" class="text-decoration-none hover">
             <v-list-item>
               <v-list-item-title>Профиль</v-list-item-title>
