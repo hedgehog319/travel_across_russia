@@ -11,6 +11,10 @@
     opacity: 0.8 !important;
 }
 
+.hover-card:hover {
+    background-color: rgba(44,44,47, 0.7) !important;
+}
+
 .hover-none:hover {
     background-color: white !important;
 }

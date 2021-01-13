@@ -2,6 +2,7 @@
   <v-app id="search">
     <v-container>
       <v-expansion-panels>
+
         <v-expansion-panel>
           <v-expansion-panel-header>
             <template v-slot:default="{ open }">
@@ -32,7 +33,6 @@
 
                 </v-fade-transition>
               </v-col>
-
             </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
