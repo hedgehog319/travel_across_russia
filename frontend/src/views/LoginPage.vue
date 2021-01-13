@@ -4,16 +4,18 @@
       <v-container class="mw-400">
         <v-card class="round" elevation="2">
           <v-card-title class="text-center">Вход</v-card-title>
+          <span v-if="invalidUser" class="text-center error--text"
+                style="position: absolute; left: 77px; top: 50px">Неверный логин или пароль</span>
+
           <v-container>
-            <v-text-field v-model="user.login" :error-messages="loginErrors"
+            <v-text-field v-model="user.username" :error-messages="usernameErrors"
                           label="Логин"
-                          @input="this.$v.form.login.$touch"
-                          @keydown.space.prevent="null"/> <!--@keydown.space.prevent - перехватывает пробел-->
+                          @input="inputHandler('username')"
+            /> <!--@keydown.space.prevent - перехватывает пробел-->
             <v-text-field v-model="user.password" :error-messages="passwordErrors"
                           :type="showPassword ? 'text' : 'password'"
                           label="Пароль"
-                          @input="this.$v.form.password.$touch"
-                          @keydown.space.prevent="null"/>
+                          @input="inputHandler('password')"/>
             <v-btn icon style="position: absolute; left: auto; right: 10px; top: auto; bottom: 144px"
                    @click="showPassword = !showPassword">
               <v-icon>{{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
@@ -52,8 +54,8 @@ export default {
     }
   },
   validations: {
-    form: {
-      login: {
+    user: {
+      username: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
       },
@@ -64,31 +66,37 @@ export default {
     }
   },
   computed: {
-    loginErrors() {
+    usernameErrors() {
       let mess = ''
-      if (!this.$v.form.login.$dirty) return mess
-      if (!this.$v.form.login.required) mess = 'Введите логин'
-      else if (!this.$v.form.login.ruLetter) mess = 'Логин не должен содержать русскх букв'
+      if (!this.$v.user.username.$dirty) return mess
+      if (!this.$v.user.username.required) mess = 'Введите логин'
+      else if (!this.$v.user.username.ruLetter) mess = 'Логин не должен содержать русскх букв'
 
       return mess
     },
     passwordErrors() {
       let mess = ''
-      if (!this.$v.form.password.$dirty) return mess
-      if (!this.$v.form.password.required) mess = 'Введите пароль'
-      else if (!this.$v.form.password.ruLetter) mess = 'Пароль не должен содержать русскх букв'
+      if (!this.$v.user.password.$dirty) return mess
+      if (!this.$v.user.password.required) mess = 'Введите пароль'
+      else if (!this.$v.user.password.ruLetter) mess = 'Пароль не должен содержать русскх букв'
 
       return mess
     }
   },
   methods: {
-    checkUser() {
+    async checkUser() {
       const http = this.axios.create({baseURL: 'http://127.0.0.1:8000/'});
-      http.post(`/auth/jwt/create/`, this.user).then(
+      await http.post(`/auth/jwt/create/`, this.user).then(
           res => {
-            console.log(res)
+            if (res.statusText === 'OK') {  // status === 200
+              this.$cookies.set('Token', res.data.access)
+            }
           }
       ).catch(() => this.invalidUser = true)
+
+      if (!this.invalidUser) {
+        await this.$router.push({name: 'home'})
+      }
     },
     validateUser() {
       this.$v.$touch()
@@ -97,6 +105,10 @@ export default {
         this.checkUser()
       }
     },
+    inputHandler(field) {
+      this.invalidUser = false
+      this.$v.user[field].$touch()
+    }
   }
 }
 </script>
