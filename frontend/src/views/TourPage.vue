@@ -38,6 +38,8 @@
             <!--TODO разобраться with rating-->
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
             <div class="grey--text ml-4">4.5 (413)</div>
+            <v-spacer/>
+            <div style="font-weight: 500; font-size: 15px; color: black">Продолжительность: 20 дней</div>
           </v-row>
 
           <div class="my-4 subtitle-1">Россия, Сочи</div>
