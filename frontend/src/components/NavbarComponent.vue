@@ -67,7 +67,7 @@
       </router-link>
 
       <div class="text-center">
-        <v-menu v-if="isLogin && !isSmall" offset-y>
+        <v-menu v-if="$cookies.isKey('Token') && !isSmall" offset-y>
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
@@ -78,52 +78,46 @@
               <span>Профиль</span>
             </v-tooltip>
           </template>
-          <v-list>
-            <router-link class="text-decoration-none" to="/account">
-              <v-list-item>
-                <v-list-item-title>Личные данные</v-list-item-title>
-              </v-list-item>
-            </router-link>
-            <!-- TODO выход из аккаунта -->
-            <v-list-item>
-              <div>
-                <v-dialog v-model="dialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on" dark elevation="0"
-                           style="background: #FFFFFF; color: red; width: 120px">
-                      Выйти
-                    </v-btn>
-                  </template>
 
-                  <v-card>
-                    <v-card-title class="headline grey lighten-2">
-                      Выход
-                    </v-card-title>
-                    <v-card-text style="margin-top: 15px">
-                      Вы действительно хотите выйти?
-                    </v-card-text>
-                    <v-divider/>
-                    <v-card-actions>
-                      <v-spacer/>
-                      <v-btn color="red" text @click="dialog = false">Нет</v-btn>
-                      <v-btn color="primary" text @click="dialog = false">Да</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </div>
+          <v-list>
+            <v-list-item @click="$router.push({name: 'account'})">
+              <v-list-item-title>Личные данные</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item link>
+              <v-dialog v-model="dialog" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-list-item-title v-bind="attrs" v-on="on"
+                                     style="color: red; width: 120px">Выйти
+                  </v-list-item-title>
+                </template>
+
+                <v-card>
+                  <v-card-title class="headline grey lighten-2">Выход</v-card-title>
+                  <v-card-text style="margin-top: 15px">
+                    Вы действительно хотите выйти?
+                  </v-card-text>
+                  <v-divider/>
+                  <v-card-actions>
+                    <v-spacer/>
+                    <v-btn color="red" text @click="dialog = false">Нет</v-btn>
+                    <v-btn color="primary" text @click="confirmExit">Да</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-tooltip v-if="!isLogin && !isSmall" bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <router-link class="text-decoration-none hover" to="/login">
-              <v-btn v-bind="attrs" v-on="on" elevation="0" style="background: #FFFFFF; width: 50px">
-                Войти
-              </v-btn>
-            </router-link>
-          </template>
-          <span>Вход в аккаунт</span>
-        </v-tooltip>
+
+        <!--TODO поправить на малом экране-->
+        <div v-else-if="!$cookies.isKey('Token') && !isSmall">
+          <v-btn elevation="0" class="round" color="primary" style="margin-right: 2px"
+                 @click="$router.push({name: 'login'})">Войти
+          </v-btn>
+          <v-btn elevation="0" class="round" color="primary" style="margin-left: 2px"
+                 @click="$router.push({name: 'registration'})">Регистрация
+          </v-btn>
+        </div>
 
         <router-link class="text-decoration-none hover" to="/">
           <v-toolbar-title v-if="isSmall">
@@ -170,8 +164,6 @@ export default {
   data() {
     return {
       dialog: false,
-      // TODO заменить на cookie
-      isLogin: true,
       isSmall: false,
       currentCity: "Владивосток",
       cities: ['Владивосток', 'Москва', 'Казань', 'Ростов-на-Дону', 'Уфа'],
@@ -185,6 +177,10 @@ export default {
     },
     onResize() {
       this.isSmall = window.innerWidth < 600
+    },
+    confirmExit() {
+      this.dialog = false
+      this.$cookies.remove('Token')
     }
   },
   beforeDestroy() {
