@@ -9,7 +9,7 @@ class User(AbstractUser):
         (2, 'Админ'),
     )
     access_right = models.PositiveSmallIntegerField(choices=FOOD_CHOICES, default=0)
-    document = models.ForeignKey('Document', on_delete=models.SET_NULL, null=True, blank=True)
+    document = models.OneToOneField('Document', on_delete=models.SET_NULL, null=True, blank=True)
     fav_tours = models.ManyToManyField('Tour', through='FavouriteTour')
 
     def __str__(self):
