@@ -15,30 +15,30 @@
               <v-card flat>
                 <v-simple-table style="margin: 10px;">
                   <template v-slot:default>
-                    <thead class="hover-none">
+                    <thead>
                     <tr>
                       <th class="text-left" style="font-size: 30px">Аккаунт</th>
                       <th class="text-left"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="hover-none">
+                    <tr>
                       <td>Логин</td>
                       <td>testlogin</td>
                     </tr>
-                    <tr class="hover-none">
+                    <tr>
                       <td>Имя</td>
                       <td>имя</td>
                     </tr>
-                    <tr class="hover-none">
+                    <tr>
                       <td>Фамилия</td>
                       <td>фамилия</td>
                     </tr>
-                    <tr class="hover-none">
+                    <tr>
                       <td>Email</td>
                       <td>test@mail.ru</td>
                     </tr>
-                    <tr class="hover-none">
+                    <tr>
                       <td>Данные паспорта</td>
                       <td>1313123123</td>
                     </tr>
@@ -100,5 +100,9 @@ export default {
 </script>
 
 <style scoped>
+
+tr:hover {
+  background-color: white !important;
+}
 
 </style>
