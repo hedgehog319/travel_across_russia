@@ -6,9 +6,10 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, ListModelM
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.response import Response
+from django.core.exceptions import ObjectDoesNotExist
 
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour
-from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly
+from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer
 
@@ -58,10 +59,31 @@ class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, Gen
         return super().filter_queryset(queryset)
 
 
-class DocumentView(ModelViewSet):  # redo чтобы мог редактировать пользователь
+class DocumentView(ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
-    permission_classes = [IsAdminOrCreateOnly]
+    permission_classes = [GetPatchForAuthUsers]
+
+    def get_object(self):
+        try:
+            return Document.objects.get(user=self.request.user)
+        except ObjectDoesNotExist:
+            return None
+
+    def patch(self, request, *args, **kwargs):
+        if self.get_object() is None:
+            return super().create(request, args, kwargs)
+        return super().partial_update(request, args, kwargs)
+
+    def perform_create(self, serializer):
+        document = serializer.save()
+        if self.request.user.is_authenticated:
+            self.request.user.document = document
+            self.request.user.save()
+
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter(user=self.request.user)
+        return super().filter_queryset(queryset)
 
 
 class CountryView(ModelViewSet):
