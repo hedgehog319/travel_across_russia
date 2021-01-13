@@ -1,8 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="344" style="border-radius: 10px">
     <router-link :to="{name: 'tour', query: {id: tour.id}}">
-      <v-img style="position: relative; border-radius: 10px" height="200px"
-             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"/>
+      <v-img style="position: relative; border-radius: 10px" height="200px" :src="tour.img"/>
 
       <div style="position: absolute; bottom: 110px; left: 15px">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
@@ -39,6 +38,7 @@ export default {
       default() {
         return {
           title: String,
+          img: String,
           days: Date,
           country: String,
           city: String,
