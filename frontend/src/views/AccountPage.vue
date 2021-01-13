@@ -3,7 +3,7 @@
     <v-main>
       <v-container style="width: 50%;margin: auto">
         <v-card>
-          <v-toolbar flat color="primary" dark>
+          <v-toolbar color="primary" dark flat>
             <v-toolbar-title>Профиль</v-toolbar-title>
           </v-toolbar>
           <v-tabs vertical>
@@ -49,31 +49,33 @@
             </v-tab-item>
             <!-- TODO validation -->
             <v-tab-item>
-            <v-card flat>
-              <form style="margin: 15px">
-                <h2>Изменение профиля</h2>
-                <v-text-field v-model="name" :error-messages="nameErrors" :counter="10" label="Логин" required
-                              @input="$v.name.$touch()"
-                              @blur="$v.name.$touch()"/>
-                <v-text-field v-model="name" :error-messages="nameErrors" :counter="10" label="Имя" required
-                    @input="$v.name.$touch()"
-                    @blur="$v.name.$touch()"/>
-                <v-text-field v-model="name" :error-messages="nameErrors" :counter="10" label="Фамилия" required
-                              @input="$v.name.$touch()"
-                              @blur="$v.name.$touch()"/>
-                <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
-                              @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"/>
-                <v-text-field v-model="name" :error-messages="nameErrors" :counter="10" label="Серия паспорта" required
-                              @input="$v.name.$touch()"
-                              @blur="$v.name.$touch()"/>
-                <v-text-field v-model="name" :error-messages="nameErrors" :counter="10" label="Номер паспорта" required
-                              @input="$v.name.$touch()"
-                              @blur="$v.name.$touch()"/>
+              <v-card flat>
+                <form style="margin: 15px">
+                  <h2>Изменение профиля</h2>
+                  <v-text-field v-model="name" :counter="10" :error-messages="nameErrors" label="Логин" required
+                                @blur="$v.name.$touch()"
+                                @input="$v.name.$touch()"/>
+                  <v-text-field v-model="name" :counter="10" :error-messages="nameErrors" label="Имя" required
+                                @blur="$v.name.$touch()"
+                                @input="$v.name.$touch()"/>
+                  <v-text-field v-model="name" :counter="10" :error-messages="nameErrors" label="Фамилия" required
+                                @blur="$v.name.$touch()"
+                                @input="$v.name.$touch()"/>
+                  <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
+                                @blur="$v.email.$touch()"
+                                @input="$v.email.$touch()"/>
+                  <v-text-field v-model="name" :counter="10" :error-messages="nameErrors" label="Серия паспорта"
+                                required
+                                @blur="$v.name.$touch()"
+                                @input="$v.name.$touch()"/>
+                  <v-text-field v-model="name" :counter="10" :error-messages="nameErrors" label="Номер паспорта"
+                                required
+                                @blur="$v.name.$touch()"
+                                @input="$v.name.$touch()"/>
 
-                <v-btn class="mr-4" style="margin-left: 20%;" @click="submit">Принять изменения</v-btn>
-              </form>
-            </v-card>
+                  <v-btn class="mr-4" style="margin-left: 20%;" @click="submit">Принять изменения</v-btn>
+                </form>
+              </v-card>
             </v-tab-item>
 
             <v-tab-item>

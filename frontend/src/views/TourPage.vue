@@ -6,19 +6,19 @@
         <!-- TODO bad icon favorites       -->
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon style="position: absolute; right: 15px;" large v-bind="attrs" v-on="on">
-              <v-icon large color="#ffd700">mdi-heart-outline</v-icon>
+            <v-btn v-bind="attrs" v-on="on" icon large style="position: absolute; right: 15px;">
+              <v-icon color="#ffd700" large>mdi-heart-outline</v-icon>
             </v-btn>
           </template>
           <span>В избранное</span>
         </v-tooltip>
 
-        <v-card-title style="font-size: 30px" class="justify-center">Хаятт Ридженси Сочи</v-card-title>
+        <v-card-title class="justify-center" style="font-size: 30px">Хаятт Ридженси Сочи</v-card-title>
 
-        <v-slide-group class="pa-4" center-active show-arrows>
+        <v-slide-group center-active class="pa-4" show-arrows>
           <v-slide-item v-for="(image, n) in images" :key="n">
             <v-card class="ma-4" height="200" width="300">
-              <v-row class="fill-height" align="center" justify="center">
+              <v-row align="center" class="fill-height" justify="center">
                 <v-scale-transition>
                   <v-img :src='image'/>
                 </v-scale-transition>

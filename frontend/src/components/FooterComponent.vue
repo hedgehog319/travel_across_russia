@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
-    <v-footer dark padless default>
-      <v-card flat tile width="100%" class=" lighten-1 white--text text-center">
+    <v-footer dark default padless>
+      <v-card class=" lighten-1 white--text text-center" flat tile width="100%">
         <v-card-text>
           <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
             <v-icon size="24px"> {{ icon }}</v-icon>
@@ -10,7 +10,7 @@
 
         <v-divider/>
 
-        <v-card-text class="white--text">{{ new Date().getFullYear() + " - Путешествуй по России"}}</v-card-text>
+        <v-card-text class="white--text">{{ new Date().getFullYear() + " - Путешествуй по России" }}</v-card-text>
       </v-card>
     </v-footer>
   </div>

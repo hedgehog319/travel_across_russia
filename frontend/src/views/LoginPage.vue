@@ -2,29 +2,29 @@
   <div id="login">
     <v-form @submit.prevent="validateUser">
       <v-container class="mw-400">
-        <v-card elevation="2" class="round">
+        <v-card class="round" elevation="2">
           <v-card-title class="text-center">Вход</v-card-title>
           <v-container>
-            <v-text-field label="Логин" v-model="user.login"
-                          :error-messages="loginErrors"
+            <v-text-field v-model="user.login" :error-messages="loginErrors"
+                          label="Логин"
                           @input="this.$v.form.login.$touch"
                           @keydown.space.prevent="null"/> <!--@keydown.space.prevent - перехватывает пробел-->
-            <v-text-field label="Пароль" v-model="user.password"
-                          :error-messages="passwordErrors"
+            <v-text-field v-model="user.password" :error-messages="passwordErrors"
                           :type="showPassword ? 'text' : 'password'"
+                          label="Пароль"
                           @input="this.$v.form.password.$touch"
                           @keydown.space.prevent="null"/>
-            <v-btn style="position: absolute; left: auto; right: 10px; top: auto; bottom: 144px" icon
+            <v-btn icon style="position: absolute; left: auto; right: 10px; top: auto; bottom: 144px"
                    @click="showPassword = !showPassword">
               <v-icon>{{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
             </v-btn>
           </v-container>
           <v-card-actions>
             <v-container class="text-center">
-              <v-btn elevation="0" block class="rounded-pill primary" type="submit">Войти</v-btn>
+              <v-btn block class="rounded-pill primary" elevation="0" type="submit">Войти</v-btn>
               <div style="margin-top: 10px">
                 <span>Нет аккаунта? </span>
-                <router-link to="/registration" class="text-decoration-none blue--text text--darken-2 hover">
+                <router-link class="text-decoration-none blue--text text--darken-2 hover" to="/registration">
                   Зарегистрируйся
                 </router-link>
               </div>

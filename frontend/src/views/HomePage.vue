@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <v-container style="display: flex;margin-bottom: 50px;background-color: rgba(255,224,138, 0.8)" class="rounded">
+    <v-container class="rounded" style="display: flex;margin-bottom: 50px;background-color: rgba(255,224,138, 0.8)">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">
@@ -31,14 +31,15 @@
     </v-container>
 
 
-    <v-container style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #535353" class="rounded">
+    <v-container class="rounded"
+                 style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #535353">
       <v-card flat width="100%">
-          <span class="headline" style="margin-left: 20px">Поиск тура</span>
+        <span class="headline" style="margin-left: 20px">Поиск тура</span>
         <v-card-text>
-          <v-form @submit.prevent="findTour" style="height: 75px;">
+          <v-form style="height: 75px;" @submit.prevent="findTour">
             <v-container>
               <v-row>
-                <v-col style="width: 100px" cols="12" md="3">
+                <v-col cols="12" md="3" style="width: 100px">
                   <v-text-field label="Откуда" required/>
                 </v-col>
 
@@ -49,12 +50,12 @@
                 <v-col cols="12" md="3">
                   <section style="margin-top: -6px; margin-right: 10px">
                     <span>Выбрать дату</span>
-                    <date-picker confirm style="width: 100%" v-model="date" range/>
+                    <date-picker v-model="date" confirm range style="width: 100%"/>
                   </section>
                 </v-col>
 
                 <v-col cols="12" md="3">
-                  <v-btn type="submit" large style="margin-top: 7px">Поиск</v-btn>
+                  <v-btn large style="margin-top: 7px" type="submit">Поиск</v-btn>
                 </v-col>
 
               </v-row>
@@ -64,20 +65,23 @@
       </v-card>
     </v-container>
 
-    <v-container style="text-align:center;margin-top: 50px;margin-bottom: 50px;background-color: #6ba3dd;"
-                 class=" rounded">
-      <v-card max-width="100%" class="mx-auto">
+    <v-container class=" rounded"
+                 style="text-align:center;margin-top: 50px;margin-bottom: 50px;background-color: #6ba3dd;">
+      <v-card class="mx-auto" max-width="100%">
         <v-container class="pa-1">
           <v-item-group multiple>
             <v-row>
-              <v-col v-for="(item, i) in items" :key="i" cols="12" xs="6" sm="6" md="6" lg="4"
-                     style="padding: 0 !important; margin:0  !important;">
-                <v-item v-slot="{ active, toggle }">
-                  <v-img style="background-color: rgba(0, 0, 0, 0.6);" :src='item.src' height="200" class="text-right">
+              <v-col v-for="(item, i) in items" :key="i" cols="12" lg="4" md="6" sm="6"
+                     style="padding: 0 !important; margin:0  !important;"
+                     xs="6">
+                <v-item>
+                  <v-img :src='item.src' class="text-right" height="200" style="background-color: rgba(0, 0, 0, 0.6);">
                     <v-sheet class="hover-card"
                              style="align-items: center;text-align: center;z-index: 9999; background-color: rgba(44,44,47,0.3); width: 100%; height: 100%; ">
                       <span
-                          style="color: #ffffff; z-index: 9999; position: relative; justify-content: center;align-items: center;font-size: 30px">{{item.title }}</span>
+                          style="color: #ffffff; z-index: 9999; position: relative; justify-content: center;align-items: center;font-size: 30px">{{
+                          item.title
+                        }}</span>
                     </v-sheet>
                   </v-img>
                 </v-item>
@@ -89,11 +93,11 @@
     </v-container>
 
 
-    <v-container style="background-color:rgba(0, 0, 0, 0.5); padding: 5px; width: 80%;" class="round">
+    <v-container class="round" style="background-color:rgba(0, 0, 0, 0.5); padding: 5px; width: 80%;">
       <div class="text-center " style="font-size: 30px; font-weight: 500; color: #FFFFFF">Рекомендуемые туры</div>
       <v-row no-gutters style="margin-bottom: 10px; margin-top: 10px">
-        <v-col style="margin-bottom: 10px" v-for="n in 6" :key="n" cols="12" xs="12" sm="12" md="6" lg="4"
-               align-self="center">
+        <v-col v-for="n in 6" :key="n" align-self="center" cols="12" lg="4" md="6" sm="12" style="margin-bottom: 10px"
+               xs="12">
           <tour-card :tour="tour"/>
         </v-col>
       </v-row>
@@ -103,14 +107,12 @@
 
 <script>
 import TourCardComponent from "@/components/TourCardComponent";
-import SearchPage from "@/views/SearchPage";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
 export default {
   name: "HomePage",
   components: {
-    SearchPage,
     'tour-card': TourCardComponent,
     DatePicker,
   },
@@ -121,6 +123,7 @@ export default {
       date: null,
       tour: {
         title: "Море не помеха!",
+        img: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
         id: 0,
         days: "21",
         country: "Россия",
@@ -163,16 +166,6 @@ export default {
       menu: false,
     }
   },
-  methods: {
-    plusAdult() {
-      this.adults++
-    },
-    minusAdult() {
-      if(this.adults > 0) {
-        this.adults--
-      }
-    }
-  }
 }
 </script>
 

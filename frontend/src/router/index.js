@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
-
 // input views
 import LoginPage from "@/views/LoginPage";
 import RegistrationPage from "@/views/RegistrationPage";
@@ -14,6 +10,9 @@ import TourBookingPage from "@/views/TourBookingPage";
 import FavoritesPage from "@/views/FavoritesPage";
 import NotFoundPage from "@/views/NotFoundPage";
 import TourPage from "@/views/TourPage";
+
+Vue.use(VueRouter)
+
 
 const routes = [
     {

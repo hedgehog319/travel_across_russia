@@ -4,7 +4,7 @@
       <v-toolbar-title v-if="isSmall">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       </v-toolbar-title>
-      <router-link to="/" class="text-decoration-none hover">
+      <router-link class="text-decoration-none hover" to="/">
         <v-toolbar-title v-if="!isSmall">
           <v-img max-height="100" max-width="180" src="@/assets/logo.jpg"/>
         </v-toolbar-title>
@@ -13,11 +13,11 @@
       <v-spacer/>
 
       <div class="text-center">
-        <v-menu offset-y rounded="b-xl" v-if="!isSmall">
+        <v-menu v-if="!isSmall" offset-y rounded="b-xl">
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
-                <v-btn color="white" elevation="0" v-bind="attrs" v-on="{ ...tooltip, ...menu }">
+                <v-btn v-bind="attrs" v-on="{ ...tooltip, ...menu }" color="white" elevation="0">
                   <v-icon>mdi-map-marker</v-icon>
                   {{ currentCity }}
                 </v-btn>
@@ -33,33 +33,33 @@
         </v-menu>
       </div>
 
-      <router-link to="/booking" class="text-decoration-none hover">
-        <v-tooltip bottom v-if="!isSmall">
+      <router-link class="text-decoration-none hover" to="/booking">
+        <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
-              <v-icon style="margin: 10px" large color="black" dark>mdi-book-plus</v-icon>
+            <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
+              <v-icon color="black" dark large style="margin: 10px">mdi-book-plus</v-icon>
             </v-btn>
           </template>
           <span>Бронирование тура</span>
         </v-tooltip>
       </router-link>
 
-      <router-link to="/search" class="text-decoration-none hover">
-        <v-tooltip bottom v-if="!isSmall">
+      <router-link class="text-decoration-none hover" to="/search">
+        <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
-              <v-icon style="margin: 10px" large color="black" dark>mdi-map-search</v-icon>
+            <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
+              <v-icon color="black" dark large style="margin: 10px">mdi-map-search</v-icon>
             </v-btn>
           </template>
           <span>Поиск тура</span>
         </v-tooltip>
       </router-link>
 
-      <router-link to="/favorites" class="text-decoration-none hover">
-        <v-tooltip bottom v-if="!isSmall">
+      <router-link class="text-decoration-none hover" to="/favorites">
+        <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
-              <v-icon style="margin: 10px" large color="black" dark>mdi-heart-outline</v-icon>
+            <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
+              <v-icon color="black" dark large style="margin: 10px">mdi-heart-outline</v-icon>
             </v-btn>
           </template>
           <span>Избранное</span>
@@ -71,7 +71,7 @@
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
-                <v-btn icon v-bind="attrs" v-on="{ ...tooltip, ...menu }">
+                <v-btn v-bind="attrs" v-on="{ ...tooltip, ...menu }" icon>
                   <v-icon size="40px">mdi-account-circle</v-icon>
                 </v-btn>
               </template>
@@ -79,7 +79,7 @@
             </v-tooltip>
           </template>
           <v-list>
-            <router-link to="/account" class="text-decoration-none">
+            <router-link class="text-decoration-none" to="/account">
               <v-list-item>
                 <v-list-item-title>Личные данные</v-list-item-title>
               </v-list-item>
@@ -89,8 +89,8 @@
               <div>
                 <v-dialog v-model="dialog" width="500">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn style="background: #FFFFFF; color: red; width: 120px" elevation="0" dark v-bind="attrs"
-                           v-on="on">
+                    <v-btn v-bind="attrs" v-on="on" dark elevation="0"
+                           style="background: #FFFFFF; color: red; width: 120px">
                       Выйти
                     </v-btn>
                   </template>
@@ -116,8 +116,8 @@
         </v-menu>
         <v-tooltip v-if="!isLogin && !isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <router-link to="/login" class="text-decoration-none hover">
-              <v-btn elevation="0" style="background: #FFFFFF; width: 50px" v-bind="attrs" v-on="on">
+            <router-link class="text-decoration-none hover" to="/login">
+              <v-btn v-bind="attrs" v-on="on" elevation="0" style="background: #FFFFFF; width: 50px">
                 Войти
               </v-btn>
             </router-link>
@@ -125,7 +125,7 @@
           <span>Вход в аккаунт</span>
         </v-tooltip>
 
-        <router-link to="/" class="text-decoration-none hover">
+        <router-link class="text-decoration-none hover" to="/">
           <v-toolbar-title v-if="isSmall">
             <v-img max-height="100" max-width="180" src="@/assets/logo.jpg"/>
           </v-toolbar-title>
@@ -134,26 +134,26 @@
       </div>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute left temporary>
-      <v-list nav dense>
+      <v-list dense nav>
         <v-list-item-group v-model="group" active-class=" text--accent-4">
-          <router-link to="/account" class="text-decoration-none hover">
+          <router-link class="text-decoration-none hover" to="/account">
             <v-list-item>
               <v-list-item-title>Профиль</v-list-item-title>
             </v-list-item>
           </router-link>
 
-          <router-link to="/favorites" class="text-decoration-none hover">
+          <router-link class="text-decoration-none hover" to="/favorites">
             <v-list-item>
               <v-list-item-title>Избранное</v-list-item-title>
             </v-list-item>
           </router-link>
 
-          <router-link to="/search" class="text-decoration-none hover">
+          <router-link class="text-decoration-none hover" to="/search">
             <v-list-item>
               <v-list-item-title>Поиск тура</v-list-item-title>
             </v-list-item>
           </router-link>
-          <router-link to="/booking" class="text-decoration-none hover">
+          <router-link class="text-decoration-none hover" to="/booking">
             <v-list-item>
               <v-list-item-title>Бронирование тура</v-list-item-title>
             </v-list-item>

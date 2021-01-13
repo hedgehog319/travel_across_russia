@@ -20,12 +20,12 @@
               <!--TODO home redirect-->
               <v-btn @click="$router.push({name: 'home'})">Отмена</v-btn>
               <v-spacer/>
-              <v-btn style="margin-right: 5px;" color="primary" @click="e1 = 2">Далее</v-btn>
+              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 2">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
           <v-stepper-content step="2">
-            <v-card class="mb-12" color="lighten-1" height="300px" elevation="0">
+            <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
               <v-list rounded>
                 <v-subheader class="justify-center" style="font-size: 20px">Туристы</v-subheader>
                 <div class="scrollbar round-track" style="height: 275px">
@@ -49,36 +49,36 @@
                 <v-icon large>mdi-plus-circle-outline</v-icon>
               </v-btn>
               <v-spacer/>
-              <v-btn style="margin-right: 5px;" color="primary" @click="e1 = 3">Далее</v-btn>
+              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 3">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <v-card class="mb-12" color="lighten-1" height="300px" elevation="0">
-              <v-row style="margin-top: 5px" justify="center">
-                <v-col style="padding: 0 12px" md="4">
-                  <v-text-field height="35" v-model="formData.cardNumber" background-color="#f0f0f0" label="Номер карты"
+            <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
+              <v-row justify="center" style="margin-top: 5px">
+                <v-col md="4" style="padding: 0 12px">
+                  <v-text-field v-model="formData.cardNumber" background-color="#f0f0f0" height="35" label="Номер карты"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
 
-                <v-col style="padding: 0 12px" md="4">
-                  <v-text-field height="35" v-model="formData.cardName" background-color="#f0f0f0" label="Владелец"
+                <v-col md="4" style="padding: 0 12px">
+                  <v-text-field v-model="formData.cardName" background-color="#f0f0f0" height="35" label="Владелец"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
               </v-row>
 
               <v-row justify="center">
-                <v-col style="padding: 12px 12px; margin-top: 4px" md="2">
-                  <v-select label="Месяц" solo dense v-model="formData.cardMonth"
-                            :items="months"/>
+                <v-col md="2" style="padding: 12px 12px; margin-top: 4px">
+                  <v-select v-model="formData.cardMonth" :items="months" dense label="Месяц"
+                            solo/>
                 </v-col>
 
-                <v-col style="padding: 12px 12px; margin-top: 4px" md="2">
-                  <v-select label="Год" solo dense v-model="formData.cardYear"
-                            :items="years"/>
+                <v-col md="2" style="padding: 12px 12px; margin-top: 4px">
+                  <v-select v-model="formData.cardYear" :items="years" dense label="Год"
+                            solo/>
                 </v-col>
 
-                <v-col style="padding: 0 12px;" md="2">
+                <v-col md="2" style="padding: 0 12px;">
                   <v-text-field v-model="formData.cardCvv" background-color="#f0f0f0" label="CVV"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
@@ -88,7 +88,7 @@
             <v-container style="display: flex">
               <v-btn @click="e1 = 2">Назад</v-btn>
               <v-spacer/>
-              <v-btn style="margin-right: 5px;" color="primary" @click="e1 = 1">Завершить</v-btn>
+              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 1">Завершить</v-btn>
             </v-container>
           </v-stepper-content>
         </v-stepper-items>
@@ -102,32 +102,32 @@
         <v-card-text>
           <v-container>
             <v-row justify="center">
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Фамилия" v-model="selectedTourist.lastname"/>
+              <v-col cols="12" md="4" sm="6">
+                <v-text-field v-model="selectedTourist.lastname" label="Фамилия"/>
               </v-col>
 
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Имя" v-model="selectedTourist.firstname"/>
+              <v-col cols="12" md="4" sm="6">
+                <v-text-field v-model="selectedTourist.firstname" label="Имя"/>
               </v-col>
             </v-row>
 
             <v-row>
-              <v-col cols="12" sm="6" md="5">
+              <v-col cols="12" md="5" sm="6">
                 <v-menu ref="menu" v-model="birthDayMenu"
                         :close-on-content-click="false"
                         transition="scale-transition">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="selectedTourist.birthdate" label="Дата рождения"
+                    <v-text-field v-model="selectedTourist.birthdate" v-bind="attrs"
+                                  v-on="on"
+                                  label="Дата рождения"
                                   prepend-icon="mdi-calendar"
-                                  readonly
-                                  v-bind="attrs"
-                                  v-on="on"/>
+                                  readonly/>
                   </template>
 
                   <v-date-picker v-model="selectedTourist.birthdate" no-title scrollable>
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="birthDayMenu = false">Отмена</v-btn>
-                    <v-btn text color="primary" @click="birthDayMenu = false">
+                    <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
+                    <v-btn color="primary" text @click="birthDayMenu = false">
                       OK
                     </v-btn>
                   </v-date-picker>
@@ -136,19 +136,19 @@
             </v-row>
 
             <v-row>
-              <v-col cols="12" sm="6" md="5">
-                <v-select label="Тип документа" :items="['Паспорт', 'Загранпаспорт']"
-                          v-model="selectedTourist.documentType"/>
+              <v-col cols="12" md="5" sm="6">
+                <v-select v-model="selectedTourist.documentType" :items="['Паспорт', 'Загранпаспорт']"
+                          label="Тип документа"/>
               </v-col>
 
-              <v-col cols="12" sm="6" md="2">
+              <v-col cols="12" md="2" sm="6">
                 <!--TODO number validation-->
-                <v-text-field label="Серия" v-model="selectedTourist.series"/>
+                <v-text-field v-model="selectedTourist.series" label="Серия"/>
               </v-col>
 
-              <v-col cols="12" sm="6" md="3">
+              <v-col cols="12" md="3" sm="6">
                 <!--TODO number validation-->
-                <v-text-field label="Номер" v-model="selectedTourist.number"/>
+                <v-text-field v-model="selectedTourist.number" label="Номер"/>
               </v-col>
             </v-row>
           </v-container>
