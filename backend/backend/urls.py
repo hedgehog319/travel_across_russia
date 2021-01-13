@@ -19,5 +19,7 @@ from rest_framework.routers import SimpleRouter, DefaultRouter
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
     path('', include('app.urls')),
 ]
