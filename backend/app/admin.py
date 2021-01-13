@@ -1,20 +1,40 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
+from django.contrib.auth import get_user_model
 
-from app.models import Countries, Cities, Hotels, Insurances, Airlines, Clients, TourCatalog, BookedTours, \
-    TypeOfDocuments, Tourists, Users, Employees
+from app.models import Document, Tourist, BookedTour, Tour, Airline, Insurance, Country, Hotel, City, FavouriteTour
 
-admin.site.register(Countries)
-admin.site.register(Cities)
-admin.site.register(Hotels)
-admin.site.register(Insurances)
-admin.site.register(Airlines)
-admin.site.register(Clients)
-admin.site.register(TourCatalog)
-admin.site.register(BookedTours)
-admin.site.register(TypeOfDocuments)
-admin.site.register(Tourists)
-admin.site.register(Users)
-admin.site.register(Employees)
+
+@admin.register(get_user_model())
+class UserAdmin(ModelAdmin):
+    list_display = ('username', 'id', 'first_name', 'last_name', 'is_staff')
+    list_filter = ('is_staff',)
+
+
+@admin.register(Country)
+class CountryAdmin(ModelAdmin):
+    list_display = ('name', 'id', 'is_visa')
+
+
+@admin.register(City)
+class CityAdmin(ModelAdmin):
+    list_display = ('name', 'country', 'id')
+
+
+@admin.register(Hotel)
+class HotelAdmin(ModelAdmin):
+    list_display = ('name', 'city', 'id')
+
+
+admin.site.register(Document)
+admin.site.register(Tourist)
+admin.site.register(BookedTour)
+admin.site.register(Tour)
+admin.site.register(Airline)
+admin.site.register(Insurance)
+admin.site.register(FavouriteTour)
+
+
 
 # для настройки отображения в админке
 # https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/Admin_site
