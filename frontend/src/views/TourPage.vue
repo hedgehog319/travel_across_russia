@@ -6,20 +6,14 @@
         <!-- TODO bad icon favorites       -->
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon style="position: absolute; right: 15px;" large
-                   v-bind="attrs"
-                   v-on="on">
-              <v-icon large color="#ffd700">
-                mdi-heart-outline
-              </v-icon>
+            <v-btn icon style="position: absolute; right: 15px;" large v-bind="attrs" v-on="on">
+              <v-icon large color="#ffd700">mdi-heart-outline</v-icon>
             </v-btn>
           </template>
           <span>В избранное</span>
         </v-tooltip>
 
-        <v-card-title style="font-size: 30px" class="justify-center">
-          Хаятт Ридженси Сочи
-        </v-card-title>
+        <v-card-title style="font-size: 30px" class="justify-center">Хаятт Ридженси Сочи</v-card-title>
 
         <v-slide-group class="pa-4" center-active show-arrows>
           <v-slide-item v-for="(image, n) in images" :key="n">
@@ -38,6 +32,8 @@
             <!--TODO разобраться with rating-->
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
             <div class="grey--text ml-4">4.5 (413)</div>
+            <v-spacer/>
+            <div style="font-weight: 500; font-size: 15px; color: black">Продолжительность: 20 дней</div>
           </v-row>
 
           <div class="my-4 subtitle-1">Россия, Сочи</div>

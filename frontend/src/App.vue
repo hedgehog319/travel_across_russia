@@ -3,10 +3,9 @@
     <NavbarComponent/>
     <router-view
         style="
-        padding-top: 100px;
-        padding-bottom: 50px;
+        padding-top: 64px;
+        padding-bottom: 100px;
         height: 100%;
-        margin-bottom: 100px;
         background-size: cover;
         background-repeat: no-repeat;
          background-image: url('https://wallbox.ru/resize/1920x1080/wallpapers/main/201548/f66296165537f2c.jpg')"/>

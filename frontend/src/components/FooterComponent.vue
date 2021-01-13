@@ -1,11 +1,9 @@
 <template>
   <div id="footer">
-    <v-footer dark padless absolute>
-      <v-card flat tile width="100%"
-              class=" lighten-1 white--text text-center">
+    <v-footer dark padless default>
+      <v-card flat tile width="100%" class=" lighten-1 white--text text-center">
         <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon"
-                 class="mx-4 white--text" icon>
+          <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
             <v-icon size="24px"> {{ icon }}</v-icon>
           </v-btn>
         </v-card-text>

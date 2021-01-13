@@ -2,6 +2,7 @@
   <v-app id="search">
     <v-container>
       <v-expansion-panels>
+
         <v-expansion-panel>
           <v-expansion-panel-header>
             <template v-slot:default="{ open }">
@@ -17,7 +18,7 @@
             </template>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <v-text-field v-model="trip.name" placeholder="Например, Москва"></v-text-field>
+            <v-text-field v-model="trip.name" placeholder="Например, Москва"/>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -32,18 +33,17 @@
 
                 </v-fade-transition>
               </v-col>
-
             </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row no-gutters>
               <v-col cols="3">
                 <span style="margin-bottom: 5px">Страна</span>
-                <v-select v-model="trip.location" item-text="name" :items="countries" solo flat></v-select>
+                <v-select v-model="trip.location" item-text="name" :items="countries" solo flat/>
               </v-col>
               <v-col cols="3">
                 <span style="margin-bottom: 5px">Город</span>
-                <v-select v-model="trip.location" item-text="name" :items="locations" solo flat></v-select>
+                <v-select v-model="trip.location" item-text="name" :items="locations" solo flat/>
               </v-col>
             </v-row>
           </v-expansion-panel-content>
@@ -84,10 +84,10 @@
                         readonly
                         v-bind="attrs"
                         v-on="on"
-                    ></v-text-field>
+                    />
                   </template>
                   <v-date-picker v-model="date" no-title scrollable>
-                    <v-spacer></v-spacer>
+                    <v-spacer/>
                     <v-btn text color="primary" @click="$refs.startMenu.isActive = false">Отмена</v-btn>
                     <v-btn text color="primary" @click="$refs.startMenu.save(date)">Выбрать</v-btn>
                   </v-date-picker>
@@ -108,10 +108,10 @@
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
-                        v-on="on"></v-text-field>
+                        v-on="on"/>
                   </template>
                   <v-date-picker v-model="date" no-title scrollable>
-                    <v-spacer></v-spacer>
+                    <v-spacer/>
                     <v-btn text color="primary" @click="$refs.endMenu.isActive = false">
                       Отмена
                     </v-btn>
@@ -129,8 +129,8 @@
                   <v-col cols="4">Количество путешествующих</v-col>
                   <v-col cols="8" class="text--secondary">
                     <v-fade-transition leave-absolute>
-                      <span v-if="open" key="0"></span>
-                      <span v-else key="1"></span>
+                      <span v-if="open" key="0"/>
+                      <span v-else key="1"/>
                     </v-fade-transition>
                   </v-col>
                 </v-row>
@@ -140,12 +140,12 @@
               <v-row no-gutters justify="space-around">
                 <v-col cols="3" class="text--secondary" style="margin-right: 20px">
                   <span style="margin-bottom: 5px">Количество взрослых</span>
-                  <v-text-field type="number" placeholder=""></v-text-field>
+                  <v-text-field type="number" placeholder=""/>
                 </v-col>
 
                 <v-col cols="3" class="text--secondary">
                   <span style="margin-bottom: 5px">Количество детей</span>
-                  <v-text-field type="number" placeholder=""></v-text-field>
+                  <v-text-field type="number" placeholder=""/>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>

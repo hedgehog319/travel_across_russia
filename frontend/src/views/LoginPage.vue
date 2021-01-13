@@ -5,11 +5,11 @@
         <v-card elevation="2" class="round">
           <v-card-title class="text-center">Вход</v-card-title>
           <v-container>
-            <v-text-field label="Логин" v-model="form.login"
+            <v-text-field label="Логин" v-model="user.login"
                           :error-messages="loginErrors"
                           @input="this.$v.form.login.$touch"
                           @keydown.space.prevent="null"/> <!--@keydown.space.prevent - перехватывает пробел-->
-            <v-text-field label="Пароль" v-model="form.password"
+            <v-text-field label="Пароль" v-model="user.password"
                           :error-messages="passwordErrors"
                           :type="showPassword ? 'text' : 'password'"
                           @input="this.$v.form.password.$touch"
@@ -43,11 +43,12 @@ export default {
   name: "LoginPage",
   data() {
     return {
-      form: {
-        login: null,
+      user: {
+        username: null,
         password: null
       },
-      showPassword: false
+      showPassword: false,
+      invalidUser: false
     }
   },
   validations: {
@@ -82,7 +83,12 @@ export default {
   },
   methods: {
     checkUser() {
-      // TODO Написать запрос
+      const http = this.axios.create({baseURL: 'http://127.0.0.1:8000/'});
+      http.post(`/auth/jwt/create/`, this.user).then(
+          res => {
+            console.log(res)
+          }
+      ).catch(() => this.invalidUser = true)
     },
     validateUser() {
       this.$v.$touch()
