@@ -17,15 +17,12 @@
 
 .scrollbar {
     float: left;
-    height: 270px;
     width: 100%;
     overflow-y: scroll;
-    margin-bottom: 25px;
 }
 
 .round-track::-webkit-scrollbar-track {
     border-radius: 8px;
-    background-color: #e1e1e1;
 }
 
 .scrollbar::-webkit-scrollbar-track {
