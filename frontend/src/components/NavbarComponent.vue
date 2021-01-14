@@ -131,9 +131,10 @@
       <v-list dense nav>
         <v-list-item-group v-model="group" active-class=" text--accent-4">
 
-          <router-link v-if="$cookies.isKey('Token') && !isSmall"
+          <router-link v-if="$cookies.isKey('Token') && isSmall"
                        class="text-decoration-none hover" to="/account">
             <v-list-item>
+              <v-icon>mdi-account-box-outline</v-icon>
               <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Профиль</v-list-item-title>
             </v-list-item>
           </router-link>
@@ -141,11 +142,15 @@
           <div v-else-if="!$cookies.isKey('Token') && isSmall">
             <v-list-item>
               <v-icon>mdi-login</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1" @click="$router.push({name: 'login'})">Войти</v-list-item-title>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
+                                 @click="$router.push({name: 'login'})">
+                Войти
+              </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-icon>mdi-account-plus</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1" @click="$router.push({name: 'registration'})">Регистрация</v-list-item-title>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
+                                 @click="$router.push({name: 'registration'})">Регистрация</v-list-item-title>
             </v-list-item>
           </div>
 
