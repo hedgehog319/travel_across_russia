@@ -43,18 +43,18 @@
                   <v-text-field label="Откуда" required/>
                 </v-col>
 
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="4">
                   <v-text-field label="Куда" required/>
                 </v-col>
 
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="4">
                   <section style="margin-top: -6px; margin-right: 10px">
                     <span>Выбрать дату</span>
                     <date-picker :disabled-date="currentDate" v-model="date" confirm range
                                  style="width: 100%"/>
                   </section>
                 </v-col>
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="1">
                   <v-btn large style="margin-top: 7px" type="submit">Поиск</v-btn>
                 </v-col>
 
