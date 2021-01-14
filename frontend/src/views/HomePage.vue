@@ -36,10 +36,10 @@
       <v-card flat width="100%">
         <span class="headline" style="margin-left: 20px">Поиск тура</span>
         <v-card-text>
-          <v-form style="height: 75px;" @submit.prevent="findTour">
-            <v-container>
+          <v-form style="" @submit.prevent="findTour">
+            <v-container style="display: flex">
               <v-row>
-                <v-col cols="12" md="3" style="width: 100px">
+                <v-col cols="12" md="3">
                   <v-text-field label="Откуда" required/>
                 </v-col>
 
@@ -50,10 +50,10 @@
                 <v-col cols="12" md="3">
                   <section style="margin-top: -6px; margin-right: 10px">
                     <span>Выбрать дату</span>
-                    <date-picker v-model="date" confirm range style="width: 100%"/>
+                    <date-picker :disabled-date="currentDate" v-model="date" confirm range
+                                 style="width: 100%"/>
                   </section>
                 </v-col>
-
                 <v-col cols="12" md="3">
                   <v-btn large style="margin-top: 7px" type="submit">Поиск</v-btn>
                 </v-col>
@@ -163,6 +163,13 @@ export default {
       menu: false,
     }
   },
+  methods: {
+    currentDate(date) {
+      const today = new Date()
+      const yesterday = new Date(today.getTime() - 24 * 3600 * 1000)
+      return date < yesterday
+    }
+  }
 }
 </script>
 
