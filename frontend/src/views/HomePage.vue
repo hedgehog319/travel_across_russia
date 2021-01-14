@@ -1,10 +1,11 @@
 <template>
   <div id="home">
-    <v-container class="rounded" style="display: flex;margin-bottom: 50px;background-color: rgba(255,224,138, 0.8)">
+    <v-container class="rounded"
+                 style="display: flex;margin-bottom: 40px;background-color: rgba(255,224,138, 0.8)">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">
-        <v-dialog v-model="dialog" width="500">
+        <v-dialog v-model="dialog" width="600">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" height="25px"
                    style="margin-left: 5px;margin-top:2px;background-color: rgba(255,229,157,0.9)">
@@ -14,16 +15,31 @@
 
           <v-card>
             <v-card-title class="headline grey lighten-2">
-              Privacy Policy
+              Памятка для туристов на 23.03.2020 (COVID-19)
             </v-card-title>
 
-            <v-card-text>Some text</v-card-text>
+            <v-card-text>
+              <p>Оперативная информация Ростуризма по ссылке: <a target="_blank"
+                                                                 href="https://www.russiatourism.ru/news/16620/">
+                https://www.russiatourism.ru/news/16620/</a></p>
+              <p>Чтобы предотвратить распространение коронавируса и других респираторных заболеваний,
+                соблюдайте меры предосторожности.
+              <p>Не забывайте о правилах гигиены. Тщательно мойте руки и обрабатывайте их антисептиком.</p>
+              <p>Следите за самочувствием. Ежедневное измерение температуры – обязательная процедура для всех.</p>
+              <p>Не забудьте очищать рабочие места (столы, канцелярские приборы, гаджеты, панели оргтехники, ручки
+                дверей) специальными салфетками.</p>
+              <p>Проветривайте рабочие помещения.</p>
+              <p> Если вы почувствовали первые признаки недомогания на работе, сообщите руководителю и отправляйтесь
+                домой. Обратитесь к врачу, который откроет вам больничный лист, или позвоните по телефону 103.</p>
+              <p>Дополнительная контактная информация на сайте <a target="_blank" href="https://стопкоронавирус.рф">
+                https://стопкоронавирус.рф</a></p>
+            </v-card-text>
 
             <v-divider/>
 
             <v-card-actions>
               <v-spacer/>
-              <v-btn color="primary" text @click="dialog = false">I accept</v-btn>
+              <v-btn color="primary" text @click="dialog = false">Понятно</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -36,15 +52,15 @@
       <v-card flat width="100%">
         <span class="headline" style="margin-left: 20px">Поиск тура</span>
         <v-card-text>
-          <v-form style="" @submit.prevent="findTour">
+          <v-form @submit.prevent="findTour">
             <v-container style="display: flex">
               <v-row>
                 <v-col cols="12" md="3">
-                  <v-text-field label="Откуда" required/>
+                    <v-autocomplete v-model="from" :items="cities" dense filled label="Откуда"></v-autocomplete>
                 </v-col>
 
-                <v-col cols="12" md="4">
-                  <v-text-field label="Куда" required/>
+                <v-col cols="12" md="3">
+                   <v-autocomplete v-model="to" :items="cities" dense filled label="Куда"></v-autocomplete>
                 </v-col>
 
                 <v-col cols="12" md="4">
@@ -55,7 +71,9 @@
                   </section>
                 </v-col>
                 <v-col cols="12" md="1">
-                  <v-btn large style="margin-top: 7px" type="submit">Поиск</v-btn>
+                  <v-btn large style="margin-top: 7px"
+                         type="submit">Поиск
+                  </v-btn>
                 </v-col>
 
               </v-row>
@@ -103,9 +121,11 @@
 </template>
 
 <script>
+import {required} from 'vuelidate/lib/validators';
 import TourCardComponent from "@/components/TourCardComponent";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
+
 
 export default {
   name: "HomePage",
@@ -115,6 +135,9 @@ export default {
   },
   data() {
     return {
+      cities: ['Москва', 'Санкт-Петербург', 'Уфа', 'Владивосток', 'Екатеринбург', 'Оренбург', 'Сочи', 'Краснодар'],
+      from: null,
+      to: null,
       dialog: false,
       adults: 2,
       date: null,
@@ -163,11 +186,29 @@ export default {
       menu: false,
     }
   },
+  validations: {
+    from: {
+      required,
+    },
+    to: {
+      required,
+    },
+  },
   methods: {
     currentDate(date) {
       const today = new Date()
       const yesterday = new Date(today.getTime() - 24 * 3600 * 1000)
       return date < yesterday
+    },
+    findTour() {
+      if(this.date != null) {
+        const time = Math.floor((this.date[1] - this.date[0]) / (1000 * 60 * 60 * 24)) + 1
+        this.$router.push({name: 'search', query: {from: this.from, to: this.to, time: time.toString()}})
+      } else {
+        this.$router.push({name: 'search', query: {from: this.from, to: this.to}})
+      }
+
+
     }
   }
 }

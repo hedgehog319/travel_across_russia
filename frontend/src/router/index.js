@@ -18,12 +18,18 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: HomePage
+        component: HomePage,
+        meta: {
+            title: 'Путешествуй!'
+        }
     },
     {
         path: '/login',
         name: 'login',
         component: LoginPage,
+        meta: {
+            title: 'Логин'
+        },
         beforeEnter: (to, from, next) => {
             if (Vue.$cookies.isKey('Token'))
                 next('/')
@@ -33,6 +39,9 @@ const routes = [
         path: '/registration',
         name: 'registration',
         component: RegistrationPage,
+        meta: {
+            title: 'Регистрация'
+        },
         beforeEnter: (to, from, next) => {
             if (Vue.$cookies.isKey('Token'))
                 next('/')
@@ -41,32 +50,50 @@ const routes = [
     {
         path: '/account',
         name: 'account',
-        component: AccountPage
+        component: AccountPage,
+        meta: {
+            title: 'Профиль'
+        }
     },
     {
         path: '/search',
         name: 'search',
-        component: SearchPage
+        component: SearchPage,
+        meta: {
+            title: 'Поиск тура'
+        }
     },
     {
         path: '/booking',
         name: 'booking',
-        component: TourBookingPage
+        component: TourBookingPage,
+        meta: {
+            title: 'Бронированние'
+        }
     },
     {
         path: '/favorites',
         name: 'favorites',
-        component: FavoritesPage
+        component: FavoritesPage,
+        meta: {
+            title: 'Избранное'
+        }
     },
     {
         path: '/tour',
         name: 'tour',
-        component: TourPage
+        component: TourPage,
+        meta: {
+            title: 'Туры'
+        }
     },
     {
         path: '*',
         name: 'notfound',
-        component: NotFoundPage
+        component: NotFoundPage,
+        meta: {
+            title: 'Страница не найдена'
+        }
     },
 ]
 
