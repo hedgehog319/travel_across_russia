@@ -15,6 +15,8 @@ from app.serializers import TourSerializer, CountrySerializer, CitySerializer, H
 
 
 # TODO профиль
+# TODO создавать документр при создании туриста (массив)
+# todo фото для отеля
 
 class TestView(ListCreateAPIView):
     queryset = Tour.objects.all()
