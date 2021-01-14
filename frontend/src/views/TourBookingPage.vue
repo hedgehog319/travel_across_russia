@@ -96,7 +96,7 @@
       </v-stepper>
     </v-container>
 
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog v-model="touristDialog" max-width="500px">
       <v-card>
         <v-card-title class="justify-center"><span class="headline">Турист</span></v-card-title>
 
@@ -104,11 +104,11 @@
           <v-container>
             <v-row justify="center">
               <v-col cols="12" md="4" sm="6">
-                <v-text-field v-model="selectedTourist.lastname" label="Фамилия"/>
+                <v-text-field :error-messages="lastnameErrors" v-model="tourist.lastname" label="Фамилия"/>
               </v-col>
 
               <v-col cols="12" md="4" sm="6">
-                <v-text-field v-model="selectedTourist.firstname" label="Имя"/>
+                <v-text-field :error-messages="firstnameErrors" v-model="tourist.firstname" label="Имя"/>
               </v-col>
             </v-row>
 
@@ -118,14 +118,14 @@
                         :close-on-content-click="false"
                         transition="scale-transition">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="selectedTourist.birthdate" v-bind="attrs"
+                    <v-text-field :error-messages="birthdateErrors" v-model="tourist.birthdate" v-bind="attrs"
                                   v-on="on"
                                   label="Дата рождения"
                                   prepend-icon="mdi-calendar"
                                   readonly/>
                   </template>
 
-                  <v-date-picker v-model="selectedTourist.birthdate" no-title scrollable>
+                  <v-date-picker v-model="tourist.birthdate" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
                     <v-btn color="primary" text @click="birthDayMenu = false">
@@ -138,18 +138,17 @@
 
             <v-row>
               <v-col cols="12" md="5" sm="6">
-                <v-select v-model="selectedTourist.documentType" :items="['Паспорт', 'Загранпаспорт']"
+                <v-select :error-messages="documentTypeErrors" v-model="tourist.documentType"
+                          :items="['Паспорт', 'Загранпаспорт']"
                           label="Тип документа"/>
               </v-col>
 
               <v-col cols="12" md="2" sm="6">
-                <!--TODO number validation-->
-                <v-text-field v-model="selectedTourist.series" label="Серия"/>
+                <v-text-field :error-messages="seriesErrors" maxlength="4" v-model="tourist.series" label="Серия"/>
               </v-col>
 
               <v-col cols="12" md="3" sm="6">
-                <!--TODO number validation-->
-                <v-text-field v-model="selectedTourist.number" label="Номер"/>
+                <v-text-field :error-messages="numberErrors" maxlength="6" v-model="tourist.number" label="Номер"/>
               </v-col>
             </v-row>
           </v-container>
@@ -158,30 +157,30 @@
         <v-card-actions>
           <v-btn color="red darken-1" text @click="removeTourist">Удалить</v-btn>
           <v-spacer/>
-          <v-btn color="blue darken-1" text @click="saveTourist">Сохранить</v-btn>
+          <v-btn color="blue darken-1" text @click="saveClick">Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="creating">
+    <v-snackbar v-model="maxLimit">
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
   </div>
 </template>
 
 <script>
+import {required, minLength} from 'vuelidate/lib/validators'
 
 export default {
   name: "TourBooking",
   data() {
     return {
       e1: 1,
-      dialog: false,
+      touristDialog: false,
       birthDayMenu: false,
-      creating: false,
-      touristID: null,
+      maxLimit: false,
       tourists: [],
-      selectedTourist: {
+      tourist: {
         firstname: null,
         lastname: null,
         birthdate: null,
@@ -197,6 +196,33 @@ export default {
         cardCvv: ''
       },
     }
+  },
+  validations: {
+    tourist: {
+      firstname: {
+        required
+        // TODO number validation
+        // TODO firstname only english
+      },
+      lastname: {
+        required
+      },
+      birthdate: {
+        required
+      },
+      documentType: {
+        required
+      },
+      series: {
+        required,
+        minLength: minLength(4)
+      },
+      number: {
+        required,
+        minLength: minLength(6)
+      }
+    },
+    formData: {}
   },
   computed: {
     months() {
@@ -215,42 +241,97 @@ export default {
       }
 
       return years
+    },
+    lastnameErrors() {
+      let mess = ''
+      if (!this.$v.tourist.lastname.$dirty) return mess
+      if (!this.$v.tourist.lastname.required) mess = 'Введите фамилию'
+      // else if (!this.$v.user.lastname.ruLetter) mess = 'Логин не должен содержать русскх букв'
+
+      return mess
+    },
+    firstnameErrors() {
+      let mess = ''
+      if (!this.$v.tourist.firstname.$dirty) return mess
+      if (!this.$v.tourist.firstname.required) mess = 'Введите имя'
+      // else if (!this.$v.tourist.firstname.ruLetter) mess = 'Логин не должен содержать русскх букв'
+
+      return mess
+    },
+    birthdateErrors() {
+      let mess = ''
+      if (!this.$v.tourist.birthdate.$dirty) return mess
+      if (!this.$v.tourist.birthdate.required) mess = 'Укажите дату рождения'
+
+      return mess
+    },
+    documentTypeErrors() {
+      let mess = ''
+      if (!this.$v.tourist.documentType.$dirty) return mess
+      if (!this.$v.tourist.documentType.required) mess = 'Выберите тип документа'
+
+      return mess
+    },
+    seriesErrors() {
+      let mess = ''
+      if (!this.$v.tourist.series.$dirty) return mess
+      if (!this.$v.tourist.series.required) mess = 'Введите серию документа'
+      else if (!this.$v.tourist.series.minLength) mess = 'Введите 4 цифры'
+
+      return mess
+    },
+    numberErrors() {
+      let mess = ''
+      if (!this.$v.tourist.number.$dirty) return mess
+      if (!this.$v.tourist.number.required) mess = 'Введите номер документа'
+      else if (!this.$v.tourist.number.minLength) mess = 'Введите 6 цифр'
+
+      return mess
     }
-  },
+  }
+  ,
   methods: {
     touristClick(id) {
-      this.touristID = id
-      this.selectedTourist = {...this.tourists[id]}
+      this.tourist = {...this.tourists[id]}
 
-      this.dialog = true
-    },
+      this.touristDialog = true
+    }
+    ,
     removeTourist() {
-      this.tourists.splice(this.touristID, 1);
+      const id = this.tourists.indexOf(this.tourist)
+      this.tourists.splice(id, 1);
 
-      this.dialog = false
-    },
+      this.touristDialog = false
+    }
+    ,
     addTourist() {
       if (this.tourists.length < 7) {
-        this.tourists.push({
+        this.tourist = {
           firstname: null,
           lastname: null,
           birthdate: null,
           documentType: null,
           series: null,
           number: null
-        })
+        }
+        this.touristDialog = true
       } else {
-        this.creating = true
-        window.setTimeout(() => {
-          this.creating = false
-        }, 6000)
+        this.maxLimit = true
       }
-    },
+    }
+    ,
     saveTourist() {
-      this.tourists[this.touristID] = {...this.selectedTourist}
+      this.tourists.push(this.tourist)
+      this.touristDialog = false
+    }
+    ,
+    saveClick() {
+      this.$v.$touch()
 
-      this.dialog = false
-    },
+      if (!this.$v.$invalid) {
+        this.saveTourist()
+      }
+    }
   }
 }
 </script>
