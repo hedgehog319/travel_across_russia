@@ -25,7 +25,7 @@ SECRET_KEY = 'kji3n2zdjud7#$ovbvs0+_c3br8va@vuin!*lqfo%w^7nwektv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'app',
+    'start',
 ]
 
 MIDDLEWARE = [
@@ -135,13 +136,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-MEDIA_ROOT = BASE_DIR / 'media/'  # os.path.join(BASE_DIR, "media")
-
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'app.User'
