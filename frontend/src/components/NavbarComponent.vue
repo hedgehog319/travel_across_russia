@@ -130,26 +130,42 @@
     <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list dense nav>
         <v-list-item-group v-model="group" active-class=" text--accent-4">
-          <router-link class="text-decoration-none hover" to="/account">
+
+          <router-link v-if="$cookies.isKey('Token') && !isSmall"
+                       class="text-decoration-none hover" to="/account">
             <v-list-item>
-              <v-list-item-title>Профиль</v-list-item-title>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Профиль</v-list-item-title>
             </v-list-item>
           </router-link>
 
+          <div v-else-if="!$cookies.isKey('Token') && isSmall">
+            <v-list-item>
+              <v-icon>mdi-login</v-icon>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1" @click="$router.push({name: 'login'})">Войти</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-icon>mdi-account-plus</v-icon>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1" @click="$router.push({name: 'registration'})">Регистрация</v-list-item-title>
+            </v-list-item>
+          </div>
+
           <router-link class="text-decoration-none hover" to="/favorites">
             <v-list-item>
-              <v-list-item-title>Избранное</v-list-item-title>
+              <v-icon>mdi-heart-outline</v-icon>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Избранное</v-list-item-title>
             </v-list-item>
           </router-link>
 
           <router-link class="text-decoration-none hover" to="/search">
             <v-list-item>
-              <v-list-item-title>Поиск тура</v-list-item-title>
+              <v-icon>mdi-map-search-outline</v-icon>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Поиск тура</v-list-item-title>
             </v-list-item>
           </router-link>
           <router-link class="text-decoration-none hover" to="/booking">
             <v-list-item>
-              <v-list-item-title>Бронирование тура</v-list-item-title>
+              <v-icon>mdi-book-plus</v-icon>
+              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Бронирование тура</v-list-item-title>
             </v-list-item>
           </router-link>
         </v-list-item-group>
@@ -176,7 +192,7 @@ export default {
       this.currentCity = city
     },
     onResize() {
-      this.isSmall = window.innerWidth < 600
+      this.isSmall = window.innerWidth < 800
     },
     confirmExit() {
       this.dialog = false
