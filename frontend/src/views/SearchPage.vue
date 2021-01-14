@@ -1,166 +1,96 @@
 <template>
-  <v-app id="search">
+  <div id="search">
     <v-container>
       <v-expansion-panels>
-
         <v-expansion-panel>
           <v-expansion-panel-header>
-            <template v-slot:default="{ open }">
-              <v-row no-gutters>
-                <v-col cols="4">Место отбытия</v-col>
-                <v-col class="text--secondary" cols="8">
-                  <v-fade-transition leave-absolute>
-                    <span v-if="open" :key="0">Владивосток</span>
-                    <span v-else :key="1">{{ trip.name }}</span>
-                  </v-fade-transition>
+            <span class="text-h6">Критерии поиска</span>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-container style="display: flex">
+              <v-row>
+                <v-col cols="12" md="4">
+                  <v-autocomplete v-model="from" :items="cities" dense filled label="Откуда"></v-autocomplete>
                 </v-col>
+
+                <v-col cols="12" md="4">
+                  <v-autocomplete v-model="to" :items="cities" dense filled label="Куда"></v-autocomplete>
+                </v-col>
+
+                <v-col cols="12" md="4">
+                  <section style="margin-top: -6px; margin-right: 10px">
+                    <span>Выбрать дату</span>
+                    <date-picker :disabled-date="currentDate" v-model="date" confirm range
+                                 style="width: 100%"/>
+                  </section>
+                </v-col>
+
               </v-row>
-            </template>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-text-field v-model="trip.name" placeholder="Например, Москва"/>
+            </v-container>
           </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header v-slot="{ open }">
-            <v-row no-gutters>
-              <v-col cols="4">Место путешествия</v-col>
-              <v-col class="text--secondary" cols="8">
-                <v-fade-transition leave-absolute>
-                  <span v-if="open" :key="0">Выберите страну для путешествия</span>
-                  <span v-else :key="1">{{ trip.location }}</span>
-
-                </v-fade-transition>
-              </v-col>
-            </v-row>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-row no-gutters>
-              <v-col cols="3">
-                <span style="margin-bottom: 5px">Страна</span>
-                <v-select v-model="trip.location" :items="countries" flat item-text="name" solo/>
-              </v-col>
-              <v-col cols="3">
-                <span style="margin-bottom: 5px">Город</span>
-                <v-select v-model="trip.location" :items="locations" flat item-text="name" solo/>
-              </v-col>
-            </v-row>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header v-slot="{ open }">
-            <v-row no-gutters>
-              <v-col cols="4">Даты путешествия</v-col>
-              <v-col class="text--secondary" cols="8">
-                <v-fade-transition leave-absolute>
-                  <span v-if="open">Когда вы хотите отправиться в путешествие?</span>
-                  <v-row v-else no-gutters style="width: 100%">
-                    <v-col cols="6">
-                      Дата начала путешествия: {{ trip.start || 'Не выбрано' }}
-                    </v-col>
-                    <v-col cols="6">
-                      Дата окончания путешествия: {{ trip.end || 'Не выбрано' }}
-                    </v-col>
-                  </v-row>
-                </v-fade-transition>
-              </v-col>
-            </v-row>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-row justify="space-around" no-gutters>
-              <v-col cols="3">
-                <v-menu ref="startMenu"
-                        :close-on-content-click="false"
-                        :return-value.sync="trip.start"
-                        min-width="290px"
-                        offset-y>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="trip.start"
-                        v-bind="attrs"
-                        v-on="on"
-                        label="Дата начала путешествия"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                    />
-                  </template>
-                  <v-date-picker v-model="date" no-title scrollable>
-                    <v-spacer/>
-                    <v-btn color="primary" text @click="$refs.startMenu.isActive = false">Отмена</v-btn>
-                    <v-btn color="primary" text @click="$refs.startMenu.save(date)">Выбрать</v-btn>
-                  </v-date-picker>
-                </v-menu>
-              </v-col>
-
-              <v-col cols="3">
-                <v-menu
-                    ref="endMenu"
-                    :close-on-content-click="false"
-                    :return-value.sync="trip.end"
-                    min-width="290px"
-                    offset-y>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="trip.end"
-                        v-bind="attrs"
-                        v-on="on"
-                        label="Дата окончания путешествия"
-                        prepend-icon="mdi-calendar"
-                        readonly/>
-                  </template>
-                  <v-date-picker v-model="date" no-title scrollable>
-                    <v-spacer/>
-                    <v-btn color="primary" text @click="$refs.endMenu.isActive = false">
-                      Отмена
-                    </v-btn>
-                    <v-btn color="primary" text @click="$refs.endMenu.save(date)">OK</v-btn>
-                  </v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
-          </v-expansion-panel-content>
-
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              <template v-slot:default="{ open }">
-                <v-row no-gutters>
-                  <v-col cols="4">Количество путешествующих</v-col>
-                  <v-col class="text--secondary" cols="8">
-                    <v-fade-transition leave-absolute>
-                      <span v-if="open" :key="0"/>
-                      <span v-else :key="1"/>
-                    </v-fade-transition>
-                  </v-col>
-                </v-row>
-              </template>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row justify="space-around" no-gutters>
-                <v-col class="text--secondary" cols="3" style="margin-right: 20px">
-                  <span style="margin-bottom: 5px">Количество взрослых</span>
-                  <v-text-field placeholder="" type="number"/>
-                </v-col>
-
-                <v-col class="text--secondary" cols="3">
-                  <span style="margin-bottom: 5px">Количество детей</span>
-                  <v-text-field placeholder="" type="number"/>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-container>
-  </v-app>
+
+
+    <v-container>
+
+      <v-card v-if="isSmall" v-for="(tour, i) in tours" :key="i" class="rounded" style="padding-top: 10px;margin: 10px">
+        <v-img v-if="isMobile" :src="tour.src" class="rounded" height="200px" style="margin: 0 0 10px 60px" width="300px"/>
+        <v-card-text style="height: 100% !important;">
+          <div>
+            <span style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</span>
+            <v-spacer/>
+            <v-btn icon large style="position: absolute; bottom: 3px; right: 0">
+              <v-icon color="#ffd700" large>mdi-heart</v-icon>
+            </v-btn>
+          </div>
+          <p style="font-size: 20px; color: #242424; opacity: 0.7">
+            Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного
+            проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.
+            В отеле предоставляется бесплатный Wi-Fi.
+          </p>
+          <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
+        </v-card-text>
+      </v-card>
+
+      <v-card v-if="!isSmall" v-for="(tour, i) in tours" :key="i" class="rounded" style="display: flex;margin: 10px">
+        <v-img :src="tour.src" class="rounded" height="200px" style="margin: 10px" width="300px"/>
+        <v-card-text style="height: 100% !important;">
+          <div>
+            <p style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</p>
+            <v-spacer/>
+            <v-btn icon large style="position: absolute; top: 3px; right: 0">
+              <v-icon color="#ffd700" large>mdi-heart</v-icon>
+            </v-btn>
+          </div>
+          <p style="font-size: 20px; color: #242424; opacity: 0.7">
+            Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного
+            проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.
+            В отеле предоставляется бесплатный Wi-Fi.
+          </p>
+          <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </div>
 </template>
 
 <script>
+import DatePicker from "vue2-datepicker";
+
 export default {
   name: "SearchPage",
+  components: {
+    DatePicker,
+  },
   data: () => ({
-    date: null,
+    isSmall: false,
+    isMobile: false,
+    cities: ['Москва', 'Санкт-Петербург', 'Уфа', 'Владивосток', 'Екатеринбург', 'Оренбург', 'Сочи', 'Краснодар'],
+    from: null,
+    to: null,
+    time: null,
     trip: {
       name: '',
       location: null,
@@ -168,7 +98,39 @@ export default {
       end: null,
     },
     countries: ["Россия", "Франция", "Монголия"],
+    tours: [
+      {
+        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg', title: 'Хаятт Ридженси Сочи',
+        country: "Россия"
+      },
+      {
+        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg', title: 'Хаятт Ридженси Сочи',
+        country: "Россия"
+      }
+    ]
   }),
+  beforeDestroy() {
+    if (typeof window === 'undefined') return
+
+    window.removeEventListener('resize', this.onResize, {passive: true})
+  },
+
+  mounted() {
+    this.onResize()
+
+    window.addEventListener('resize', this.onResize, {passive: true})
+  },
+  methods: {
+    currentDate(date) {
+      const today = new Date()
+      const yesterday = new Date(today.getTime() - 24 * 3600 * 1000)
+      return date < yesterday
+    },
+    onResize() {
+      this.isMobile = window.innerWidth < 500
+      this.isSmall = window.innerWidth < 900
+    }
+  },
 }
 </script>
 
