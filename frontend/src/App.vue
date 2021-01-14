@@ -20,10 +20,17 @@ import FooterComponent from "@/components/FooterComponent";
 
 export default {
   name: 'App',
-
   components: {
     FooterComponent,
     NavbarComponent,
   },
+  created() {
+    document.title = "Путешествуй"
+  },
+  watch: {
+      '$route' (to, from) {
+        document.title = to.meta.title || 'Путешествуй!'
+      }
+    },
 };
 </script>
