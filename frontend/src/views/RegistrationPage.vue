@@ -110,8 +110,7 @@ export default {
   },
   methods: {
     async sendUser() {
-      const http = this.axios.create({baseURL: 'http://127.0.0.1:8000/'});
-      await http.post(`/auth/users/`, this.user).then(res => {
+      await this.axios.post(`/auth/users/`, this.user).then(res => {
         console.log(res.statusText)
         if (res.statusText === "Created") {
           this.saved = true;
