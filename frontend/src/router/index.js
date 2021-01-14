@@ -23,12 +23,20 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        component: LoginPage
+        component: LoginPage,
+        beforeEnter: (to, from, next) => {
+            if (Vue.$cookies.isKey('Token'))
+                next('/')
+        }
     },
     {
         path: '/registration',
         name: 'registration',
-        component: RegistrationPage
+        component: RegistrationPage,
+        beforeEnter: (to, from, next) => {
+            if (Vue.$cookies.isKey('Token'))
+                next('/')
+        }
     },
     {
         path: '/account',
