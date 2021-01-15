@@ -27,4 +27,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
-urlpatterns += [re_path(r'^.*', include('start.urls'))]

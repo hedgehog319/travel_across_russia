@@ -30,7 +30,6 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'app',
-    'start',
 ]
 
 MIDDLEWARE = [
