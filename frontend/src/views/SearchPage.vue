@@ -8,24 +8,42 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-container style="display: flex">
-              <v-row>
-                <v-col cols="12" md="4">
-                  <v-autocomplete v-model="from" :items="cities" dense filled label="Откуда"></v-autocomplete>
-                </v-col>
+              <v-list>
+                <v-list-item>
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <v-autocomplete v-model="from" :items="cities" dense filled label="Откуда"></v-autocomplete>
+                    </v-col>
 
-                <v-col cols="12" md="4">
-                  <v-autocomplete v-model="to" :items="cities" dense filled label="Куда"></v-autocomplete>
-                </v-col>
+                    <v-col cols="12" md="4">
+                      <v-autocomplete v-model="to" :items="cities" dense filled label="Куда"></v-autocomplete>
+                    </v-col>
 
-                <v-col cols="12" md="4">
-                  <section style="margin-top: -6px; margin-right: 10px">
-                    <span>Выбрать дату</span>
-                    <date-picker :disabled-date="currentDate" v-model="date" confirm range
-                                 style="width: 100%"/>
-                  </section>
-                </v-col>
+                    <v-col cols="12" md="4">
+                      <section style="margin-top: -6px; margin-right: 10px">
+                        <span>Выбрать дату</span>
+                        <date-picker :disabled-date="currentDate" v-model="date" confirm range
+                                     style="width: 100%"/>
+                      </section>
+                    </v-col>
+                  </v-row>
+                </v-list-item>
+                <v-list-item>
+                  <v-row>
+                    <v-col cols="12" md="4" class="text-center">
+                      <span class="text-h6">Рейтинг отеля</span>
+                      <v-rating :value="4.5" color="amber" dense half-increments size="30"/>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <span class="text-subtitle-1">Цена тура: {{price[0]}} - {{price[1]}} </span>
+                      <v-range-slider v-model="price" max="500000" min="0"/>
+                    </v-col>
+                    <v-col cols="12" md="4">
 
-              </v-row>
+                    </v-col>
+                  </v-row>
+                </v-list-item>
+              </v-list>
             </v-container>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -36,7 +54,7 @@
     <v-container>
 
       <v-card v-if="isSmall" v-for="(tour, i) in tours" :key="i" class="rounded" style="padding-top: 10px;margin: 10px">
-        <v-img v-if="isMobile" :src="tour.src" class="rounded" height="200px" style="margin: 0 0 10px 60px" width="300px"/>
+        <v-img v-if="isMobile" :src="tour.src" class="rounded" height="200px" style="margin: 0 10px 10px 10px"/>
         <v-card-text style="height: 100% !important;">
           <div>
             <span style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</span>
@@ -85,12 +103,14 @@ export default {
     DatePicker,
   },
   data: () => ({
+    price: [0, 100000],
     isSmall: false,
     isMobile: false,
     cities: ['Москва', 'Санкт-Петербург', 'Уфа', 'Владивосток', 'Екатеринбург', 'Оренбург', 'Сочи', 'Краснодар'],
     from: null,
     to: null,
     time: null,
+    date: null,
     trip: {
       name: '',
       location: null,

@@ -3,7 +3,7 @@
     <v-container>
 
       <v-card v-if="isSmall" v-for="(tour, i) in tours" :key="i" class="rounded" style="margin: 10px; padding-top: 10px">
-        <v-img v-if="isMobile" :src="tour.src" class="rounded" height="200px" style="margin: 0 0 10px 60px" width="300px"/>
+        <v-img v-if="isMobile" :src="tour.src" class="rounded" height="200px" style="margin: 0 10px 10px 10px"/>
         <v-card-text style="height: 100% !important;">
           <div>
             <span style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</span>
