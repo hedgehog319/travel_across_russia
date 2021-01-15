@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework_json_api',
     'rest_framework_simplejwt',
 
+    'django_filters',
     'corsheaders',
     'app',
     'start',

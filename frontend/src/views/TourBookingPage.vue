@@ -340,7 +340,8 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchCities')
-    console.log(this.$store.getters.getCities)
+    for (const city of this.$store.getters.getCities)
+      console.log(city)
   }
 }
 </script>
