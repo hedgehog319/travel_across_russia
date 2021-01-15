@@ -3,7 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = 'kji3n2zdjud7#$ovbvs0+_c3br8va@vuin!*lqfo%w^7nwektv'
 
 DEBUG = False
 
