@@ -28,9 +28,9 @@ export default {
     document.title = "Путешествуй"
   },
   watch: {
-      '$route' (to, from) {
-        document.title = to.meta.title || 'Путешествуй!'
-      }
-    },
+    '$route'(to) {
+      document.title = to.meta.title || 'Путешествуй!'
+    }
+  },
 };
 </script>

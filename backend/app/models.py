@@ -104,6 +104,11 @@ class Hotel(models.Model):
         return f'Id {self.id}: {self.name}'
 
 
+class HotelPhoto(models.Model):
+    hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='hotels_photos', null=True, blank=True)
+
+
 class City(models.Model):
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     name = models.CharField(max_length=150)

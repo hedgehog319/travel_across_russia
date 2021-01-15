@@ -3,9 +3,11 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+// import modules
+import cities from "@/store/cities";
+
 export default new Vuex.Store({
-    state: {},
-    mutations: {},
-    actions: {},
-    modules: {}
+    modules: {
+        cities
+    }
 })

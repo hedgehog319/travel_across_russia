@@ -57,31 +57,31 @@
           <v-stepper-content step="3">
             <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
               <v-row justify="center" style="margin-top: 5px">
-                <v-col md="4" style="padding: 0 12px">
-                  <v-text-field v-model="formData.cardNumber" background-color="#f0f0f0" height="35" label="Номер карты"
+                <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
+                  <v-text-field v-model="formData.cardNumber" background-color="#f0f0f0" height="38" label="Номер карты"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
 
-                <v-col md="4" style="padding: 0 12px">
-                  <v-text-field v-model="formData.cardName" background-color="#f0f0f0" height="35" label="Владелец"
+                <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
+                  <v-text-field v-model="formData.cardName" background-color="#f0f0f0" height="38" label="Владелец"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
               </v-row>
 
               <v-row justify="center">
-                <v-col md="2" style="padding: 12px 12px; margin-top: 4px">
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
                   <v-select v-model="formData.cardMonth" :items="months" dense label="Месяц"
                             solo/>
                 </v-col>
 
-                <v-col md="2" style="padding: 12px 12px; margin-top: 4px">
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
                   <v-select v-model="formData.cardYear" :items="years" dense label="Год"
                             solo/>
                 </v-col>
 
-                <v-col md="2" style="padding: 0 12px;">
-                  <v-text-field v-model="formData.cardCvv" background-color="#f0f0f0" label="CVV"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
+                  <v-text-field v-model="formData.cardCvv" background-color="#f0f0f0" label="CVV" height="38"
+                                style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0; padding-top: 2px"/>
                 </v-col>
               </v-row>
             </v-card>
@@ -89,67 +89,67 @@
             <v-container style="display: flex">
               <v-btn @click="e1 = 2">Назад</v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 1">Завершить</v-btn>
+              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 1">Оплатить</v-btn>
             </v-container>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
     </v-container>
 
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog v-model="touristDialog" max-width="500px">
       <v-card>
         <v-card-title class="justify-center"><span class="headline">Турист</span></v-card-title>
 
         <v-card-text>
           <v-container>
             <v-row justify="center">
-              <v-col cols="12" md="4" sm="6">
-                <v-text-field v-model="selectedTourist.lastname" label="Фамилия"/>
+              <v-col cols="12" lg="6" md="6" sm="6">
+                <v-text-field :error-messages="lastnameErrors" v-model="tourist.lastname" label="Фамилия"/>
               </v-col>
 
-              <v-col cols="12" md="4" sm="6">
-                <v-text-field v-model="selectedTourist.firstname" label="Имя"/>
+              <v-col cols="12" lg="6" md="6" sm="6">
+                <v-text-field :error-messages="firstnameErrors" v-model="tourist.firstname" label="Имя"/>
               </v-col>
             </v-row>
 
             <v-row>
-              <v-col cols="12" md="5" sm="6">
-                <v-menu ref="menu" v-model="birthDayMenu"
+              <v-col cols="12" lg="12" md="12" sm="12">
+                <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
                         :close-on-content-click="false"
                         transition="scale-transition">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="selectedTourist.birthdate" v-bind="attrs"
+                    <v-text-field :error-messages="birthdateErrors" v-model="tourist.birthdate" v-bind="attrs"
                                   v-on="on"
                                   label="Дата рождения"
                                   prepend-icon="mdi-calendar"
                                   readonly/>
                   </template>
-
-                  <v-date-picker v-model="selectedTourist.birthdate" no-title scrollable>
+                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="tourist.birthdate" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
-                    <v-btn color="primary" text @click="birthDayMenu = false">
-                      OK
-                    </v-btn>
+                    <v-btn color="primary" text @click="birthDayMenu = false">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
             </v-row>
 
             <v-row>
-              <v-col cols="12" md="5" sm="6">
-                <v-select v-model="selectedTourist.documentType" :items="['Паспорт', 'Загранпаспорт']"
+              <v-col cols="12" md="12" sm="12">
+                <v-select :error-messages="documentTypeErrors" v-model="tourist.documentType"
+                          :items="['Паспорт', 'Загранпаспорт']"
                           label="Тип документа"/>
               </v-col>
+            </v-row>
 
-              <v-col cols="12" md="2" sm="6">
-                <!--TODO number validation-->
-                <v-text-field v-model="selectedTourist.series" label="Серия"/>
+            <v-row>
+
+
+              <v-col cols="12" md="6" sm="6">
+                <v-text-field :error-messages="seriesErrors" maxlength="4" v-model="tourist.series" label="Серия"/>
               </v-col>
 
-              <v-col cols="12" md="3" sm="6">
-                <!--TODO number validation-->
-                <v-text-field v-model="selectedTourist.number" label="Номер"/>
+              <v-col cols="12" md="6" sm="6">
+                <v-text-field :error-messages="numberErrors" maxlength="6" v-model="tourist.number" label="Номер"/>
               </v-col>
             </v-row>
           </v-container>
@@ -158,30 +158,30 @@
         <v-card-actions>
           <v-btn color="red darken-1" text @click="removeTourist">Удалить</v-btn>
           <v-spacer/>
-          <v-btn color="blue darken-1" text @click="saveTourist">Сохранить</v-btn>
+          <v-btn color="blue darken-1" text @click="saveClick">Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="creating">
+    <v-snackbar v-model="maxLimit">
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
   </div>
 </template>
 
 <script>
+import {required, minLength, numeric} from 'vuelidate/lib/validators'
 
 export default {
   name: "TourBooking",
   data() {
     return {
       e1: 1,
-      dialog: false,
+      touristDialog: false,
       birthDayMenu: false,
-      creating: false,
-      touristID: null,
+      maxLimit: false,
       tourists: [],
-      selectedTourist: {
+      tourist: {
         firstname: null,
         lastname: null,
         birthdate: null,
@@ -197,6 +197,37 @@ export default {
         cardCvv: ''
       },
     }
+  },
+  validations: {
+    tourist: {
+      firstname: {
+        required,
+        ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
+        numbers: (v) => !(/[0-9]/.test(v)),
+      },
+      lastname: {
+        required,
+        ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
+        numbers: (v) => !(/[0-9]/.test(v)),
+      },
+      birthdate: {
+        required
+      },
+      documentType: {
+        required
+      },
+      series: {
+        required,
+        minLength: minLength(4),
+        numeric
+      },
+      number: {
+        required,
+        minLength: minLength(6),
+        numeric
+      }
+    },
+    formData: {}
   },
   computed: {
     months() {
@@ -215,42 +246,102 @@ export default {
       }
 
       return years
+    },
+    firstnameErrors() {
+      let mess = ''
+      if (!this.$v.tourist.firstname.$dirty) return mess
+      if (!this.$v.tourist.firstname.required) mess = 'Введите имя'
+      else if (!this.$v.tourist.firstname.ruLetter) mess = 'Имя содержит русские буквы'
+      else if (!this.$v.tourist.firstname.numbers) mess = 'Имя содержит цифры'
+
+      return mess
+    },
+    lastnameErrors() {
+      let mess = ''
+      if (!this.$v.tourist.lastname.$dirty) return mess
+      if (!this.$v.tourist.lastname.required) mess = 'Введите фамилию'
+      else if (!this.$v.tourist.lastname.ruLetter) mess = 'Фамилия содержит русские буквы'
+      else if (!this.$v.tourist.lastname.numbers) mess = 'Фамилия содержит цифры'
+
+      return mess
+    },
+    birthdateErrors() {
+      let mess = ''
+      if (!this.$v.tourist.birthdate.$dirty) return mess
+      if (!this.$v.tourist.birthdate.required) mess = 'Укажите дату рождения'
+
+      return mess
+    },
+    documentTypeErrors() {
+      let mess = ''
+      if (!this.$v.tourist.documentType.$dirty) return mess
+      if (!this.$v.tourist.documentType.required) mess = 'Выберите тип документа'
+
+      return mess
+    },
+    seriesErrors() {
+      let mess = ''
+      if (!this.$v.tourist.series.$dirty) return mess
+      if (!this.$v.tourist.series.required) mess = 'Введите серию документа'
+      else if (!this.$v.tourist.series.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.tourist.series.minLength) mess = 'Введите 4 цифры'
+
+      return mess
+    },
+    numberErrors() {
+      let mess = ''
+      if (!this.$v.tourist.number.$dirty) return mess
+      if (!this.$v.tourist.number.required) mess = 'Введите номер документа'
+      else if (!this.$v.tourist.number.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.tourist.number.minLength) mess = 'Введите 6 цифр'
+
+      return mess
     }
   },
   methods: {
     touristClick(id) {
-      this.touristID = id
-      this.selectedTourist = {...this.tourists[id]}
+      this.tourist = {...this.tourists[id]}
 
-      this.dialog = true
+      this.touristDialog = true
     },
     removeTourist() {
-      this.tourists.splice(this.touristID, 1);
+      const id = this.tourists.indexOf(this.tourist)
+      this.tourists.splice(id, 1);
 
-      this.dialog = false
+      this.touristDialog = false
     },
     addTourist() {
       if (this.tourists.length < 7) {
-        this.tourists.push({
+        this.$v.tourist.$reset()
+        this.tourist = {
           firstname: null,
           lastname: null,
           birthdate: null,
           documentType: null,
           series: null,
           number: null
-        })
+        }
+        this.touristDialog = true
       } else {
-        this.creating = true
-        window.setTimeout(() => {
-          this.creating = false
-        }, 6000)
+        this.maxLimit = true
       }
     },
     saveTourist() {
-      this.tourists[this.touristID] = {...this.selectedTourist}
-
-      this.dialog = false
+      this.tourists.push(this.tourist)
+      this.touristDialog = false
     },
+    saveClick() {
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        this.saveTourist()
+      }
+    }
+  },
+  created() {
+    this.$store.dispatch('fetchCities')
+    for (const city of this.$store.getters.getCities)
+      console.log(city)
   }
 }
 </script>

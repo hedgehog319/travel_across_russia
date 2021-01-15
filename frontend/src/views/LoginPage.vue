@@ -85,8 +85,7 @@ export default {
   },
   methods: {
     async checkUser() {
-      const http = this.axios.create({baseURL: 'http://127.0.0.1:8000/'});
-      await http.post(`/auth/jwt/create/`, this.user).then(
+      await this.axios.post(`/auth/jwt/create/`, this.user).then(
           res => {
             if (res.statusText === 'OK') {  // status === 200
               this.$cookies.set('Token', res.data.access)
