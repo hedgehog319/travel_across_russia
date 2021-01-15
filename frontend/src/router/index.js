@@ -27,24 +27,28 @@ const routes = [
         path: '/login',
         name: 'login',
         component: LoginPage,
-        meta: {
-            title: 'Логин'
-        },
         beforeEnter: (to, from, next) => {
             if (Vue.$cookies.isKey('Token'))
                 next('/')
-        }
+            else
+                next()
+        },
+        meta: {
+            title: 'Логин'
+        },
     },
     {
         path: '/registration',
         name: 'registration',
         component: RegistrationPage,
-        meta: {
-            title: 'Регистрация'
-        },
         beforeEnter: (to, from, next) => {
             if (Vue.$cookies.isKey('Token'))
                 next('/')
+            else
+                next()
+        },
+        meta: {
+            title: 'Регистрация'
         }
     },
     {
