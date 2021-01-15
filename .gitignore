@@ -1,2 +1,4 @@
 /venv/
 /.idea/
+/db_claster/
+backend/backend/local_settings.py
