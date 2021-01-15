@@ -80,7 +80,7 @@
           </template>
 
           <v-list>
-            <v-list-item @click="$router.push({name: 'account'})">
+            <v-list-item @click="$router.push({name: 'account'}).catch(()=>{})">
               <v-list-item-title>Личные данные</v-list-item-title>
             </v-list-item>
 
@@ -112,10 +112,10 @@
         <!--TODO поправить на малом экране-->
         <div v-else-if="!$cookies.isKey('Token') && !isSmall">
           <v-btn elevation="0" class="round" color="primary" style="margin-right: 2px"
-                 @click="$router.push({name: 'login'})">Войти
+                 @click="$router.push({name: 'login'}).catch(()=>{})">Войти
           </v-btn>
           <v-btn elevation="0" class="round" color="primary" style="margin-left: 2px"
-                 @click="$router.push({name: 'registration'})">Регистрация
+                 @click="$router.push({name: 'registration'}).catch(() => {})">Регистрация
           </v-btn>
         </div>
 
@@ -143,14 +143,15 @@
             <v-list-item>
               <v-icon>mdi-login</v-icon>
               <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
-                                 @click="$router.push({name: 'login'})">
+                                 @click="this.$router.push({name: 'login'}).catch(()=>{})">
                 Войти
               </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-icon>mdi-account-plus</v-icon>
               <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
-                                 @click="$router.push({name: 'registration'})">Регистрация</v-list-item-title>
+                                 @click="$router.push({name: 'registration'}).catch(() => {})">Регистрация
+              </v-list-item-title>
             </v-list-item>
           </div>
 
