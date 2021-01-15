@@ -6,6 +6,8 @@ try:
     from .local_settings import *
 except ImportError:
     from .productions_settings import *
+    
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')   
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
