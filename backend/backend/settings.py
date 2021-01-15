@@ -7,7 +7,7 @@ try:
 except ImportError:
     from .productions_settings import *
     
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')   
+SECRET_KEY = 'kji3n2zdjud7#$ovbvs0+_c3br8va@vuin!*lqfo%w^7nwektv'   
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
