@@ -9,19 +9,13 @@
           </v-stepper-step>
           <v-divider/>
           <v-stepper-step editable step="3" class="unselectable">Оплата тура</v-stepper-step>
-          <v-progress-linear
-              :active="loading"
-              :indeterminate="loading"
-              absolute
-              bottom
-              color="deep-purple accent-4"/>
+          <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom color="primary accent-4"/>
         </v-stepper-header>
 
         <v-stepper-items>
           <v-stepper-content step="1">
-            <v-card class="mb-12" color="grey lighten-1" height="300px">
 
-            </v-card>
+            <favorite-card :tour="tour" style="margin-bottom: 40px"/>
 
             <v-container style="display: flex">
               <!--TODO home redirect-->
@@ -183,12 +177,26 @@
 
 <script>
 import {required, minLength, numeric} from 'vuelidate/lib/validators'
+import FavoriteCardComponent from "@/components/FavoriteCardComponent";
 
 export default {
   name: "TourBooking",
+  components: {
+    'favorite-card': FavoriteCardComponent
+  },
   data() {
     return {
       e1: 1,
+      tour: {
+        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
+        title: 'Хаятт Ридженси Сочи',
+        country: "Россия",
+        description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного\n' +
+            '        проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
+            '        В отеле предоставляется бесплатный Wi-Fi.',
+        rating: 4.5,
+        cost: 200000
+      },
       touristDialog: false,
       birthDayMenu: false,
       maxLimit: false,

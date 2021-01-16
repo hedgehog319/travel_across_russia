@@ -47,20 +47,15 @@
             <v-card flat class="text-center">
               <form style="margin: 15px" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
-                <v-text-field v-model="user.email" :error-messages="emailErrors"
-                              label="Email"
-                              @keydown.space.prevent=""/>
-                <v-select :items="documents" v-model="document"/>
-                <v-text-field v-model="user.firstname" :error-messages="firstnameErrors"
-                              label="Имя"
-                              @input="inputHandler('firstname')"/>
-                <v-text-field v-model="user.lastname" :error-messages="lastnameErrors" label="Фамилия" required
-                              @input="inputHandler('lastname')"/>
-                <v-text-field v-model="user.lastname" :error-messages="lastnameErrors" label="Серия паспорта" required
-                              @input="inputHandler('lastname')"/>
-                <v-text-field v-model="user.lastname" :error-messages="lastnameErrors" label="Номер паспорта" required
-                              @input="inputHandler('lastname')"/>
-                <v-btn class="mr-4" type="submit">Принять изменения</v-btn>
+                <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
+                <v-select :items="typeOfDocuments" v-model="document.name"/>
+                <v-text-field v-model="user.firstname" :error-messages="firstnameErrors" label="Имя"/>
+                <v-text-field v-model="user.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
+                <v-text-field v-model="document.series" :error-messages="seriesErrors" label="Серия документа"
+                              maxlength="4"/>
+                <v-text-field v-model="document.number" :error-messages="numberErrors" label="Номер документа"
+                              maxlength="6"/>
+                <v-btn class="mr-4" type="submit">Применить изменения</v-btn>
               </form>
             </v-card>
           </v-tab-item>
@@ -79,7 +74,7 @@
 </template>
 
 <script>
-import {required} from "vuelidate/lib/validators";
+import {required, minLength, numeric, email} from "vuelidate/lib/validators";
 
 export default {
   name: "AccountPage",
@@ -91,9 +86,13 @@ export default {
         lastname: null,
         email: null,
       },
+      document: {
+        name: 'Паспорт',
+        series: null,
+        number: null,
+      },
       invalidUser: false,
-      document: 'Паспорт',
-      documents: ['Паспорт', 'Заграничный паспорт']
+      typeOfDocuments: ['Паспорт', 'Заграничный паспорт']
     }
   },
   validations: {
@@ -101,13 +100,28 @@ export default {
       firstname: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
+        numbers: (v) => !(/[0-9]/.test(v)),
       },
       lastname: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
+        numbers: (v) => !(/[0-9]/.test(v)),
       },
       email: {
         required,
+        email
+      }
+    },
+    document: {
+      series: {
+        required,
+        minLength: minLength(4),
+        numeric
+      },
+      number: {
+        required,
+        minLength: minLength(6),
+        numeric
       }
     }
   },
@@ -117,6 +131,7 @@ export default {
       if (!this.$v.user.firstname.$dirty) return mess
       if (!this.$v.user.firstname.required) mess = 'Введите имя'
       else if (!this.$v.user.firstname.ruLetter) mess = 'Укажите имя на латинице'
+      else if (!this.$v.user.firstname.numbers) mess = 'Имя содержит цифры'
 
       return mess
     },
@@ -125,6 +140,7 @@ export default {
       if (!this.$v.user.lastname.$dirty) return mess
       if (!this.$v.user.lastname.required) mess = 'Введите фамилию'
       else if (!this.$v.user.lastname.ruLetter) mess = 'Укажите фамилию на латинице'
+      else if (!this.$v.user.firstname.numbers) mess = 'Фамилия содержит цифры'
 
       return mess
     },
@@ -136,18 +152,41 @@ export default {
 
       return mess
     },
+    seriesErrors() {
+      let mess = ''
+      if (!this.$v.document.series.$dirty) return mess
+      if (!this.$v.document.series.required) mess = 'Введите серию документа'
+      else if (!this.$v.document.series.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.document.series.minLength) mess = 'Введите 4 цифры'
+
+      return mess
+    },
+    numberErrors() {
+      let mess = ''
+      if (!this.$v.document.number.$dirty) return mess
+      if (!this.$v.document.number.required) mess = 'Введите номер документа'
+      else if (!this.$v.document.number.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.document.number.minLength) mess = 'Введите 6 цифр'
+
+      return mess
+    },
   },
   methods: {
     updateUserInfo() {
       this.$v.$touch()
-
+      console.log('befote')
       if (!this.$v.$invalid) {
-
+        console.log('for')
+        this.patchUserInfo()
       }
     },
-    inputHandler(field) {
-      this.invalidUser = false
-      this.$v.user[field].$touch()
+    patchUserInfo() {
+      const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+      this.axios.patch('api/documents/', conf)
+          .then(res => {
+            console.log(res)
+          })
+          .catch(error => console.log(error))
     }
   },
   created() {
@@ -163,9 +202,7 @@ export default {
 </script>
 
 <style scoped>
-
 tr:hover {
   background-color: white !important;
 }
-
 </style>

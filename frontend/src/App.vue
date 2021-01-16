@@ -1,14 +1,7 @@
 <template>
   <v-app>
     <NavbarComponent/>
-    <router-view
-        style="
-        padding-top: 64px;
-        padding-bottom: 100px;
-        height: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
-         background-image: url('https://wallbox.ru/resize/1920x1080/wallpapers/main/201548/f66296165537f2c.jpg')"/>
+    <router-view class="router"/>
     <FooterComponent/>
   </v-app>
 </template>
@@ -31,3 +24,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.router {
+  padding-top: 64px;
+  padding-bottom: 100px;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('./assets/img/bg.jpg')
+}
+</style>
