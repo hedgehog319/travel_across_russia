@@ -56,7 +56,7 @@
                 <v-icon large>mdi-plus-circle-outline</v-icon>
               </v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 3">Далее</v-btn>
+              <v-btn color="primary" style="margin-right: 5px;" @click="goToPay">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
@@ -173,9 +173,11 @@
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="maxLimit">
+    <v-snackbar top v-model="maxLimit">
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
+
+    <v-snackbar top v-model="consistTourist">Укажите хотябы одного туриста</v-snackbar>
   </div>
 </template>
 
@@ -190,6 +192,7 @@ export default {
       touristDialog: false,
       birthDayMenu: false,
       maxLimit: false,
+      consistTourist: false,
       loading: false,
       touristID: null,
       tourists: [],
@@ -211,6 +214,9 @@ export default {
     }
   },
   validations: {
+    tourists: {
+      required
+    },
     tourist: {
       firstname: {
         required,
@@ -413,6 +419,15 @@ export default {
         this.saveTourist()
       }
     },
+    goToPay() {
+      this.$v.tourists.$touch()
+
+      if (!this.$v.tourists.$invalid) {
+        this.e1 = 3
+      } else {
+        this.consistTourist = true
+      }
+    },
     sendPay() {
       this.loading = true
     },
@@ -422,7 +437,7 @@ export default {
       if (!this.$v.card.$invalid) {
         this.sendPay()
       }
-    }
+    },
   },
   watch: {
     loading(val) {
