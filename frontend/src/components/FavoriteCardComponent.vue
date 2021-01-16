@@ -11,9 +11,11 @@
         </v-btn>
       </div>
       <p style="font-size: 20px; color: #242424; opacity: 0.7">{{ tour.description }}</p>
-      <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
-
-      <span style="position: absolute; right: 10px; bottom: 43px; font-size: 25px">{{ getCost(tour.cost) }}</span>
+      <div style="display: flex">
+        <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
+        <v-spacer/>
+        <span style="right: 10px; bottom: 43px; font-size: 25px">{{ getCost(tour.cost) }}</span>
+      </div>
     </v-card-text>
   </v-card>
 </template>
