@@ -9,44 +9,49 @@
 
 .hover:hover {
     opacity: 0.8 !important;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .hover-card:hover {
     background-color: rgba(44, 44, 47, 0.7) !important;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .scrollbar {
-    float: left;
-    width: 100%;
-    overflow-y: scroll;
+    /*float: left !important;*/
+    /*width: 100% !important;*/
+    overflow-y: scroll !important;
 }
 
 .round-track::-webkit-scrollbar-track {
-    border-radius: 8px;
+    border-radius: 8px !important;
+}
+
+.track-80::-webkit-scrollbar-track{
+    max-height: 80% !important;
+    height: 30px !important;
 }
 
 .scrollbar::-webkit-scrollbar-track {
-    background-color: #e1e1e1;
+    background-color: #e1e1e1 !important;
 }
 
 .scrollbar::-webkit-scrollbar {
-    width: 8px;
-    border-radius: 8px;
+    width: 8px !important;
+    border-radius: 8px !important;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    background-color: #757575;
+    border-radius: 8px !important;
+    background-color: #757575 !important;
 }
 
 .unselectable {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
+    -webkit-touch-callout: none !important; /* iOS Safari */
+    -webkit-user-select: none !important; /* Chrome/Safari/Opera */
+    -moz-user-select: none !important; /* Firefox */
+    -ms-user-select: none !important; /* Internet Explorer/Edge */
+    user-select: none !important;
 }
 
 .mw-300 {
