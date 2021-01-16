@@ -14,9 +14,10 @@
 </template>
 
 <script>
-import '@/assets/styles/my-style.css'
+import {mapActions} from 'vuex'
 import NavbarComponent from "@/components/NavbarComponent";
 import FooterComponent from "@/components/FooterComponent";
+import '@/assets/styles/my-style.css'
 
 export default {
   name: 'App',
@@ -24,13 +25,9 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
+  methods: mapActions(['fetchCities']),
   created() {
-    document.title = "Путешествуй"
-  },
-  watch: {
-    '$route'(to) {
-      document.title = to.meta.title || 'Путешествуй!'
-    }
+    this.fetchCities()
   },
 };
 </script>
