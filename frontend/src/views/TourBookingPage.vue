@@ -55,32 +55,32 @@
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
-              <v-row justify="center" style="margin-top: 5px">
+            <v-card class="mb-12" color="lighten-1" elevation="0" style="margin: 10px" min-height="300">
+              <v-row justify="center" style="margin-top: 5px;">
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="formData.cardNumber" background-color="#f0f0f0" height="38" label="Номер карты"
+                  <v-text-field filled v-model="formData.cardNumber" height="38" label="Номер карты"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
 
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="formData.cardName" background-color="#f0f0f0" height="38" label="Владелец"
+                  <v-text-field filled v-model="formData.cardName" height="38" label="Владелец"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
               </v-row>
 
               <v-row justify="center">
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 20px 6px; padding: 0 5px 0 5px;">
                   <v-select v-model="formData.cardMonth" :items="months" dense label="Месяц"
                             solo/>
                 </v-col>
 
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 20px 6px; padding: 0 5px 0 5px;">
                   <v-select v-model="formData.cardYear" :items="years" dense label="Год"
                             solo/>
                 </v-col>
 
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="formData.cardCvv" background-color="#f0f0f0" label="CVV" height="38"
+                  <v-text-field filled v-model="formData.cardCvv" label="CVV" height="38"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0; padding-top: 2px"/>
                 </v-col>
               </v-row>
