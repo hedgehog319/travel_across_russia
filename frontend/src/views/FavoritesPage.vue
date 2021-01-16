@@ -1,11 +1,9 @@
 <template>
   <div id="favorites">
     <v-container>
-      <favorite-card v-for="(tour, i) in tours" :key="i" :tour="tour"
+      <favorite-card v-for="(tour, i) in tours" :key="i" :tour="tour" favorite
                      :img-width="isSmall ? undefined : 300"
-                     :style="isSmall
-                              ? 'display: inline-block; margin: 10px'
-                              : 'display: flex; margin: 10px'"/>
+                     :style="isSmall ? 'display: inline-block; margin: 10px': ''"/>
     </v-container>
   </div>
 
@@ -20,7 +18,6 @@ export default {
     'favorite-card': FavoriteCardComponent
   },
   data: () => ({
-    isMobile: false,
     isSmall: false,
     date: null,
     group: null,
@@ -32,7 +29,8 @@ export default {
         description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного\n' +
             '        проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
             '        В отеле предоставляется бесплатный Wi-Fi.',
-        rating: 4.5
+        rating: 4.5,
+        cost: 200000
       },
     ]
   }),
@@ -54,7 +52,6 @@ export default {
       return date < yesterday
     },
     onResize() {
-      this.isMobile = window.innerWidth < 500
       this.isSmall = window.innerWidth < 900
     }
   },

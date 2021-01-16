@@ -9,7 +9,7 @@
       </div>
 
       <div style="position: absolute; bottom: 110px; right: 15px">
-        <span style="color: #fff; font-size: 25px">От {{ getCost }}</span>
+        <span style="color: #fff; font-size: 25px">От {{ getCost(tour.cost) }}</span>
       </div>
     </router-link>
 
@@ -47,9 +47,9 @@ export default {
       }
     }
   },
-  computed: {
-    getCost() {
-      return this.tour.cost.toString()
+  methods: {
+    getCost(cost) {
+      return cost.toString()
           .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
     }
   }
