@@ -62,36 +62,36 @@
 
           <v-stepper-content step="3">
 
-            <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
-              <v-row justify="center" style="margin-top: 5px">
+            <v-card class="mb-12" color="lighten-1" elevation="0" style="margin: 10px" min-height="300">
+              <v-row justify="center" style="margin-top: 5px;">
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="card.number" background-color="#f0f0f0" height="38" label="Номер карты"
+                  <v-text-field filled v-model="card.number" height="38" label="Номер карты"
                                 :error-messages="cardNumberErrors"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
 
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="card.name" background-color="#f0f0f0" height="38" label="Владелец"
+                  <v-text-field filled v-model="card.name" height="38" label="Владелец"
                                 :error-messages="cardNameErrors"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
               </v-row>
 
               <v-row justify="center">
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 20px 6px; padding: 0 5px 0 5px;">
                   <v-select v-model="card.month" :items="months" dense label="Месяц"
                             :error-messages="cardMonthErrors"
                             solo/>
                 </v-col>
 
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
+                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 20px 6px; padding: 0 5px 0 5px;">
                   <v-select v-model="card.year" :items="years" dense label="Год"
                             :error-messages="cardYearErrors"
                             solo/>
                 </v-col>
 
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="card.cvv" background-color="#f0f0f0" label="CVV" height="38"
+                  <v-text-field filled v-model="card.cvv" label="CVV" height="38"
                                 :error-messages="cardCVVErrors"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0; padding-top: 2px"/>
                 </v-col>

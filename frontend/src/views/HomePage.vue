@@ -48,7 +48,7 @@
 
 
     <v-container class="rounded"
-                 style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #535353">
+                 style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #8a8a8a">
       <v-card flat width="100%">
         <span class="headline" style="margin-left: 20px">Поиск тура</span>
         <v-card-text>
@@ -81,6 +81,29 @@
           </v-form>
         </v-card-text>
       </v-card>
+    </v-container>
+
+    <v-container class="rounded"
+                 style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #dedede">
+      <span class="text-center text-h4">Почему "Путешествуй по России"?</span>
+      <v-container class="justify-center text-center">
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-icon color="primary" size="50">mdi-speedometer</v-icon>
+            <p class="text-h5">Высокая скорость работы сайта</p>
+          </v-col>
+
+          <v-col cols="12" md="4" style="display: block">
+            <v-icon color="primary" size="50">mdi-map</v-icon>
+            <p class="text-h5">Вам доступна любая точка России</p>
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-icon color="primary" size="50">mdi-shield</v-icon>
+            <p class="text-h5">Мы гарантируем безопасность всех ваших данных</p>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-container>
 
     <v-container class=" rounded"
