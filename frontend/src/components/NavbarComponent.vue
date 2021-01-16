@@ -55,7 +55,7 @@
         </v-tooltip>
       </router-link>
 
-      <router-link class="text-decoration-none hover" to="/favorites">
+      <router-link v-if="isAuthorized" class="text-decoration-none hover" to="/favorites">
         <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
@@ -67,7 +67,7 @@
       </router-link>
 
       <div class="text-center">
-        <v-menu v-if="$cookies.isKey('Token') && !isSmall" offset-y>
+        <v-menu v-if="isAuthorized && !isSmall" offset-y>
           <template v-slot:activator="{ on: menu, attrs }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
@@ -110,7 +110,7 @@
         </v-menu>
 
         <!--TODO поправить на малом экране-->
-        <div v-else-if="!$cookies.isKey('Token') && !isSmall">
+        <div v-else-if="!isAuthorized && !isSmall">
           <v-btn elevation="0" class="round" color="primary" style="margin-right: 2px"
                  @click="$router.push({name: 'login'}).catch(()=>{})">Войти
           </v-btn>
@@ -131,7 +131,7 @@
       <v-list dense nav>
         <v-list-item-group v-model="group" active-class=" text--accent-4">
 
-          <router-link v-if="$cookies.isKey('Token') && isSmall"
+          <router-link v-if="isAuthorized && isSmall"
                        class="text-decoration-none hover" to="/account">
             <v-list-item>
               <v-icon>mdi-account-box-outline</v-icon>
@@ -139,7 +139,7 @@
             </v-list-item>
           </router-link>
 
-          <div v-else-if="!$cookies.isKey('Token') && isSmall">
+          <div v-else-if="!isAuthorized && isSmall">
             <v-list-item>
               <v-icon>mdi-login</v-icon>
               <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
@@ -155,7 +155,7 @@
             </v-list-item>
           </div>
 
-          <router-link class="text-decoration-none hover" to="/favorites">
+          <router-link v-if="isAuthorized" class="text-decoration-none hover" to="/favorites">
             <v-list-item>
               <v-icon>mdi-heart-outline</v-icon>
               <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Избранное</v-list-item-title>
@@ -191,6 +191,11 @@ export default {
       cities: ['Владивосток', 'Москва', 'Казань', 'Ростов-на-Дону', 'Уфа'],
       drawer: false,
       group: null,
+    }
+  },
+  computed: {
+    isAuthorized() {
+      return this.$cookies.isKey('Token')
     }
   },
   methods: {
