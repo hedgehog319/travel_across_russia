@@ -10,7 +10,7 @@
             <v-container style="display: flex">
               <v-list width="100%">
                 <v-list-item>
-                  <v-row>
+                  <v-row style="margin-bottom: 5px">
                     <v-col cols="12" md="4">
                       <v-autocomplete v-model="from" :items="cities" dense filled label="Откуда"></v-autocomplete>
                     </v-col>
@@ -32,7 +32,7 @@
                   <v-row>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Рейтинг отеля</span>
-                      <v-rating style="margin-top: 15px" :value="4.5" color="amber" dense half-increments size="30"/>
+                      <v-rating style="margin-top: 10px" :value="4.5" color="amber" dense half-increments size="30"/>
                     </v-col>
                     <v-col cols="12" md="4">
                       <span class="text-subtitle-1">Цена тура: {{ getCost(price[0]) }} - {{ getCost(price[1]) }} </span>
@@ -43,7 +43,7 @@
                       <v-radio-group row v-model="typeOfFood">
                         <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
                           <template v-slot:activator="{ on, attrs }">
-                            <v-radio v-on="on" v-bind="attrs" :label="type.short" :value="i"/>
+                            <v-radio style="margin: auto" v-on="on" v-bind="attrs" :label="type.short" :value="i"/>
                           </template>
                           <span>{{ type.full }}</span>
                         </v-tooltip>
