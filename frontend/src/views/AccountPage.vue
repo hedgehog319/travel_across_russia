@@ -27,11 +27,11 @@
                   </tr>
                   <tr>
                     <td>Имя</td>
-                    <td>{{ user.firstname }}</td>
+                    <td>{{ document.firstname }}</td>
                   </tr>
                   <tr>
                     <td>Фамилия</td>
-                    <td>{{ user.lastname }}</td>
+                    <td>{{ document.lastname }}</td>
                   </tr>
                   <tr>
                     <td>Email</td>
@@ -49,8 +49,8 @@
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
                 <v-select :items="typeOfDocuments" v-model="document.name"/>
-                <v-text-field v-model="user.firstname" :error-messages="firstnameErrors" label="Имя"/>
-                <v-text-field v-model="user.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
+                <v-text-field v-model="document.firstname" :error-messages="firstnameErrors" label="Имя"/>
+                <v-text-field v-model="document.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
                 <v-text-field v-model="document.series" :error-messages="seriesErrors" label="Серия документа"
                               maxlength="4"/>
                 <v-text-field v-model="document.number" :error-messages="numberErrors" label="Номер документа"
@@ -82,11 +82,11 @@ export default {
     return {
       user: {
         username: null,
-        firstname: null,
-        lastname: null,
         email: null,
       },
       document: {
+        firstname: null,
+        lastname: null,
         name: 'Паспорт',
         series: null,
         number: null,
@@ -97,6 +97,12 @@ export default {
   },
   validations: {
     user: {
+      email: {
+        required,
+        email
+      }
+    },
+    document: {
       firstname: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
@@ -107,12 +113,6 @@ export default {
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
         numbers: (v) => !(/[0-9]/.test(v)),
       },
-      email: {
-        required,
-        email
-      }
-    },
-    document: {
       series: {
         required,
         minLength: minLength(4),
@@ -128,19 +128,19 @@ export default {
   computed: {
     firstnameErrors() {
       let mess = ''
-      if (!this.$v.user.firstname.$dirty) return mess
-      if (!this.$v.user.firstname.required) mess = 'Введите имя'
-      else if (!this.$v.user.firstname.ruLetter) mess = 'Укажите имя на латинице'
-      else if (!this.$v.user.firstname.numbers) mess = 'Имя содержит цифры'
+      if (!this.$v.document.firstname.$dirty) return mess
+      if (!this.$v.document.firstname.required) mess = 'Введите имя'
+      else if (!this.$v.document.firstname.ruLetter) mess = 'Укажите имя на латинице'
+      else if (!this.$v.document.firstname.numbers) mess = 'Имя содержит цифры'
 
       return mess
     },
     lastnameErrors() {
       let mess = ''
-      if (!this.$v.user.lastname.$dirty) return mess
-      if (!this.$v.user.lastname.required) mess = 'Введите фамилию'
-      else if (!this.$v.user.lastname.ruLetter) mess = 'Укажите фамилию на латинице'
-      else if (!this.$v.user.firstname.numbers) mess = 'Фамилия содержит цифры'
+      if (!this.$v.document.lastname.$dirty) return mess
+      if (!this.$v.document.lastname.required) mess = 'Введите фамилию'
+      else if (!this.$v.document.lastname.ruLetter) mess = 'Укажите фамилию на латинице'
+      else if (!this.$v.document.lastname.numbers) mess = 'Фамилия содержит цифры'
 
       return mess
     },
@@ -182,20 +182,27 @@ export default {
     },
     patchUserInfo() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      this.axios.patch('api/documents/', conf)
-          .then(res => {
-            console.log(res)
-          })
+      const data = {
+        first_name: this.document.firstname,
+        last_name: this.document.lastname,
+        series: this.document.series,
+        number: this.document.number
+      }
+
+      this.axios.patch('api/documents/', data, conf)
           .catch(error => console.log(error))
     }
   },
   created() {
     const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-    // const res = this.axios.get('api/documents/', conf)
-    // console.log(res)
     this.axios.get('api/documents/', conf)
         .then(res => {
-          console.log(res)
+          if (res.data.length > 0) {
+            this.document.firstname = res.data[0].first_name
+            this.document.lastname = res.data[0].last_name
+            this.document.series = res.data[0].series
+            this.document.number = res.data[0].number
+          }
         })
   }
 }
