@@ -9,6 +9,12 @@
           </v-stepper-step>
           <v-divider/>
           <v-stepper-step editable step="3" class="unselectable">Оплата тура</v-stepper-step>
+          <v-progress-linear
+              :active="loading"
+              :indeterminate="loading"
+              absolute
+              bottom
+              color="deep-purple accent-4"/>
         </v-stepper-header>
 
         <v-stepper-items>
@@ -55,32 +61,38 @@
           </v-stepper-content>
 
           <v-stepper-content step="3">
+
             <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
               <v-row justify="center" style="margin-top: 5px">
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="formData.cardNumber" background-color="#f0f0f0" height="38" label="Номер карты"
+                  <v-text-field v-model="card.number" background-color="#f0f0f0" height="38" label="Номер карты"
+                                :error-messages="cardNumberErrors"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
 
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="formData.cardName" background-color="#f0f0f0" height="38" label="Владелец"
+                  <v-text-field v-model="card.name" background-color="#f0f0f0" height="38" label="Владелец"
+                                :error-messages="cardNameErrors"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
               </v-row>
 
               <v-row justify="center">
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
-                  <v-select v-model="formData.cardMonth" :items="months" dense label="Месяц"
+                  <v-select v-model="card.month" :items="months" dense label="Месяц"
+                            :error-messages="cardMonthErrors"
                             solo/>
                 </v-col>
 
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 3px 6px; padding: 0;">
-                  <v-select v-model="formData.cardYear" :items="years" dense label="Год"
+                  <v-select v-model="card.year" :items="years" dense label="Год"
+                            :error-messages="cardYearErrors"
                             solo/>
                 </v-col>
 
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
-                  <v-text-field v-model="formData.cardCvv" background-color="#f0f0f0" label="CVV" height="38"
+                  <v-text-field v-model="card.cvv" background-color="#f0f0f0" label="CVV" height="38"
+                                :error-messages="cardCVVErrors"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0; padding-top: 2px"/>
                 </v-col>
               </v-row>
@@ -89,7 +101,7 @@
             <v-container style="display: flex">
               <v-btn @click="e1 = 2">Назад</v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 1">Оплатить</v-btn>
+              <v-btn color="primary" style="margin-right: 5px;" @click="toPay">Оплатить</v-btn>
             </v-container>
           </v-stepper-content>
         </v-stepper-items>
@@ -142,8 +154,6 @@
             </v-row>
 
             <v-row>
-
-
               <v-col cols="12" md="6" sm="6">
                 <v-text-field :error-messages="seriesErrors" maxlength="4" v-model="tourist.series" label="Серия"/>
               </v-col>
@@ -180,6 +190,8 @@ export default {
       touristDialog: false,
       birthDayMenu: false,
       maxLimit: false,
+      loading: false,
+      touristID: null,
       tourists: [],
       tourist: {
         firstname: null,
@@ -189,12 +201,12 @@ export default {
         series: null,
         number: null
       },
-      formData: {
-        cardName: '',
-        cardNumber: '',
-        cardMonth: '',
-        cardYear: '',
-        cardCvv: ''
+      card: {
+        name: '',
+        number: '',
+        month: '',
+        year: '',
+        cvv: ''
       },
     }
   },
@@ -227,7 +239,27 @@ export default {
         numeric
       }
     },
-    formData: {}
+    card: {
+      name: {
+        required,
+        ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
+        numbers: (v) => !(/[0-9]/.test(v)),
+      },
+      number: {
+        required,
+        numeric
+      },
+      month: {
+        required
+      },
+      year: {
+        required
+      },
+      cvv: {
+        required,
+        numeric
+      }
+    }
   },
   computed: {
     months() {
@@ -296,17 +328,57 @@ export default {
       else if (!this.$v.tourist.number.minLength) mess = 'Введите 6 цифр'
 
       return mess
+    },
+
+    cardNameErrors() {
+      let mess = ''
+      if (!this.$v.card.name.$dirty) return mess
+      if (!this.$v.card.name.required) mess = 'Введите владельца карты'
+      else if (!this.$v.card.name.ruLetter) mess = 'Имя содержит русские символы'
+      else if (!this.$v.card.name.numbers) mess = 'Имя содержит цифры'
+
+      return mess
+    },
+    cardNumberErrors() {
+      let mess = ''
+      if (!this.$v.card.number.$dirty) return mess
+      if (!this.$v.card.number.required) mess = 'Введите номер карты'
+      else if (!this.$v.card.number.numeric) mess = 'Вы ввели не число'
+
+      return mess
+    },
+    cardMonthErrors() {
+      let mess = ''
+      if (!this.$v.card.month.$dirty) return mess
+      if (!this.$v.card.month.required) mess = 'Введите месяц окончания'
+
+      return mess
+    },
+    cardYearErrors() {
+      let mess = ''
+      if (!this.$v.card.number.$dirty) return mess
+      if (!this.$v.card.year.required) mess = 'Введите год окончания'
+
+      return mess
+    },
+    cardCVVErrors() {
+      let mess = ''
+      if (!this.$v.card.cvv.$dirty) return mess
+      if (!this.$v.card.cvv.required) mess = 'Введите cvv код'
+      else if (!this.$v.card.cvv.numeric) mess = 'Вы ввели не число'
+
+      return mess
     }
   },
   methods: {
     touristClick(id) {
+      this.touristID = id
       this.tourist = {...this.tourists[id]}
 
       this.touristDialog = true
     },
     removeTourist() {
-      const id = this.tourists.indexOf(this.tourist)
-      this.tourists.splice(id, 1);
+      this.tourists.splice(this.touristID, 1);
 
       this.touristDialog = false
     },
@@ -322,22 +394,42 @@ export default {
           number: null
         }
         this.touristDialog = true
+        this.touristID = -1
       } else {
         this.maxLimit = true
       }
     },
     saveTourist() {
-      this.tourists.push(this.tourist)
+      if (this.touristID < 0)
+        this.tourists.push(this.tourist)
+      else
+        this.tourists[this.touristID] = this.tourist
       this.touristDialog = false
     },
     saveClick() {
-      this.$v.$touch()
+      this.$v.tourist.$touch()
 
-      if (!this.$v.$invalid) {
+      if (!this.$v.tourist.$invalid) {
         this.saveTourist()
       }
+    },
+    sendPay() {
+      this.loading = true
+    },
+    toPay() {
+      this.$v.card.$touch()
+
+      if (!this.$v.card.$invalid) {
+        this.sendPay()
+      }
     }
-  }
+  },
+  watch: {
+    loading(val) {
+      if (!val) return
+      setTimeout(() => (this.loading = false), 1000)
+    },
+  },
 }
 </script>
 

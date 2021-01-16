@@ -1,5 +1,5 @@
 <template>
-  <v-app id="account">
+  <div id="account">
     <v-main>
       <v-container style="width: 50%;margin: auto">
         <v-card>
@@ -18,25 +18,25 @@
                     <thead>
                     <tr>
                       <th class="text-left" style="font-size: 30px">Аккаунт</th>
-                      <th class="text-left"></th>
+                      <th class="text-left"/>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                       <td>Логин</td>
-                      <td>testlogin</td>
+                      <td>{{ user.username }}</td>
                     </tr>
                     <tr>
                       <td>Имя</td>
-                      <td>имя</td>
+                      <td>{{ user.firstname }}</td>
                     </tr>
                     <tr>
                       <td>Фамилия</td>
-                      <td>фамилия</td>
+                      <td>{{ user.lastname }}</td>
                     </tr>
                     <tr>
                       <td>Email</td>
-                      <td>test@mail.ru</td>
+                      <td>{{ user.email }}</td>
                     </tr>
                     </tbody>
                   </template>
@@ -48,10 +48,6 @@
               <v-card flat>
                 <form style="margin: 15px" @submit.prevent="updateUserInfo">
                   <h2>Изменение профиля</h2>
-                  <v-text-field v-model="user.username" :error-messages="usernameErrors"
-                                label="Логин"
-                                @input="inputHandler('username')"
-                  /> <!--@keydown.space.prevent - перехватывает пробел-->
                   <v-text-field v-model="user.firstname" :error-messages="firstnameErrors"
                                 label="Имя"
                                 @input="inputHandler('firstname')"/>
@@ -59,7 +55,7 @@
                                 @input="inputHandler('lastname')"/>
                   <v-text-field v-model="user.email" :error-messages="emailErrors"
                                 label="Email"
-                                @keydown.space.prevent="null"/>
+                                @keydown.space.prevent=""/>
                   <v-btn class="mr-4" style="margin-left: 20%;" type="submit">Принять изменения</v-btn>
                 </form>
               </v-card>
@@ -76,7 +72,7 @@
         </v-card>
       </v-container>
     </v-main>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -97,19 +93,13 @@ export default {
   },
   validations: {
     user: {
-      username: {
-        required,
-        ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
-      },
       firstname: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
-        enLetter: (value) => !(/[a-z]/.test(value) || / [A-Z]/.test(value)),
       },
       lastname: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
-        enLetter: (value) => !(/[a-z]/.test(value) || / [A-Z]/.test(value)),
       },
       email: {
         required,
@@ -117,21 +107,11 @@ export default {
     }
   },
   computed: {
-    usernameErrors() {
-      let mess = ''
-      if (!this.$v.user.username.$dirty) return mess
-      if (!this.$v.user.username.required) mess = 'Введите логин'
-      else if (!this.$v.user.username.ruLetter) mess = 'Логин не должен содержать русскх букв'
-
-      return mess
-    },
     firstnameErrors() {
       let mess = ''
       if (!this.$v.user.firstname.$dirty) return mess
       if (!this.$v.user.firstname.required) mess = 'Введите имя'
-      else if (!this.$v.user.firstname.ruLetter && !this.$v.user.firstname.enLetter) {
-        mess = 'Логин должен содержать или кириллицу, или латиницу'
-      }
+      else if (!this.$v.user.firstname.ruLetter) mess = 'Имя '
 
       return mess
     },
@@ -166,6 +146,15 @@ export default {
       this.invalidUser = false
       this.$v.user[field].$touch()
     }
+  },
+  created() {
+    const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+    // const res = this.axios.get('api/documents/', conf)
+    // console.log(res)
+    this.axios.get('api/documents/', conf)
+        .then(res => {
+          console.log(res)
+        })
   }
 }
 </script>
