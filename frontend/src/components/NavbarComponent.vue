@@ -56,7 +56,7 @@
       </router-link>
 
       <router-link class="text-decoration-none hover" to="/favorites">
-        <v-tooltip v-if="!isSmall" bottom>
+        <v-tooltip v-if="$cookies.isKey('Token') && !isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
               <v-icon color="black" dark large style="margin: 10px">mdi-heart-outline</v-icon>

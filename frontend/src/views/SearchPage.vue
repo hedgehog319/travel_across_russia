@@ -8,7 +8,7 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-container style="display: flex">
-              <v-list>
+              <v-list width="100%">
                 <v-list-item>
                   <v-row>
                     <v-col cols="12" md="4">
@@ -32,14 +32,22 @@
                   <v-row>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Рейтинг отеля</span>
-                      <v-rating :value="4.5" color="amber" dense half-increments size="30"/>
+                      <v-rating style="margin-top: 15px" :value="4.5" color="amber" dense half-increments size="30"/>
                     </v-col>
                     <v-col cols="12" md="4">
-                      <span class="text-subtitle-1">Цена тура: {{price[0]}} - {{price[1]}} </span>
-                      <v-range-slider v-model="price" max="500000" min="0"/>
+                      <span class="text-subtitle-1">Цена тура: {{ getCost(price[0]) }} - {{ getCost(price[1]) }} </span>
+                      <v-range-slider step="5000" style="margin-top: 20px" v-model="price" max="500000" min="0"/>
                     </v-col>
-                    <v-col cols="12" md="4">
-
+                    <v-col cols="12" md="4" class="text-center">
+                      <span class="text-h6">Тип питания</span>
+                      <v-radio-group row v-model="typeOfFood">
+                        <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-radio v-on="on" v-bind="attrs" :label="type.short" :value="i"/>
+                          </template>
+                          <span>{{type.full}}</span>
+                        </v-tooltip>
+                      </v-radio-group>
                     </v-col>
                   </v-row>
                 </v-list-item>
@@ -103,6 +111,13 @@ export default {
     DatePicker,
   },
   data: () => ({
+    typesOfFood: [{short: 'RO', full: 'Без питания'},
+      {short: 'BB', full: 'Только завтраки'},
+      {short: 'HB', full: 'Завтрак и ужин'},
+      {short: 'FB', full: 'Завтрак, обед и ужин'},
+      {short: 'AI', full: 'Всё включено'}
+    ],
+    typeOfFood: 1,
     price: [0, 100000],
     isSmall: false,
     isMobile: false,
@@ -149,6 +164,10 @@ export default {
     onResize() {
       this.isMobile = window.innerWidth < 500
       this.isSmall = window.innerWidth < 900
+    },
+    getCost(cost) {
+      return cost.toString()
+          .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
     }
   },
 }
