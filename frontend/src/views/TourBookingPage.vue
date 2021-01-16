@@ -177,7 +177,7 @@
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
 
-    <v-snackbar top v-model="consistTourist">Укажите хотябы одного туриста</v-snackbar>
+    <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
   </div>
 </template>
 

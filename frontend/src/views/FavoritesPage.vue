@@ -1,9 +1,7 @@
 <template>
   <div id="favorites">
     <v-container>
-      <favorite-card v-for="(tour, i) in tours" :key="i" :tour="tour" favorite
-                     :img-width="isSmall ? undefined : 300"
-                     :style="isSmall ? 'display: inline-block; margin: 10px': ''"/>
+      <favorite-card v-for="(tour, i) in tours" :key="i" :tour="tour" favorite/>
     </v-container>
   </div>
 
@@ -18,7 +16,6 @@ export default {
     'favorite-card': FavoriteCardComponent
   },
   data: () => ({
-    isSmall: false,
     date: null,
     group: null,
     tours: [
@@ -34,25 +31,11 @@ export default {
       },
     ]
   }),
-  beforeDestroy() {
-    if (typeof window === 'undefined') return
-
-    window.removeEventListener('resize', this.onResize, {passive: true})
-  },
-
-  mounted() {
-    this.onResize()
-
-    window.addEventListener('resize', this.onResize, {passive: true})
-  },
   methods: {
     currentDate(date) {
       const today = new Date()
       const yesterday = new Date(today.getTime() - 24 * 3600 * 1000)
       return date < yesterday
-    },
-    onResize() {
-      this.isSmall = window.innerWidth < 900
     }
   },
 }

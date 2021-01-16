@@ -1,6 +1,7 @@
 <template>
-  <v-card class="rounded" style="display: flex; margin: 10px">
-    <v-img :src="tour.src" class="rounded" height="200px" style="display: block; margin: 10px" :width="imgWidth"/>
+  <v-card class="rounded" :style="isSmall ? 'display: inline-block; margin: 10px': 'display: flex; margin: 10px'">
+    <v-img :src="tour.src" class="rounded" height="200px" style="display: block; margin: 10px"
+           :width="isSmall ? undefined : 300"/>
     <v-card-text style="height: 100% !important;">
       <div style="margin-bottom: 10px">
         <span style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</span>
@@ -43,12 +44,27 @@ export default {
     },
     favorite: Boolean
   },
+  data() {
+    return {
+      isSmall: false,
+    }
+  },
   methods: {
     getCost(cost) {
       return cost.toString()
           .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
+    },
+    onResize() {
+      this.isSmall = window.innerWidth < 900
     }
-  }
+  },
+  beforeDestroy() {
+    if (typeof window === undefined) return
+    window.removeEventListener('resize', this.onResize, {passive: true})
+  },
+  mounted() {
+    window.addEventListener('resize', this.onResize, {passive: true})
+  },
 }
 </script>
 
