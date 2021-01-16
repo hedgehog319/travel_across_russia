@@ -2,16 +2,16 @@
   <v-card class="rounded" style="display: flex; margin: 10px">
     <v-img :src="tour.src" class="rounded" height="200px" style="display: block; margin: 10px" :width="imgWidth"/>
     <v-card-text style="height: 100% !important;">
-      <div>
-        <p style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</p>
+      <div style="margin-bottom: 10px">
+        <span style="font-size: 30px; color: black">{{ tour.title }}, {{ tour.country }}</span>
         <v-spacer/>
         <v-btn icon large style="position: absolute; top: 5px; right: 5px">
           <v-icon v-if="favorite" color="#ffd700" large>mdi-heart</v-icon>
           <v-icon v-else color="#ffd700" large>mdi-heart-outline</v-icon>
         </v-btn>
       </div>
-      <p style="font-size: 20px; color: #242424; opacity: 0.7">{{ tour.description }}</p>
-      <div style="display: flex">
+      <span style="font-size: 20px; color: #242424; opacity: 0.7; margin-bottom: 10px">{{ tour.description }}</span>
+      <div style="display: flex; margin-top: 10px">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
         <span style="right: 10px; bottom: 43px; font-size: 25px">{{ getCost(tour.cost) }}</span>
