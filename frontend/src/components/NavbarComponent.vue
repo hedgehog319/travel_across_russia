@@ -14,7 +14,7 @@
 
       <div class="text-center">
         <v-menu v-if="!isSmall" offset-y rounded="b-xl">
-          <template v-slot:activator="{ on: menu, attrs }">
+          <template v-slot:activator="{ on: menu, attrs }" class="scrollbar">
             <v-tooltip bottom>
               <template v-slot:activator="{ on: tooltip }">
                 <v-btn v-bind="attrs" v-on="{ ...tooltip, ...menu }" color="white" elevation="0">
@@ -26,8 +26,8 @@
             </v-tooltip>
           </template>
           <v-list>
-            <v-list-item v-for="(city, index) in cities" :key="index" @click="selectedItem(city)">
-              <v-list-item-title>{{ city }}</v-list-item-title>
+            <v-list-item v-for="city in getCities" :key="city.id" @click="selectedItem(city)">
+              <v-list-item-title>{{ city.name }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -181,6 +181,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   name: "NavbarComponent",
   data() {
@@ -188,12 +190,12 @@ export default {
       dialog: false,
       isSmall: false,
       currentCity: "Владивосток",
-      cities: ['Владивосток', 'Москва', 'Казань', 'Ростов-на-Дону', 'Уфа'],
       drawer: false,
       group: null,
     }
   },
   computed: {
+    ...mapGetters(['getCities']),
     isAuthorized() {
       return this.$cookies.isKey('Token')
     }
@@ -218,12 +220,7 @@ export default {
   mounted() {
     this.onResize()
     window.addEventListener('resize', this.onResize, {passive: true})
-  },
-  watch: {
-    group() {
-      this.drawer = false
-    },
-  },
+  }
 }
 </script>
 
