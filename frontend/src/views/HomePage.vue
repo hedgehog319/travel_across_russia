@@ -56,11 +56,11 @@
             <v-container style="display: flex">
               <v-row>
                 <v-col cols="12" md="3">
-                    <v-autocomplete v-model="from" :items="cities" dense filled label="Откуда"></v-autocomplete>
+                  <v-autocomplete v-model="from" :items="getCitiesName" dense filled label="Откуда"/>
                 </v-col>
 
                 <v-col cols="12" md="3">
-                   <v-autocomplete v-model="to" :items="cities" dense filled label="Куда"></v-autocomplete>
+                  <v-autocomplete v-model="to" :items="getCitiesName" dense filled label="Куда"/>
                 </v-col>
 
                 <v-col cols="12" md="4">
@@ -122,6 +122,7 @@
 
 <script>
 import {required} from 'vuelidate/lib/validators';
+import {mapGetters} from 'vuex'
 import TourCardComponent from "@/components/TourCardComponent";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
@@ -133,9 +134,9 @@ export default {
     'tour-card': TourCardComponent,
     DatePicker,
   },
+  computed: mapGetters(['getCitiesName']),
   data() {
     return {
-      cities: ['Москва', 'Санкт-Петербург', 'Уфа', 'Владивосток', 'Екатеринбург', 'Оренбург', 'Сочи', 'Краснодар'],
       from: null,
       to: null,
       dialog: false,
@@ -201,7 +202,7 @@ export default {
       return date < yesterday
     },
     findTour() {
-      if(this.date != null) {
+      if (this.date != null) {
         const time = Math.floor((this.date[1] - this.date[0]) / (1000 * 60 * 60 * 24)) + 1
         this.$router.push({name: 'search', query: {from: this.from, to: this.to, time: time.toString()}})
       } else {

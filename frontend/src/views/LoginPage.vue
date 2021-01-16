@@ -10,8 +10,7 @@
           <v-container>
             <v-text-field v-model="user.username" :error-messages="usernameErrors"
                           label="Логин"
-                          @input="inputHandler('username')"
-            /> <!--@keydown.space.prevent - перехватывает пробел-->
+                          @input="inputHandler('username')"/> <!--@keydown.space.prevent - перехватывает пробел-->
             <v-text-field v-model="user.password" :error-messages="passwordErrors"
                           :type="showPassword ? 'text' : 'password'"
                           label="Пароль"
