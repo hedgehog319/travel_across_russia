@@ -101,7 +101,7 @@
                   <v-card-actions>
                     <v-spacer/>
                     <v-btn color="red" text @click="dialog = false">Нет</v-btn>
-                    <v-btn color="primary" text @click="confirmExit">Да</v-btn>
+                    <v-btn color="primary" text @click="logout">Да</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -207,13 +207,14 @@ export default {
     onResize() {
       this.isSmall = window.innerWidth < 800
     },
-    confirmExit() {
+    logout() {
       this.dialog = false
       this.$cookies.remove('Token')
+      this.$router.push({name: 'home'})
     }
   },
   beforeDestroy() {
-    if (typeof window === 'undefined') return // REDO изменить
+    if (typeof window === 'undefined') return
 
     window.removeEventListener('resize', this.onResize, {passive: true})
   },
