@@ -337,11 +337,6 @@ export default {
         this.saveTourist()
       }
     }
-  },
-  created() {
-    this.$store.dispatch('fetchCities')
-    for (const city of this.$store.getters.getCities)
-      console.log(city)
   }
 }
 </script>
