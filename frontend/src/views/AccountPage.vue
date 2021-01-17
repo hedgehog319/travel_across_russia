@@ -64,7 +64,7 @@
               <form style="margin: 15px" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
-                <v-select :items="typeOfDocuments" v-model="document.name"/>
+                <v-select :items="typeOfDocuments" :error-messages="documentTypeErrors" v-model="document.type"/>
                 <v-text-field v-model="document.firstname" :error-messages="firstnameErrors" label="Имя"/>
                 <v-text-field v-model="document.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
                 <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
@@ -120,7 +120,7 @@ export default {
       document: {
         firstname: null,
         lastname: null,
-        name: null,
+        type: null,
         series: null,
         number: null,
         birthdate: null,
@@ -159,7 +159,9 @@ export default {
       },
       birthdate: {
         required,
-
+      },
+      type: {
+        required,
       }
     }
   },
@@ -210,8 +212,15 @@ export default {
     },
     birthdateErrors() {
       let mess = ''
-      if (!this.$v.document.number.$dirty) return mess
-      if (!this.$v.document.number.required) mess = 'Введите дату рождения'
+      if (!this.$v.document.birthdate.$dirty) return mess
+      if (!this.$v.document.birthdate.required) mess = 'Введите дату рождения'
+
+      return mess
+    },
+    documentTypeErrors() {
+      let mess = ''
+      if (!this.$v.document.type.$dirty) return mess
+      if (!this.$v.document.type.required) mess = 'Введите тип документа'
 
       return mess
     }
