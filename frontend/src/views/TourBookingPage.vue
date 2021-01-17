@@ -33,9 +33,9 @@
                   <v-list-item-group color="primary">
                     <v-list-item v-for="(tourist, i) in tourists" :key="i" @click="touristClick(i)">
                       <v-list-item-content>
-                        <v-list-item-title v-if="!!tourist.lastname"
-                                           v-text="tourist.lastname + ' ' + tourist.firstname"/>
-                        <v-list-item-title v-else>Фамилия имя</v-list-item-title>
+                        <v-list-item-title
+                            v-text="tourist.lastname + '  ' + tourist.firstname + '  ' + tourist.birthdate + '  '
+                            + tourist.documentType + '  ' + tourist.series + '  ' + tourist.number"/>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
@@ -110,11 +110,13 @@
           <v-container>
             <v-row justify="center">
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field :error-messages="lastnameErrors" v-model="tourist.lastname" label="Фамилия"/>
+                <v-text-field counter="20" maxlength="20" :error-messages="lastnameErrors" v-model="tourist.lastname"
+                              label="Фамилия"/>
               </v-col>
 
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field :error-messages="firstnameErrors" v-model="tourist.firstname" label="Имя"/>
+                <v-text-field counter="20" maxlength="20" :error-messages="firstnameErrors" v-model="tourist.firstname"
+                              label="Имя"/>
               </v-col>
             </v-row>
 
@@ -149,11 +151,13 @@
 
             <v-row>
               <v-col cols="12" md="6" sm="6">
-                <v-text-field :error-messages="seriesErrors" maxlength="4" v-model="tourist.series" label="Серия"/>
+                <v-text-field counter="4" :error-messages="seriesErrors" maxlength="4" v-model="tourist.series"
+                              label="Серия"/>
               </v-col>
 
               <v-col cols="12" md="6" sm="6">
-                <v-text-field :error-messages="numberErrors" maxlength="6" v-model="tourist.number" label="Номер"/>
+                <v-text-field counter="6"
+                              :error-messages="numberErrors" maxlength="6" v-model="tourist.number" label="Номер"/>
               </v-col>
             </v-row>
           </v-container>
