@@ -1,0 +1,20 @@
+name: Deploy frontend
+
+on:
+  push:
+    branches: [ mainFrontend ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install
+        working-directory: ./frontend
+        run: npm i
+
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build --if-present

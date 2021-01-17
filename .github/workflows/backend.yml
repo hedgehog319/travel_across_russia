@@ -1,0 +1,20 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: [ mainBackend ]
+
+jobs:
+  start:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: pip
+        working-directory: ./backend
+        run: pip3 install -r requirements.txt
+
+      - name: Collect static
+        working-directory: ./backend
+        run: python3 manage.py collectstatic
