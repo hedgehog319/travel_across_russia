@@ -68,4 +68,4 @@ class InsuranceSerializer(ModelSerializer):
 class TouristSerializer(ModelSerializer):
     class Meta:
         model = Tourist
-        fields = ('email', 'booked_tour')
+        fields = ('booked_tour', )

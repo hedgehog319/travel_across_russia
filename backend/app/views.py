@@ -7,8 +7,9 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, I
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
 
-from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist
+from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, BookedTour
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer
@@ -141,9 +142,19 @@ class TouristView(ModelViewSet):
     serializer_class = TouristSerializer
     permission_classes = [IsAdminOrCreateOnly]
 
-    def perform_create(self, serializer):
-        document_data = self.request.data.get('document')
-        document = Document.objects.create(**document_data)
-        serializer.save(document=document)
+    def create(self, request, *args, **kwargs):
+        booked_tour = request.data.get('booked_tour')
+        for field in request.data:
+            if 'tourist' in field:
+                data = request.data.get(field)
+                document_data = data.get('document')
+                document = Document.objects.create(**document_data)
 
+                tourist = Tourist.objects.create(document=document, booked_tour=BookedTour.objects.get(id=booked_tour),
+                                                 email=data.get('email'))
+        return Response(status=status.HTTP_201_CREATED)
 
+    def perform_destroy(self, instance):
+        document = instance.document
+        instance.delete()
+        document.delete()
