@@ -15,7 +15,6 @@ from app.serializers import TourSerializer, CountrySerializer, CitySerializer, H
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer
 
 
-# TODO создавать документр при создании туриста (массив)
 # todo фото для отеля
 
 
@@ -150,11 +149,13 @@ class TouristView(ModelViewSet):
                 document_data = data.get('document')
                 document = Document.objects.create(**document_data)
 
-                tourist = Tourist.objects.create(document=document, booked_tour=BookedTour.objects.get(id=booked_tour),
-                                                 email=data.get('email'))
+                Tourist.objects.create(document=document, booked_tour=BookedTour.objects.get(id=booked_tour),
+                                       email=data.get('email'))
         return Response(status=status.HTTP_201_CREATED)
 
     def perform_destroy(self, instance):
         document = instance.document
+        user = get_user_model().objects.all().filter(document=document)
         instance.delete()
-        document.delete()
+        if not user:
+            document.delete()
