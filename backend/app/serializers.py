@@ -11,6 +11,12 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
                   'access_right', 'document', 'email')
 
 
+class UserGetUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'email')
+
+
 class TourSerializer(ModelSerializer):
     class Meta:
         model = Tour

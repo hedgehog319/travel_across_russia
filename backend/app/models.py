@@ -4,9 +4,9 @@ from django.db import models
 
 class User(AbstractUser):
     FOOD_CHOICES = (
-        (0, 'Пользователь'),
-        (1, 'Турменеджер'),
-        (2, 'Админ'),
+        (1, 'Пользователь'),
+        (2, 'Турменеджер'),
+        (3, 'Админ'),
     )
     access_right = models.PositiveSmallIntegerField(choices=FOOD_CHOICES, default=0)
     document = models.OneToOneField('Document', on_delete=models.SET_NULL, null=True, blank=True)
@@ -24,10 +24,33 @@ class FavouriteTour(models.Model):
         return f'{self.user.username} - {self.tour.name}'
 
 
+class RatingTour(models.Model):
+    RATING_CHOICES = (
+        (1, '0.5'),
+        (2, '1'),
+        (3, '1.5'),
+        (4, '2'),
+        (5, '2.5'),
+        (6, '3'),
+        (7, '3.5'),
+        (8, '4'),
+        (9, '4.5'),
+        (10, '5'),
+    )
+
+    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
+
+
 class Document(models.Model):
+    TYPE_CHOICES = (
+        (1, 'Паспорт'),
+        (2, 'Загранпаспорт'),
+    )
+    type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES)
     series = models.IntegerField()
     number = models.IntegerField()
-    visa_availability = models.BooleanField()  # наличие визы
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     birthdate = models.DateField(auto_now_add=True)
@@ -63,6 +86,7 @@ class Tour(models.Model):
     hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
     airline = models.ForeignKey('Airline', on_delete=models.PROTECT)
     insurance = models.ForeignKey('Insurance', on_delete=models.SET_NULL, null=True)
+    rating = models.ManyToManyField('User', through='RatingTour')
 
     def __str__(self):
         return f'Id {self.id}: {self.name}'
@@ -86,16 +110,16 @@ class Insurance(models.Model):
 class Hotel(models.Model):
     FOOD_CHOICES = (
         (1, 'Без питания'),
-        (2, 'Скромный завтрак'),
-        (3, 'Завтрак'),
-        (4, 'Завтрак + ужин'),
-        (5, 'Завтрак + обед + ужин'),
-        (6, 'Все включено'),
+        (2, 'Завтрак'),
+        (3, 'Завтрак + ужин'),
+        (4, 'Завтрак + обед + ужин'),
+        (5, 'Все включено'),
     )
 
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=300)
     number_of_rooms = models.IntegerField()
+    description = models.CharField(max_length=500)
     type_of_food = models.PositiveSmallIntegerField(choices=FOOD_CHOICES)
     price_for_night = models.DecimalField(max_digits=8, decimal_places=2)
     city = models.ForeignKey('City', on_delete=models.CASCADE)
@@ -121,7 +145,7 @@ class City(models.Model):
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, null=True)
     is_visa = models.BooleanField(default=False)
 
     class Meta:

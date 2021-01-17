@@ -2,12 +2,12 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework.routers import SimpleRouter
 
-from app.views import TourView, CountryView, TestView, CityView, HotelView, AirlineView, InsuranceView, DocumentView, \
-    FavouriteTourView
+from app.views import TourView, CountryView, CityView, HotelView, AirlineView, InsuranceView, DocumentView, \
+    FavouriteTourView, UserProfileView
 
 router = SimpleRouter()
 router.register('tours', TourView)  # ?city=CITY_NAME & country=COUNTRY_NAME & count_days=7
-router.register('documents', DocumentView)  # only GET and PATCH
+router.register('document', DocumentView)  # only GET and PATCH
 router.register('fav-tours', FavouriteTourView)  # /fav-tour/TOUR_ID/ - удаление
 router.register('countries', CountryView)
 router.register('cities', CityView)  # ?country=COUNTRY_ID, или ?country_name=Россия
@@ -16,7 +16,7 @@ router.register('airlines', AirlineView)
 router.register('insurances', InsuranceView)
 
 urlpatterns = [
-    path('test', TestView.as_view())
+    path('user-profile/', UserProfileView.as_view())
 ]
 
 # регистрация /auth/users/ POST (username и password)

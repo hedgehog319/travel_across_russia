@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView
+from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, ListModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -11,19 +11,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
-    InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer
+    InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer
 
 
-# TODO профиль
 # TODO создавать документр при создании туриста (массив)
 # todo фото для отеля
-
-class TestView(ListCreateAPIView):
-    queryset = Tour.objects.all()
-    serializer_class = TourSerializer
-
-    def list(self, request, *args, **kwargs):
-        return Response('hello')
 
 
 class TourView(ModelViewSet):
@@ -133,3 +125,12 @@ class InsuranceView(ModelViewSet):
     queryset = Insurance.objects.all()
     serializer_class = InsuranceSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+
+class UserProfileView(RetrieveUpdateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserGetUpdateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return get_user_model().objects.get(id=self.request.user.id)
