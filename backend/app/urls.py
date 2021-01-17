@@ -3,10 +3,11 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from app.views import TourView, CountryView, CityView, HotelView, AirlineView, InsuranceView, DocumentView, \
-    FavouriteTourView, UserProfileView
+    FavouriteTourView, UserProfileView, TouristView
 
 router = SimpleRouter()
 router.register('tours', TourView)  # ?city=CITY_NAME & country=COUNTRY_NAME & count_days=7
+router.register('tourists', TouristView)
 router.register('document', DocumentView)  # only GET and PATCH
 router.register('fav-tours', FavouriteTourView)  # /fav-tour/TOUR_ID/ - удаление
 router.register('countries', CountryView)

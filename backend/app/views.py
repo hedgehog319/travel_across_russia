@@ -8,10 +8,10 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 
-from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour
+from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
-    InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer
+    InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer
 
 
 # TODO создавать документр при создании туриста (массив)
@@ -134,3 +134,16 @@ class UserProfileView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return get_user_model().objects.get(id=self.request.user.id)
+
+
+class TouristView(ModelViewSet):
+    queryset = Tourist.objects.all()
+    serializer_class = TouristSerializer
+    permission_classes = [IsAdminOrCreateOnly]
+
+    def perform_create(self, serializer):
+        document_data = self.request.data.get('document')
+        document = Document.objects.create(**document_data)
+        serializer.save(document=document)
+
+

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.serializers import ModelSerializer, Serializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
-from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour
+from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist
 
 
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
@@ -63,3 +63,9 @@ class InsuranceSerializer(ModelSerializer):
     class Meta:
         model = Insurance
         fields = '__all__'
+
+
+class TouristSerializer(ModelSerializer):
+    class Meta:
+        model = Tourist
+        fields = ('email', 'booked_tour')
