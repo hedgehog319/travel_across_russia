@@ -2,11 +2,9 @@
   <div id="tour">
     <v-container>
       <v-card elevation="2" style="padding: 20px">
-
-        <!-- TODO bad icon favorites       -->
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" icon large style="position: absolute; right: 15px;">
+            <v-btn v-bind="attrs" v-on="on" icon large style="position: absolute; top: 10px; right: 12px;">
               <v-icon color="#ffd700" large>mdi-heart-outline</v-icon>
             </v-btn>
           </template>
