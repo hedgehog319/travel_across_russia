@@ -18,9 +18,14 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
-  methods: mapActions(['fetchCities']),
+  methods: mapActions(['fetchCities', 'fetchTours']),
   created() {
+    let conf
+    if (this.$cookies.isKey('Token'))
+      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+
     this.fetchCities()
+    this.fetchTours(conf)
   },
 };
 </script>
