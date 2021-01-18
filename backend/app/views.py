@@ -39,8 +39,9 @@ class TourView(ModelViewSet):
         return TourSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
-        for tour in response.data:
-            tour.update({'rating': get_tour_rating(tour.get('id'))})
+        if request.method == 'GET':
+            for tour in response.data:
+                tour.update({'rating': get_tour_rating(tour.get('id'))})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
@@ -70,12 +71,15 @@ class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, Gen
         return FavouriteTourSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
-        for tour in response.data:
-            tour.update({'rating': get_tour_rating(tour.get('tour'))})
+        if request.method == 'GET':
+            for tour in response.data:
+                tour.update({'rating': get_tour_rating(tour.get('tour'))})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        fav_tour = FavouriteTour.objects.all().filter(user=self.request.user, tour=self.request.data['tour'])
+        if not fav_tour:
+            serializer.save(user=self.request.user)
 
     def filter_queryset(self, queryset):
         queryset = queryset.filter(user=self.request.user)
