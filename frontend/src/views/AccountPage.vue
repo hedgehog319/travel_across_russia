@@ -174,9 +174,8 @@ export default {
   methods: {
     updateUserInfo() {
       this.$v.$touch()
-      console.log('befote')
+
       if (!this.$v.$invalid) {
-        console.log('for')
         this.patchUserInfo()
       }
     },
