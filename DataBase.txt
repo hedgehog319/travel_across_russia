@@ -35,7 +35,7 @@
 		<type label="SET" length="1" sql="SET" quote=""/>
 		<type label="Bit" length="0" sql="bit" quote=""/>
 	</group>
-</datatypes><table x="609" y="0" name=" tours">
+</datatypes><table x="623" y="42" name=" tours">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -68,7 +68,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="432" y="191" name="booked_tours">
+<table x="446" y="233" name="booked_tours">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -86,7 +86,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1071" y="19" name="countres">
+<table x="1085" y="61" name="countres">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -100,7 +100,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="863" y="13" name="cities">
+<table x="877" y="55" name="cities">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -115,7 +115,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="737" y="278" name="airlines">
+<table x="751" y="320" name="airlines">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -126,7 +126,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="719" y="382" name="insurences">
+<table x="733" y="424" name="insurences">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -140,7 +140,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="888" y="150" name="hotels">
+<table x="902" y="192" name="hotels">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -170,7 +170,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="478" y="371" name="tourists">
+<table x="492" y="413" name="tourists">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -189,7 +189,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="266" y="389" name="documents">
+<table x="280" y="431" name="documents">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -215,7 +215,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="62" y="270" name="users">
+<table x="76" y="312" name="users">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -239,7 +239,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="129" y="12" name="favorite_tour">
+<table x="143" y="54" name="favorite_tour">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -255,7 +255,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="155" y="122" name="rating_tour">
+<table x="169" y="164" name="rating_tour">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -274,7 +274,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1062.8148193359375" y="199" name="hotel_photo">
+<table x="1076.8148193359375" y="241" name="hotel_photo">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
