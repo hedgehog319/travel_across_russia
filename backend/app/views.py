@@ -15,10 +15,11 @@ from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document,
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
-    TourReceivingSerializer
+    TourReceivingSerializer, FavouriteTourReceivingSerializer
 
 
 # todo фото для отеля
+# todo сдлеать так, чтобы можно было передевать тип документа текстом
 # todo настроить allowed_hosts
 
 def get_tour_rating(tour_id):
@@ -30,7 +31,6 @@ def get_tour_rating(tour_id):
 
 class TourView(ModelViewSet):
     queryset = Tour.objects.all()
-    serializer_class = TourSerializer
     permission_classes = [IsAdminOrReadOnly]
 
     def get_serializer_class(self):
@@ -61,9 +61,18 @@ class TourView(ModelViewSet):
 
 class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, GenericViewSet):
     queryset = FavouriteTour.objects.all()
-    serializer_class = FavouriteTourSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'tour'
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return FavouriteTourReceivingSerializer
+        return FavouriteTourSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        for tour in response.data:
+            tour.update({'rating': get_tour_rating(tour.get('tour'))})
+        return super().finalize_response(request, response, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
