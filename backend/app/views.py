@@ -12,7 +12,7 @@ from rest_framework import status
 
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, BookedTour, \
     RatingTour
-from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchForAuthUsers
+from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
     TourReceivingSerializer
@@ -76,7 +76,7 @@ class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, Gen
 class DocumentView(ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
-    permission_classes = [GetPatchForAuthUsers]
+    permission_classes = [GetPatchPostForAuthUsers]
 
     def get_object(self):
         try:
@@ -88,6 +88,9 @@ class DocumentView(ModelViewSet):
         if self.get_object() is None:
             return super().create(request, args, kwargs)
         return super().partial_update(request, args, kwargs)
+
+    def create(self, request, *args, **kwargs):
+        return self.patch(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         document = serializer.save()
