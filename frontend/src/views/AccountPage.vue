@@ -181,21 +181,34 @@ export default {
     },
     patchUserInfo() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      const data = {
+      const document = {
         first_name: this.document.firstname,
         last_name: this.document.lastname,
+        type: 1,
         series: this.document.series,
         number: this.document.number
       }
 
-      this.axios.patch('api/documents/', data, conf)
-          .catch(error => console.log(error))
+      this.axios.patch('api/user-profile/', {email: this.user.email}, conf)
+          .catch(err => console.log(err.response))
+
+      this.axios.patch('api/document/', document, conf)
+          .catch(err => console.log(err.response))
     }
   },
   created() {
     const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-    this.axios.get('api/documents/', conf)
+    this.axios.get('api/user-profile/', conf)
         .then(res => {
+          if (res.statusText === 'OK') {
+            this.user.username = res.data.username
+            this.user.email = res.data.email
+          }
+        })
+
+    this.axios.get('api/document/', conf)
+        .then(res => {
+          console.log(res.data)
           if (res.data.length > 0) {
             this.document.firstname = res.data[0].first_name
             this.document.lastname = res.data[0].last_name

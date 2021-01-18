@@ -3,20 +3,37 @@
     <v-container>
       <v-stepper v-model="e1">
         <v-stepper-header>
-          <v-stepper-step editable :complete="e1 > 1" step="1" class="unselectable">Выбор тура</v-stepper-step>
+          <v-stepper-step :complete="e1 > 1" step="1" class="unselectable">Выбор тура</v-stepper-step>
           <v-divider/>
-          <v-stepper-step editable :complete="e1 > 2" step="2" class="unselectable">Заполнение документов
+          <v-stepper-step :complete="e1 > 2" step="2" class="unselectable">Заполнение документов
           </v-stepper-step>
           <v-divider/>
-          <v-stepper-step editable step="3" class="unselectable">Оплата тура</v-stepper-step>
+          <v-stepper-step step="3" class="unselectable">Оплата тура</v-stepper-step>
           <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom color="primary accent-4"/>
         </v-stepper-header>
 
         <v-stepper-items>
           <v-stepper-content step="1">
 
-            <favorite-card :tour="tour" style="margin-bottom: 40px"/>
-
+            <v-card class="rounded" elevation="0"
+                    :style="isSmall ? 'display: inline-block; margin: 10px': 'display: flex; margin: 10px'">
+              <v-img :src="tour.src" class="rounded" height="200px" style="display: block; margin: 10px"
+                     :width="isSmall ? undefined : 300"/>
+              <v-card-text style="height: 100% !important;">
+                <div style="margin-bottom: 10px">
+                  <span style="font-size: 30px; color: black">{{ tour.name }}, {{ tour.country }}</span>
+                </div>
+                <span
+                    style="font-size: 20px; color: #242424; opacity: 0.7; margin-bottom: 10px">{{
+                    tour.description
+                  }}</span>
+                <div style="display: flex; margin-top: 10px">
+                  <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
+                  <v-spacer/>
+                  <span style="right: 10px; bottom: 43px; font-size: 25px">{{ getCost(tour.price) }}</span>
+                </div>
+              </v-card-text>
+            </v-card>
             <v-container style="display: flex">
               <!--TODO home redirect-->
               <v-btn @click="$router.push({name: 'home'})">Отмена</v-btn>
@@ -170,32 +187,29 @@
     <v-snackbar top v-model="maxLimit">
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
-
     <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
   </div>
 </template>
 
 <script>
 import {required, minLength, numeric} from 'vuelidate/lib/validators'
-import FavoriteCardComponent from "@/components/FavoriteCardComponent";
 
 export default {
   name: "TourBooking",
-  components: {
-    'favorite-card': FavoriteCardComponent
-  },
   data() {
     return {
       e1: 1,
+      isSmall: false,
       tour: {
-        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
-        title: 'Хаятт Ридженси Сочи',
+        id: 1,
+        name: 'Хаятт Ридженси Сочи',
+        price: 200000,
         country: "Россия",
+        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
         description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного\n' +
             '        проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
             '        В отеле предоставляется бесплатный Wi-Fi.',
         rating: 4.5,
-        cost: 200000
       },
       touristDialog: false,
       birthDayMenu: false,
@@ -446,12 +460,27 @@ export default {
         this.sendPay()
       }
     },
+    onResize() {
+      this.isSmall = window.innerWidth < 900
+    },
+    getCost(price) {
+      return price.toString()
+          .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
+    },
   },
   watch: {
     loading(val) {
       if (!val) return
       setTimeout(() => (this.loading = false), 1000)
     },
+  },
+  beforeDestroy() {
+    if (typeof window === undefined) return
+    window.removeEventListener('resize', this.onResize, {passive: true})
+  },
+  mounted() {
+    this.onResize()
+    window.addEventListener('resize', this.onResize, {passive: true})
   },
 }
 </script>

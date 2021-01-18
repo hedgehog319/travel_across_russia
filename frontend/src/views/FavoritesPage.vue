@@ -1,7 +1,7 @@
 <template>
   <div id="favorites">
     <v-container>
-      <favorite-card v-for="tour in tours" :key="tour.id" :tour="tour" favorite/>
+      <favorite-card v-for="tour in tours" :key="tour.id" :tour="tour"/>
     </v-container>
   </div>
 </template>
@@ -32,14 +32,7 @@ export default {
       },
     ]
   }),
-  methods: {
-    ...mapActions(['fetchFavTours']),
-    currentDate(date) {
-      const today = new Date()
-      const yesterday = new Date(today.getTime() - 24 * 3600 * 1000)
-      return date < yesterday
-    }
-  },
+  methods: mapActions(['fetchFavTours']),
   created() {
     this.fetchFavTours({headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}})
   }
