@@ -26,13 +26,19 @@ class TourSerializer(ModelSerializer):
 class TourReceivingSerializer(ModelSerializer):
     class Meta:
         model = Tour
-        fields = ('id', 'name', 'price', 'city_name', 'country_name', 'description')
+        fields = ('id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating, is_favourite
 
 
 class FavouriteTourSerializer(ModelSerializer):
     class Meta:
         model = FavouriteTour
         fields = ['tour']
+
+
+class FavouriteTourReceivingSerializer(ModelSerializer):
+    class Meta:
+        model = FavouriteTour
+        fields = ('tour', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating
 
 
 class DocumentSerializer(ModelSerializer):
@@ -74,4 +80,4 @@ class InsuranceSerializer(ModelSerializer):
 class TouristSerializer(ModelSerializer):
     class Meta:
         model = Tourist
-        fields = ('booked_tour', )
+        fields = ('booked_tour',)

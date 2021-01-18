@@ -20,6 +20,21 @@ class FavouriteTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
 
+    def name(self):
+        return self.tour.name()
+
+    def price(self):
+        return self.tour.price
+
+    def city_name(self):
+        return self.tour.city_name()
+
+    def country_name(self):
+        return self.tour.country_name()
+
+    def description(self):
+        return self.tour.description()
+
     def __str__(self):
         return f'{self.user.username} - {self.tour.hotel.name}'
 
