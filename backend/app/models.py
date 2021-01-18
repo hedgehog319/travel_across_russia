@@ -21,7 +21,7 @@ class FavouriteTour(models.Model):
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.user.username} - {self.tour.name}'
+        return f'{self.user.username} - {self.tour.hotel.name}'
 
 
 class RatingTour(models.Model):
@@ -41,6 +41,9 @@ class RatingTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
+
+    def __str__(self):
+        return f'User: {self.user.username}; tour: {self.tour.name()}; rating: {self.rating}'
 
 
 class Document(models.Model):
@@ -75,21 +78,32 @@ class BookedTour(models.Model):
     end_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'Id {self.id}: {self.tour.name}'
+        return f'Id {self.id}: {self.tour.hotel.name}'
 
 
 class Tour(models.Model):
-    name = models.CharField(max_length=150)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     count_days = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
-    hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
+    hotel = models.OneToOneField('Hotel', on_delete=models.CASCADE)
     airline = models.ForeignKey('Airline', on_delete=models.PROTECT)
     insurance = models.ForeignKey('Insurance', on_delete=models.SET_NULL, null=True)
     rating = models.ManyToManyField('User', through='RatingTour')
 
+    def country_name(self):
+        return self.city.country.name
+
+    def city_name(self):
+        return self.city.name
+
+    def name(self):
+        return self.hotel.name
+
+    def description(self):
+        return self.hotel.description
+
     def __str__(self):
-        return f'Id {self.id}: {self.name}'
+        return f'Id {self.id}: {self.hotel.name}'
 
 
 class Airline(models.Model):
@@ -131,6 +145,7 @@ class Hotel(models.Model):
 class HotelPhoto(models.Model):
     hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='hotels_photos', null=True, blank=True)
+    # https://habr.com/ru/post/505946/ - интересная статья, про хранение изображений
 
 
 class City(models.Model):
