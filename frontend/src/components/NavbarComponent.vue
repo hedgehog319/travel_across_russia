@@ -26,8 +26,8 @@
             </v-tooltip>
           </template>
           <v-list>
-            <v-list-item v-for="city in getCities" :key="city.id" @click="selectedItem(city)">
-              <v-list-item-title>{{ city.name }}</v-list-item-title>
+            <v-list-item v-for="city in getCitiesName" :key="city.id" @click="selectedItem(city)">
+              <v-list-item-title>{{ city }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -195,7 +195,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCities']),
+    ...mapGetters(['getCitiesName']),
     isAuthorized() {
       return this.$cookies.isKey('Token')
     }

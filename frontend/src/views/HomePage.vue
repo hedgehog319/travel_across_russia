@@ -113,7 +113,7 @@
           <v-item-group multiple>
             <v-row>
               <v-col cols="12" lg="4" md="6" sm="6" xs="6" style="padding: 0; margin:0"
-                     v-for="(item, i) in items" :key="i">
+                     v-for="(item, i) in items" :key="i" @click="tt(item.title)">
                 <v-item>
                   <v-img :src='item.src' class="text-right" height="200">
                     <v-sheet class="hover-card"
@@ -225,14 +225,22 @@ export default {
       return date < yesterday
     },
     findTour() {
-      if (this.date != null) {
-        const time = Math.floor((this.date[1] - this.date[0]) / (1000 * 60 * 60 * 24)) + 1
-        this.$router.push({name: 'search', query: {from: this.from, to: this.to, time: time.toString()}})
-      } else {
-        this.$router.push({name: 'search', query: {from: this.from, to: this.to}})
-      }
+      const query = {}
+
+      if (this.from !== null) query['from'] = this.from
+      if (this.to !== null) query['to'] = this.to
+      if (this.date !== null && this.date[0] !== null)
+        query['startDate'] =
+            this.date[0].getFullYear() + '-' + (this.date[0].getMonth() + 1) + '-' + this.date[0].getDate()
+      if (this.date !== null && this.date[1] !== null)
+        query['endDate'] =
+            this.date[1].getFullYear() + '-' + (this.date[1].getMonth() + 1) + '-' + this.date[1].getDate()
 
 
+      this.$router.push({name: 'search', query: query})
+    },
+    tt(title) {
+      this.$router.push({name: 'search', query: {to: title}})
     }
   }
 }
