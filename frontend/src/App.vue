@@ -32,11 +32,14 @@ export default {
 
 <style>
 .router {
-  padding-top: 64px;
+  margin: 5px;
+  height: 100%;
+  padding-top: 60px;
   padding-bottom: 100px;
 }
 .bg {
   background-image: url('./assets/img/bg.jpg') !important;
+  background-size: cover !important;
   background-attachment: fixed !important;
 }
 </style>

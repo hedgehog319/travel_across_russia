@@ -7,17 +7,16 @@
             <span class="text-h6">Критерии поиска</span>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <v-container style="display: flex">
+            <v-container class="d-flex">
               <v-list width="100%">
                 <v-list-item>
-                  <v-row style="margin-bottom: 5px">
+                  <v-row class="mb-1">
                     <v-col cols="12" md="4">
-                      <v-autocomplete v-model="from" :items="getCitiesName" dense filled
-                                      label="Откуда"></v-autocomplete>
+                      <v-autocomplete v-model="from" :items="getCitiesName" dense filled label="Откуда"/>
                     </v-col>
 
                     <v-col cols="12" md="4">
-                      <v-autocomplete v-model="to" :items="getCitiesName" dense filled label="Куда"></v-autocomplete>
+                      <v-autocomplete v-model="to" :items="getCitiesName" dense filled label="Куда"/>
                     </v-col>
 
                     <v-col cols="12" md="4">
@@ -33,19 +32,20 @@
                   <v-row>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Рейтинг отеля</span>
-                      <v-rating style="margin-top: 10px" :value="4.5" color="amber" dense half-increments size="30"/>
+                      <v-rating class="mt-2" :value="4.5" color="amber" dense half-increments size="30"/>
                     </v-col>
                     <v-col cols="12" md="4">
-                      <span class="text-subtitle-1">Цена тура: {{ getCost(price[0]) }} - {{ getCost(price[1]) }} </span>
-                      <v-range-slider step="5000" style="margin-top: 20px" v-model="price" max="500000" min="0"/>
+                      <span class="text-subtitle-1">Цена тура: {{ getCost(price[0]) }} - {{ getCost(price[1]) }}</span>
+                      <v-range-slider step="5000" class="mt-5" v-model="price" max="500000" min="0"/>
                     </v-col>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Тип питания</span>
-                      <div style="display: flex">
+                      <div class="d-flex">
                         <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
                           <template v-slot:activator="{ on }">
-                            <div v-on="on" style="margin: auto">
-                            <v-checkbox style="max-height: 30px" :ripple="false" :label="type.short" :value="type.short" v-model="selectedTypes"/>
+                            <div v-on="on" class="ma-auto">
+                            <v-checkbox style="max-height: 30px" :ripple="false" :label="type.short"
+                                        :value="type.short" v-model="selectedTypes"/>
                             </div>
                           </template>
                           <span>{{ type.full }}</span>
