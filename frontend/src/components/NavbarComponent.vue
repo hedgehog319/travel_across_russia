@@ -210,7 +210,7 @@ export default {
     logout() {
       this.dialog = false
       this.$cookies.remove('Token')
-      this.$router.push({name: 'home'})
+      this.$router.push({name: 'home'}).catch(e => e)
     }
   },
   beforeDestroy() {

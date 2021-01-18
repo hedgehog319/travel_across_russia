@@ -7,8 +7,8 @@
         <span style="font-size: 30px; color: black">{{ tour.name }}, {{ tour.country }}</span>
         <v-spacer/>
         <v-btn icon large style="position: absolute; top: 5px; right: 5px" @click="favClick">
-          <v-icon v-if="favorite" color="#ffd700" large>mdi-heart</v-icon>
-          <v-icon v-else color="#ffd700" large>mdi-heart-outline</v-icon>
+          <v-icon v-if="isFavTour(tour.id)" color="#ffd700" large>mdi-heart-outline</v-icon>
+          <v-icon v-else color="#ffd700" large>mdi-heart</v-icon>
         </v-btn>
       </div>
       <span style="font-size: 20px; color: #242424; opacity: 0.7; margin-bottom: 10px">{{ tour.description }}</span>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "FavoriteCardComponent",
@@ -30,7 +30,6 @@ export default {
     tour: {
       required: true,
       type: Object,
-      // TODO как правильно делать запрос, внутри или снаружи?
       default() {
         return {
           id: Number,
@@ -42,11 +41,7 @@ export default {
           rating: Number
         }
       }
-    },
-    imgWidth: {
-      type: Number,
-    },
-    favorite: Boolean
+    }
   },
   computed: mapGetters(['getFavTours']),
   data() {
@@ -55,6 +50,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['isFavTour']),
     getCost(price) {
       return price.toString()
           .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
@@ -72,7 +68,7 @@ export default {
       if (!this.$cookies.isKey('Token')) return
 
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      if (this.getFavTours.indexOf(this.tour.id()) < 0) this.removeFav(conf)
+      if (this.isFavTour(this.tour.id())) this.removeFav(conf)
       else this.addFav(conf)
     }
   },
