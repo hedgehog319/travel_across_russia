@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home" class="bg-cover">
     <v-container class="rounded"
                  style="display: flex;margin-bottom: 40px;background-color: rgba(255,224,138, 0.8)">
       <v-icon>mdi-shield-alert</v-icon>

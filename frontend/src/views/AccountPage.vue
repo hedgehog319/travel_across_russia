@@ -1,5 +1,5 @@
 <template>
-  <div id="account">
+  <div id="account" class="bg-cover">
     <v-col style="margin: auto" cols="12" md="6">
       <v-card>
         <v-toolbar color="primary" dark flat>
@@ -174,14 +174,13 @@ export default {
   methods: {
     updateUserInfo() {
       this.$v.$touch()
-      console.log('befote')
       if (!this.$v.$invalid) {
-        console.log('for')
         this.patchUserInfo()
       }
     },
     patchUserInfo() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+      console.log(conf)
       const data = {
         first_name: this.document.firstname,
         last_name: this.document.lastname,
@@ -190,7 +189,7 @@ export default {
       }
 
       this.axios.patch('api/documents/', data, conf)
-          .catch(error => console.log(error))
+          .catch(error => console.log(error.response))
     }
   },
   created() {

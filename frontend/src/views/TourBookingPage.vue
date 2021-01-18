@@ -1,5 +1,5 @@
 <template>
-  <div id="tour-booking">
+  <div id="tour-booking" class="bg-cover">
     <v-container>
       <v-stepper v-model="e1">
         <v-stepper-header>

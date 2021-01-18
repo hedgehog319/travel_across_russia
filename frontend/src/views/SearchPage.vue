@@ -1,5 +1,5 @@
 <template>
-  <div id="search">
+  <div id="search" class="bg-contain">
     <v-container>
       <v-expansion-panels>
         <v-expansion-panel>

@@ -1,5 +1,5 @@
 <template>
-  <div id="notfound">
+  <div id="notfound" class="bg-contain">
     <v-container>
       <v-sheet class="rounded unselectable"
                style="padding: 50px;width: 400px; margin: auto; text-align: center; margin-top: 100px;">

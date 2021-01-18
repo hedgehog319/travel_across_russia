@@ -69,3 +69,18 @@
 .mw-600 {
     max-width: 600px !important;
 }
+
+.bg-cover {
+    padding-top: 64px !important;
+    padding-bottom: 100px !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-image: url('../img/bg.jpg') !important;
+}
+
+.bg-contain {
+    padding-top: 64px !important;
+    padding-bottom: 100px !important;
+    background-image: url('../img/bg.jpg') !important;
+}

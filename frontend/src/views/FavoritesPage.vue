@@ -1,5 +1,5 @@
 <template>
-  <div id="favorites">
+  <div id="favorites" class="bg-cover">
     <v-container>
       <favorite-card v-for="tour in tours" :key="tour.id" :tour="tour" favorite/>
     </v-container>
