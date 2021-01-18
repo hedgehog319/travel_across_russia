@@ -29,7 +29,7 @@
 		<type label="Year" length="0" sql="YEAR" quote=""/>
 		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
 	</group>
-	
+
 	<group label="Miscellaneous" color="rgb(200,200,255)">
 		<type label="ENUM" length="1" sql="ENUM" quote=""/>
 		<type label="SET" length="1" sql="SET" quote=""/>
@@ -68,7 +68,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="349" y="139" name="booked_tours">
+<table x="432" y="191" name="booked_tours">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -86,7 +86,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1158" y="30" name="countres">
+<table x="1071" y="19" name="countres">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -100,7 +100,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1005" y="10" name="cities">
+<table x="863" y="13" name="cities">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -115,7 +115,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="786" y="232" name="airlines">
+<table x="737" y="278" name="airlines">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -126,7 +126,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="768" y="349" name="insurences">
+<table x="719" y="382" name="insurences">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -140,7 +140,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="929" y="137" name="hotels">
+<table x="888" y="150" name="hotels">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -163,11 +163,14 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="cities" row="id" />
 </row>
+<row name="description" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="472" y="307" name="tourists">
+<table x="478" y="371" name="tourists">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -186,7 +189,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="265" y="352" name="documents">
+<table x="266" y="389" name="documents">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -248,6 +251,40 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table=" tours" row="id" />
 </row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="155" y="122" name="rating_tour">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="user_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="users" row="id" />
+</row>
+<row name="tour_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table=" tours" row="id" />
+</row>
+<row name="rating" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="1062.8148193359375" y="199" name="hotel_photo">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="hotel_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="hotels" row="id" />
+</row>
+<row name="photo" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
