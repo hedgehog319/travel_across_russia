@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg">
     <NavbarComponent/>
     <router-view class="router"/>
     <FooterComponent/>
@@ -34,9 +34,9 @@ export default {
 .router {
   padding-top: 64px;
   padding-bottom: 100px;
-  height: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url('./assets/img/bg.jpg')
+}
+.bg {
+  background-image: url('./assets/img/bg.jpg') !important;
+  background-attachment: fixed !important;
 }
 </style>
