@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.forms.models import model_to_dict
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView
@@ -9,19 +10,38 @@ from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 
-from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, BookedTour
+from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, BookedTour, \
+    RatingTour
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
-    InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer
+    InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
+    TourReceivingSerializer
 
 
 # todo фото для отеля
+# todo настроить allowed_hosts
+
+def get_tour_rating(tour_id):
+    marks = RatingTour.objects.all().filter(tour=tour_id).values_list('rating', flat=True)
+    if not marks:
+        return 0
+    return sum(marks) / len(marks) / 2
 
 
 class TourView(ModelViewSet):
     queryset = Tour.objects.all()
     serializer_class = TourSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return TourReceivingSerializer
+        return TourSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        for tour in response.data:
+            tour.update({'rating': get_tour_rating(tour.get('id'))})
+        return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
         params = self.request.query_params

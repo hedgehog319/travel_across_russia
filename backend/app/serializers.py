@@ -23,6 +23,12 @@ class TourSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class TourReceivingSerializer(ModelSerializer):
+    class Meta:
+        model = Tour
+        fields = ('id', 'name', 'price', 'city_name', 'country_name', 'description')
+
+
 class FavouriteTourSerializer(ModelSerializer):
     class Meta:
         model = FavouriteTour
