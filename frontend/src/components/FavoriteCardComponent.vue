@@ -15,7 +15,10 @@
       <div style="display: flex; margin-top: 10px">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
-        <span style="right: 10px; bottom: 43px; font-size: 25px">{{ getCost(tour.price) }}</span>
+        <span style="right: 10px; bottom: 43px; font-size: 25px">
+          {{ getCost(tour.price) }}
+          <v-icon size="22">mdi-currency-rub</v-icon>
+        </span>
       </div>
     </v-card-text>
   </v-card>

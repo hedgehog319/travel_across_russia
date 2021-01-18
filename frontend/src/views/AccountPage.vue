@@ -26,6 +26,14 @@
                     <td>{{ user.username }}</td>
                   </tr>
                   <tr>
+                    <td>Email</td>
+                    <td>{{ user.email }}</td>
+                  </tr>
+                  <tr>
+                    <td>Тип документа</td>
+                    <td>{{ document.name }}</td>
+                  </tr>
+                  <tr>
                     <td>Имя</td>
                     <td>{{ document.firstname }}</td>
                   </tr>
@@ -34,8 +42,16 @@
                     <td>{{ document.lastname }}</td>
                   </tr>
                   <tr>
-                    <td>Email</td>
-                    <td>{{ user.email }}</td>
+                    <td>Дата рождения</td>
+                    <td>{{ document.birthdate }}</td>
+                  </tr>
+                  <tr>
+                    <td>Серия документа</td>
+                    <td>{{ document.series }}</td>
+                  </tr>
+                  <tr>
+                    <td>Номер документа</td>
+                    <td>{{ document.number }}</td>
                   </tr>
                   </tbody>
                 </template>
@@ -48,9 +64,25 @@
               <form style="margin: 15px" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
-                <v-select :items="typeOfDocuments" v-model="document.name"/>
+                <v-select :items="typeOfDocuments" :error-messages="documentTypeErrors" v-model="document.type"/>
                 <v-text-field v-model="document.firstname" :error-messages="firstnameErrors" label="Имя"/>
                 <v-text-field v-model="document.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
+                <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
+                        :close-on-content-click="false"
+                        transition="scale-transition">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field :error-messages="birthdateErrors" v-model="document.birthdate" v-bind="attrs"
+                                  v-on="on"
+                                  label="Дата рождения"
+                                  prepend-icon="mdi-calendar"
+                                  readonly/>
+                  </template>
+                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="document.birthdate" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
+                    <v-btn color="primary" text @click="birthDayMenu = false">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
                 <v-text-field v-model="document.series" :error-messages="seriesErrors" label="Серия документа"
                               maxlength="4"/>
                 <v-text-field v-model="document.number" :error-messages="numberErrors" label="Номер документа"
@@ -80,6 +112,7 @@ export default {
   name: "AccountPage",
   data() {
     return {
+      birthDayMenu: false,
       user: {
         username: null,
         email: null,
@@ -87,9 +120,10 @@ export default {
       document: {
         firstname: null,
         lastname: null,
-        name: 'Паспорт',
+        type: null,
         series: null,
         number: null,
+        birthdate: null,
       },
       invalidUser: false,
       typeOfDocuments: ['Паспорт', 'Заграничный паспорт']
@@ -122,6 +156,12 @@ export default {
         required,
         minLength: minLength(6),
         numeric
+      },
+      birthdate: {
+        required,
+      },
+      type: {
+        required,
       }
     }
   },
@@ -170,6 +210,20 @@ export default {
 
       return mess
     },
+    birthdateErrors() {
+      let mess = ''
+      if (!this.$v.document.birthdate.$dirty) return mess
+      if (!this.$v.document.birthdate.required) mess = 'Введите дату рождения'
+
+      return mess
+    },
+    documentTypeErrors() {
+      let mess = ''
+      if (!this.$v.document.type.$dirty) return mess
+      if (!this.$v.document.type.required) mess = 'Введите тип документа'
+
+      return mess
+    }
   },
   methods: {
     updateUserInfo() {
