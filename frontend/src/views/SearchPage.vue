@@ -41,14 +41,16 @@
                     </v-col>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Тип питания</span>
-                      <v-radio-group row v-model="typeOfFood">
+                      <div style="display: flex">
                         <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-radio style="margin: auto" v-on="on" v-bind="attrs" :label="type.short" :value="i"/>
+                          <template v-slot:activator="{ on }">
+                            <div v-on="on" style="margin: auto">
+                            <v-checkbox style="max-height: 30px" :ripple="false" :label="type.short" :value="type.short" v-model="selectedTypes"/>
+                            </div>
                           </template>
                           <span>{{ type.full }}</span>
                         </v-tooltip>
-                      </v-radio-group>
+                      </div>
                     </v-col>
                   </v-row>
                 </v-list-item>
@@ -78,6 +80,7 @@ export default {
     'favorite-card': FavoriteCardComponent
   },
   data: () => ({
+    selectedTypes: ['RO'],
     typesOfFood: [{short: 'RO', full: 'Без питания'},
       {short: 'BB', full: 'Только завтраки'},
       {short: 'HB', full: 'Завтрак и ужин'},
