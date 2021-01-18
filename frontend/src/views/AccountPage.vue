@@ -174,13 +174,13 @@ export default {
   methods: {
     updateUserInfo() {
       this.$v.$touch()
+
       if (!this.$v.$invalid) {
         this.patchUserInfo()
       }
     },
     patchUserInfo() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      console.log(conf)
       const data = {
         first_name: this.document.firstname,
         last_name: this.document.lastname,
