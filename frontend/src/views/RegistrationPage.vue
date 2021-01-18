@@ -1,5 +1,5 @@
 <template>
-  <div id="registration" class="bg-contain">
+  <div id="registration">
     <v-form @submit.prevent="validateUser">
       <v-container class="mw-400">
         <v-card class="round" elevation="2">

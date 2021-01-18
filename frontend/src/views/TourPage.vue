@@ -1,5 +1,5 @@
 <template>
-  <div id="tour" class="bg-cover">
+  <div id="tour">
     <v-container>
       <v-card elevation="2" style="padding: 20px">
         <v-tooltip bottom>

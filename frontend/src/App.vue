@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app class="bg">
     <NavbarComponent/>
-    <router-view/>
+    <router-view class="router"/>
     <FooterComponent/>
   </v-app>
 </template>
@@ -24,3 +24,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.router {
+  padding-top: 64px;
+  padding-bottom: 100px;
+}
+.bg {
+  background-image: url('./assets/img/bg.jpg') !important;
+  background-attachment: fixed !important;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="account" class="bg-cover">
+  <div id="account">
     <v-col style="margin: auto" cols="12" md="6">
       <v-card>
         <v-toolbar color="primary" dark flat>
@@ -262,7 +262,6 @@ export default {
 
     this.axios.get('api/document/', conf)
         .then(res => {
-          console.log(res.data)
           if (res.data.length > 0) {
             this.document.firstname = res.data[0].first_name
             this.document.lastname = res.data[0].last_name
