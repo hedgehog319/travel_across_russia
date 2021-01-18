@@ -175,37 +175,18 @@ export default {
         cost: 200000
       },
       items: [
-        {src: 'https://mosaica.ru/image/index/848xauto/173104?water=', title: 'Москва'},
-        {
-          src: 'https://visit-petersburg.ru/media/uploads/audioguide/43/43_cover.jpg.1050x500_q95_crop_upscale.jpg',
-          title: 'Санкт-Петербург'
-        },
-        {
-          src: 'https://img-cdn.tinkoffjournal.ru/main____shutterstock_1117372322.dapuhxw21c35.jpg',
-          title: 'Екатеринбург'
-        },
-        {
-          src: 'https://img-cdn.tinkoffjournal.ru/main___krasnodar___shutterstock_1416491849.gujmyhwjakf6.jpg',
-          title: 'Краснодар'
-        },
-        {
-          src: 'https://tripplanet.ru/wp-content/uploads/europe/russia/sochi/dostoprimechatelnosti-sochi.jpg',
-          title: 'Сочи'
-        },
-        {
-          src: 'https://icf-russia.ru/wp-content/uploads/2019/08/pfolio-vladivostok.jpg',
-          title: 'Владивосток'
-        },
-        {
-          src: 'https://pravdapfo.ru/sites/default/files/i_11_18.jpg',
-          title: 'Уфа'
-        },
-        {
-          src: 'https://sib.fm/storage/article/November2019/z5fxvsaIxesnvhtfZvjg.jpg', title: 'Новосибирск'
-        },
-        {
-          src: 'https://uraloved.ru/images/mesta/orenb-obl/orenburg/orenburg-9.jpg', title: 'Оренбург'
-        },
+        {src: require("@/assets/img/moscow.jpg"), title: 'Москва'},
+        {src: require("@/assets/img/peterburg.jpg"), title: 'Санкт-Петербург'},
+        {src: require("@/assets/img/ekaterinburg.jpg"), title: 'Екатеринбург'},
+        {src: require("@/assets/img/krasnodar.jpg"), title: 'Краснодар'},
+        {src: require("@/assets/img/sochi.jpg"), title: 'Сочи'},
+        {src: require("@/assets/img/vladivostok.jpg"), title: 'Владивосток'},
+        {src: require("@/assets/img/ufa.jpg"), title: 'Уфа'},
+        {src: require("@/assets/img/novosibirsk.jpg"), title: 'Новосибирск'},
+        {src: require("@/assets/img/orenburg.jpg"), title: 'Оренбург'},
+        {src: require("@/assets/img/kazan.jpg"), title: 'Казань'},
+        {src: require("@/assets/img/xhabarovsk.jpg"), title: 'Хабаровск'},
+        {src: require("@/assets/img/samara.jpeg"), title: 'Самара'}
       ],
       menu: false,
     }
