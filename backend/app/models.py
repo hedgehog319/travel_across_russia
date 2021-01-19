@@ -100,7 +100,7 @@ class BookedTour(models.Model):
 
 
 class Tour(models.Model):
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.PositiveIntegerField()
     count_days = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
     hotel = models.OneToOneField('Hotel', on_delete=models.CASCADE)
@@ -135,7 +135,7 @@ class Airline(models.Model):
 
 
 class Insurance(models.Model):
-    price_for_day = models.DecimalField(max_digits=8, decimal_places=2)
+    price_for_day = models.PositiveIntegerField()
     refund = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
@@ -156,7 +156,7 @@ class Hotel(models.Model):
     number_of_rooms = models.IntegerField()
     description = models.CharField(max_length=500)
     type_of_food = models.PositiveSmallIntegerField(choices=FOOD_CHOICES)
-    price_for_night = models.DecimalField(max_digits=8, decimal_places=2)
+    price_for_night = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
 
     def __str__(self):
