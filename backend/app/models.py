@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -74,7 +76,7 @@ class Document(models.Model):
     number = models.IntegerField()
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    birthdate = models.DateField(auto_now_add=True)
+    birthdate = models.DateField(default=date.today)
 
     def __str__(self):
         return f'Id {self.id}: {self.first_name} {self.last_name}'
@@ -92,8 +94,8 @@ class Tourist(models.Model):
 # Забронированные туры
 class BookedTour(models.Model):
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
-    start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField(auto_now_add=True)
+    start_date = models.DateField(default=date.today)
+    end_date = models.DateField(default=date.today)
 
     def __str__(self):
         return f'Id {self.id}: {self.tour.hotel.name}'
