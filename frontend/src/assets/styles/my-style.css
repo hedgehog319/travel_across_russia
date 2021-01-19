@@ -18,18 +18,11 @@
 }
 
 .scrollbar {
-    /*float: left !important;*/
-    /*width: 100% !important;*/
     overflow-y: scroll !important;
 }
 
 .round-track::-webkit-scrollbar-track {
     border-radius: 8px !important;
-}
-
-.track-80::-webkit-scrollbar-track{
-    max-height: 80% !important;
-    height: 30px !important;
 }
 
 .scrollbar::-webkit-scrollbar-track {

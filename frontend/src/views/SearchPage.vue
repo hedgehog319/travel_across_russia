@@ -61,7 +61,6 @@
       </v-expansion-panels>
     </v-container>
 
-
     <v-container>
       <favorite-card v-for="tour in getTours" :key="tour.tour" :tour="tour"/>
     </v-container>
