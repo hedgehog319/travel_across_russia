@@ -46,8 +46,8 @@ class TourView(ModelViewSet):
                 fav_tours = FavouriteTour.objects.none()
 
             for tour in response.data:
-                tour.update({'rating': get_tour_rating(tour.get('id'))})
-                tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('id')) else False})
+                tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
+                tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('tour_id')) else False})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
@@ -79,7 +79,7 @@ class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, Gen
     def finalize_response(self, request, response, *args, **kwargs):
         if request.method == 'GET':
             for tour in response.data:
-                tour.update({'rating': get_tour_rating(tour.get('tour'))})
+                tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def perform_create(self, serializer):
