@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import validate_image_file_extension
 from django.db import models
 
 
@@ -167,8 +168,11 @@ class Hotel(models.Model):
 
 class HotelPhoto(models.Model):
     hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to='hotels_photos', null=True, blank=True)
+    photo = models.ImageField(upload_to='hotels_photos', validators=[validate_image_file_extension])
     # https://habr.com/ru/post/505946/ - интересная статья, про хранение изображений
+
+    def __str__(self):
+        return f'Id {self.id}: to {self.hotel.name}'
 
 
 class City(models.Model):

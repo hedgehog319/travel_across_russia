@@ -11,11 +11,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, BookedTour, \
-    RatingTour
+    RatingTour, HotelPhoto
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
-    TourReceivingSerializer, FavouriteTourReceivingSerializer
+    TourReceivingSerializer, FavouriteTourReceivingSerializer, HotelPhotoSerializer
 
 
 # todo фото для отеля
@@ -201,3 +201,8 @@ class TouristView(ModelViewSet):
         instance.delete()
         if not user:
             document.delete()
+
+
+class HotelPhotoView(ModelViewSet):
+    queryset = HotelPhoto.objects.all()
+    serializer_class = HotelPhotoSerializer
