@@ -40,13 +40,14 @@ class TourView(ModelViewSet):
 
     def finalize_response(self, request, response, *args, **kwargs):
         if request.method == 'GET':
-            fav_tours = FavouriteTour.objects.all().filter(user=request.user)
+            if request.user.is_authenticated:
+                fav_tours = FavouriteTour.objects.all().filter(user=request.user)
+            else:
+                fav_tours = FavouriteTour.objects.none()
+
             for tour in response.data:
                 tour.update({'rating': get_tour_rating(tour.get('id'))})
-                if fav_tours.filter(tour=tour.get('id')):
-                    tour.update({'is_favourite': True})
-                else:
-                    tour.update({'is_favourite': False})
+                tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('id')) else False})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
