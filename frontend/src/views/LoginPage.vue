@@ -4,7 +4,7 @@
       <v-container class="mw-400">
         <v-card class="round" elevation="2">
           <v-card-title class="text-center">Вход</v-card-title>
-          <span v-if="invalidUser" class="text-center error--text"
+          <span v-if="invalidUser" class="text-center error--text unselectable"
                 style="position: absolute; left: 77px; top: 50px">Неверный логин или пароль</span>
 
           <v-container>
@@ -84,15 +84,21 @@ export default {
   },
   methods: {
     async checkUser() {
+      let authorized = false
       await this.axios.post(`/auth/jwt/create/`, this.user).then(
           res => {
             if (res.statusText === 'OK') {  // status === 200
               this.$cookies.set('Token', res.data.access)
+              authorized = true
             }
           }
-      ).catch(() => this.invalidUser = true)
+      ).catch((err) => {
+        if (err.response.statusText === 'Unauthorized') { // status === 401
+          this.invalidUser = true
+        }
+      })
 
-      if (!this.invalidUser) {
+      if (authorized) {
         await this.$router.push({name: 'home'})
       }
     },
