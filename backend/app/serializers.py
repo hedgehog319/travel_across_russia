@@ -26,7 +26,7 @@ class TourSerializer(ModelSerializer):
 class TourReceivingSerializer(ModelSerializer):
     class Meta:
         model = Tour
-        fields = ('id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating, is_favourite
+        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating, is_favourite
 
 
 class FavouriteTourSerializer(ModelSerializer):
@@ -38,7 +38,7 @@ class FavouriteTourSerializer(ModelSerializer):
 class FavouriteTourReceivingSerializer(ModelSerializer):
     class Meta:
         model = FavouriteTour
-        fields = ('tour', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating
+        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating
 
 
 class DocumentSerializer(ModelSerializer):

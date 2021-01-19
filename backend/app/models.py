@@ -20,6 +20,9 @@ class FavouriteTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
 
+    def tour_id(self):
+        return self.tour.id
+
     def name(self):
         return self.tour.name()
 
@@ -104,6 +107,9 @@ class Tour(models.Model):
     airline = models.ForeignKey('Airline', on_delete=models.PROTECT)
     insurance = models.ForeignKey('Insurance', on_delete=models.SET_NULL, null=True)
     rating = models.ManyToManyField('User', through='RatingTour')
+
+    def tour_id(self):
+        return self.id
 
     def country_name(self):
         return self.city.country.name
