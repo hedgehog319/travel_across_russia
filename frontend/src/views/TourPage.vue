@@ -2,11 +2,9 @@
   <div id="tour">
     <v-container>
       <v-card elevation="2" style="padding: 20px">
-
-        <!-- TODO bad icon favorites       -->
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" icon large style="position: absolute; right: 15px;">
+            <v-btn v-bind="attrs" v-on="on" icon large style="position: absolute; top: 10px; right: 12px;">
               <v-icon color="#ffd700" large>mdi-heart-outline</v-icon>
             </v-btn>
           </template>
@@ -33,7 +31,9 @@
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
             <div class="grey--text ml-4">4.5 (413)</div>
             <v-spacer/>
-            <div style="font-weight: 500; font-size: 15px; color: black">Продолжительность: 20 дней</div>
+            <div style="font-weight: 500; font-size: 15px; color: black">
+              <v-chip>Продолжительность: 20 дней</v-chip>
+            </div>
           </v-row>
 
           <div class="my-4 subtitle-1">Россия, Сочи</div>

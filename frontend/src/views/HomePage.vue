@@ -1,14 +1,12 @@
 <template>
   <div id="home">
-    <v-container class="rounded"
-                 style="display: flex;margin-bottom: 40px;background-color: rgba(255,224,138, 0.8)">
+    <v-container class="rounded d-flex mb-12" style="background-color: rgba(255,224,138, 0.8)">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">
         <v-dialog v-model="dialog" width="600">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" height="25px"
-                   style="margin-left: 5px;margin-top:2px;background-color: rgba(255,229,157,0.9)">
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" height="25px" class="ml-1 mt-1" style="background-color: rgba(255,229,157,0.9)">
               <h3>подробнее</h3>
             </v-btn>
           </template>
@@ -19,7 +17,7 @@
             </v-card-title>
 
             <v-card-text>
-              <p>Оперативная информация Ростуризма по ссылке: <a target="_blank"
+              <p>Оперативная информация Ростуризма по ссылке: <a target="_blank" rel="noopener noreferrer"
                                                                  href="https://www.russiatourism.ru/news/16620/">
                 https://www.russiatourism.ru/news/16620/</a></p>
               <p>Чтобы предотвратить распространение коронавируса и других респираторных заболеваний,
@@ -31,7 +29,8 @@
               <p>Проветривайте рабочие помещения.</p>
               <p> Если вы почувствовали первые признаки недомогания на работе, сообщите руководителю и отправляйтесь
                 домой. Обратитесь к врачу, который откроет вам больничный лист, или позвоните по телефону 103.</p>
-              <p>Дополнительная контактная информация на сайте <a target="_blank" href="https://стопкоронавирус.рф">
+              <p>Дополнительная контактная информация на сайте <a target="_blank" rel="noopener noreferrer"
+                                                                  href="https://стопкоронавирус.рф">
                 https://стопкоронавирус.рф</a></p>
             </v-card-text>
 
@@ -47,8 +46,7 @@
     </v-container>
 
 
-    <v-container class="rounded"
-                 style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #8a8a8a">
+    <v-container class="rounded mb-12" style="background-color: rgba(255,255,255, 1);border: 3px solid #8a8a8a">
       <v-card flat width="100%">
         <span class="headline" style="margin-left: 20px">Поиск тура</span>
         <v-card-text>
@@ -66,14 +64,11 @@
                 <v-col cols="12" md="4">
                   <section style="margin-top: -6px; margin-right: 10px">
                     <span>Выбрать дату</span>
-                    <date-picker :disabled-date="currentDate" v-model="date" confirm range
-                                 style="width: 100%"/>
+                    <date-picker :disabled-date="currentDate" v-model="date" confirm range style="width: 100%"/>
                   </section>
                 </v-col>
                 <v-col cols="12" md="1">
-                  <v-btn large style="margin-top: 7px"
-                         type="submit">Поиск
-                  </v-btn>
+                  <v-btn large class="mb-2" type="submit">Поиск</v-btn>
                 </v-col>
 
               </v-row>
@@ -83,8 +78,7 @@
       </v-card>
     </v-container>
 
-    <v-container class="rounded"
-                 style="margin-bottom: 50px;background-color: rgba(255,255,255, 1);border: 3px solid #dedede">
+    <v-container class="rounded mb-12" style="background-color: rgba(255,255,255, 1);border: 3px solid #dedede">
       <span class="text-center text-h4">Почему "Путешествуй по России"?</span>
       <v-container class="justify-center text-center">
         <v-row>
@@ -93,7 +87,7 @@
             <p class="text-h5">Высокая скорость работы сайта</p>
           </v-col>
 
-          <v-col cols="12" md="4" style="display: block">
+          <v-col cols="12" md="4" class="d-block">
             <v-icon color="primary" size="50">mdi-map</v-icon>
             <p class="text-h5">Вам доступна любая точка России</p>
           </v-col>
@@ -106,19 +100,17 @@
       </v-container>
     </v-container>
 
-    <v-container class=" rounded"
-                 style="text-align:center;margin-top: 50px;margin-bottom: 50px;background-color: #6ba3dd;">
+    <v-container class="rounded text-center mt-12 mb-12" style="background-color: #6ba3dd;">
       <v-card class="mx-auto" max-width="100%">
         <v-container class="pa-1">
           <v-item-group multiple>
             <v-row>
-              <v-col cols="12" lg="4" md="6" sm="6" xs="6" style="padding: 0; margin:0"
-                     v-for="(item, i) in items" :key="i">
+              <v-col cols="12" lg="4" md="6" sm="6" xs="6" class="pa-0 ma-0"
+                     v-for="(item, i) in items" :key="i" @click="tt(item.title)">
                 <v-item>
                   <v-img :src='item.src' class="text-right" height="200">
-                    <v-sheet class="hover-card"
-                             style="text-align: center; width: 100%; height: 100%;
-                             background-color: rgba(44,44,47,0.3);">
+                    <v-sheet class="hover-card text-center"
+                             style="width: 100%; height: 100%; background-color: rgba(44,44,47,0.3);">
                       <span style="color: #fff; font-size: 30px" class="unselectable">{{ item.title }}</span>
                     </v-sheet>
                   </v-img>
@@ -131,11 +123,10 @@
     </v-container>
 
 
-    <v-container class="round" style="background-color:rgba(0, 0, 0, 0.5); padding: 5px; width: 80%;">
+    <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.5); width: 80%;">
       <div class="text-center " style="font-size: 30px; font-weight: 500; color: #FFFFFF">Рекомендуемые туры</div>
-      <v-row no-gutters style="margin-bottom: 10px; margin-top: 10px">
-        <v-col v-for="n in 6" :key="n" align-self="center" cols="12" lg="4" md="6" sm="12" style="margin-bottom: 10px"
-               xs="12">
+      <v-row no-gutters class="mb-2 mt-2">
+        <v-col v-for="n in 6" :key="n" align-self="center" cols="12" lg="4" md="6" sm="12" class="mb-3" xs="12">
           <tour-card :tour="tour"/>
         </v-col>
       </v-row>
@@ -175,37 +166,18 @@ export default {
         cost: 200000
       },
       items: [
-        {src: 'https://mosaica.ru/image/index/848xauto/173104?water=', title: 'Москва'},
-        {
-          src: 'https://visit-petersburg.ru/media/uploads/audioguide/43/43_cover.jpg.1050x500_q95_crop_upscale.jpg',
-          title: 'Санкт-Петербург'
-        },
-        {
-          src: 'https://img-cdn.tinkoffjournal.ru/main____shutterstock_1117372322.dapuhxw21c35.jpg',
-          title: 'Екатеринбург'
-        },
-        {
-          src: 'https://img-cdn.tinkoffjournal.ru/main___krasnodar___shutterstock_1416491849.gujmyhwjakf6.jpg',
-          title: 'Краснодар'
-        },
-        {
-          src: 'https://tripplanet.ru/wp-content/uploads/europe/russia/sochi/dostoprimechatelnosti-sochi.jpg',
-          title: 'Сочи'
-        },
-        {
-          src: 'https://icf-russia.ru/wp-content/uploads/2019/08/pfolio-vladivostok.jpg',
-          title: 'Владивосток'
-        },
-        {
-          src: 'https://pravdapfo.ru/sites/default/files/i_11_18.jpg',
-          title: 'Уфа'
-        },
-        {
-          src: 'https://sib.fm/storage/article/November2019/z5fxvsaIxesnvhtfZvjg.jpg', title: 'Новосибирск'
-        },
-        {
-          src: 'https://uraloved.ru/images/mesta/orenb-obl/orenburg/orenburg-9.jpg', title: 'Оренбург'
-        },
+        {src: require("@/assets/img/moscow.jpg"), title: 'Москва'},
+        {src: require("@/assets/img/peterburg.jpg"), title: 'Санкт-Петербург'},
+        {src: require("@/assets/img/ekaterinburg.jpg"), title: 'Екатеринбург'},
+        {src: require("@/assets/img/krasnodar.jpg"), title: 'Краснодар'},
+        {src: require("@/assets/img/sochi.jpg"), title: 'Сочи'},
+        {src: require("@/assets/img/vladivostok.jpg"), title: 'Владивосток'},
+        {src: require("@/assets/img/ufa.jpg"), title: 'Уфа'},
+        {src: require("@/assets/img/novosibirsk.jpg"), title: 'Новосибирск'},
+        {src: require("@/assets/img/orenburg.jpg"), title: 'Оренбург'},
+        {src: require("@/assets/img/kazan.jpg"), title: 'Казань'},
+        {src: require("@/assets/img/xhabarovsk.jpg"), title: 'Хабаровск'},
+        {src: require("@/assets/img/samara.jpeg"), title: 'Самара'}
       ],
       menu: false,
     }
@@ -225,14 +197,22 @@ export default {
       return date < yesterday
     },
     findTour() {
-      if (this.date != null) {
-        const time = Math.floor((this.date[1] - this.date[0]) / (1000 * 60 * 60 * 24)) + 1
-        this.$router.push({name: 'search', query: {from: this.from, to: this.to, time: time.toString()}})
-      } else {
-        this.$router.push({name: 'search', query: {from: this.from, to: this.to}})
-      }
+      const query = {}
+
+      if (this.from !== null) query['from'] = this.from
+      if (this.to !== null) query['to'] = this.to
+      if (this.date !== null && this.date[0] !== null)
+        query['startDate'] =
+            this.date[0].getFullYear() + '-' + (this.date[0].getMonth() + 1) + '-' + this.date[0].getDate()
+      if (this.date !== null && this.date[1] !== null)
+        query['endDate'] =
+            this.date[1].getFullYear() + '-' + (this.date[1].getMonth() + 1) + '-' + this.date[1].getDate()
 
 
+      this.$router.push({name: 'search', query: query})
+    },
+    tt(title) {
+      this.$router.push({name: 'search', query: {to: title}})
     }
   }
 }

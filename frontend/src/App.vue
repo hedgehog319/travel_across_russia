@@ -1,14 +1,7 @@
 <template>
-  <v-app>
+  <v-app class="bg">
     <NavbarComponent/>
-    <router-view
-        style="
-        padding-top: 64px;
-        padding-bottom: 100px;
-        height: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
-         background-image: url('https://wallbox.ru/resize/1920x1080/wallpapers/main/201548/f66296165537f2c.jpg')"/>
+    <router-view class="router"/>
     <FooterComponent/>
   </v-app>
 </template>
@@ -25,9 +18,28 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
-  methods: mapActions(['fetchCities']),
+  methods: mapActions(['fetchCities', 'fetchTours']),
   created() {
+    let conf
+    if (this.$cookies.isKey('Token'))
+      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+
     this.fetchCities()
+    this.fetchTours(conf)
   },
 };
 </script>
+
+<style>
+.router {
+  margin: 5px;
+  height: 100%;
+  padding-top: 60px;
+  padding-bottom: 100px;
+}
+.bg {
+  background-image: url('./assets/img/bg.jpg') !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+}
+</style>

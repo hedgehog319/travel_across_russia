@@ -7,7 +7,8 @@
 
           <span v-if="invalidUser" class="text-center error--text"
                 style="position: absolute; text-align: center; left: 77px; top: 50px; max-width: 214px">
-            Пользователь с таким логином уже существует</span>
+            Пользователь с таким логином уже существует
+          </span>
 
           <v-container>
             <v-text-field v-model="user.username" :error-messages="usernameErrors"
@@ -34,7 +35,7 @@
               <v-btn block class="rounded-pill primary" elevation="0" type="submit">Зарегистрироваться</v-btn>
 
               <div style="margin-top: 10px">
-                <span>Уже зарегистрировались? </span>
+                <span>Уже зарегистрировались?</span>
                 <router-link class="text-decoration-none blue--text text--darken-2 hover" to="/login">
                   Войти
                 </router-link>

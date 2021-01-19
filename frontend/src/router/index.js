@@ -57,7 +57,13 @@ const routes = [
         component: AccountPage,
         meta: {
             title: 'Профиль'
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (!Vue.$cookies.isKey('Token'))
+                next('/')
+            else
+                next()
+        },
     },
     {
         path: '/search',
@@ -81,7 +87,13 @@ const routes = [
         component: FavoritesPage,
         meta: {
             title: 'Избранное'
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (!Vue.$cookies.isKey('Token'))
+                next('/')
+            else
+                next()
+        },
     },
     {
         path: '/tour',

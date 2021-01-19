@@ -3,31 +3,48 @@
     <v-container>
       <v-stepper v-model="e1">
         <v-stepper-header>
-          <v-stepper-step editable :complete="e1 > 1" step="1" class="unselectable">Выбор тура</v-stepper-step>
+          <v-stepper-step :complete="e1 > 1" step="1" class="unselectable">Выбор тура</v-stepper-step>
           <v-divider/>
-          <v-stepper-step editable :complete="e1 > 2" step="2" class="unselectable">Заполнение документов
-          </v-stepper-step>
+          <v-stepper-step :complete="e1 > 2" step="2" class="unselectable">Заполнение документов</v-stepper-step>
           <v-divider/>
-          <v-stepper-step editable step="3" class="unselectable">Оплата тура</v-stepper-step>
-          <v-progress-linear
-              :active="loading"
-              :indeterminate="loading"
-              absolute
-              bottom
-              color="deep-purple accent-4"/>
+          <v-stepper-step step="3" class="unselectable">Оплата тура</v-stepper-step>
+          <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom color="primary accent-4"/>
         </v-stepper-header>
 
         <v-stepper-items>
           <v-stepper-content step="1">
-            <v-card class="mb-12" color="grey lighten-1" height="300px">
 
+            <v-card class="rounded" elevation="0" min-height="300"
+                    :style="isSmall ? 'display: inline-block; margin: 10px': 'display: flex; margin: 10px'">
+              <v-img :src="tour.src" height="300px" class="d-block ma-2 rounded" :width="isSmall ? undefined : 300"/>
+              <v-card-text class="d-flex flex-column justify-md-space-around">
+                <div class="mb-2">
+                  <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country }}</span>
+                </div>
+                <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
+                  {{ tour.description }}
+                </span>
+                <div class="d-flex mt-2">
+                  <div class="text-center black--text" style="font-size: 20px">
+                    <span>Тип питания</span>
+                    <v-radio-group row v-model="typeOfFood">
+                      <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
+                        <template v-slot:activator="{ on }">
+                          <v-radio :ripple="false" v-on="on" :label="type.short" :value="i"/>
+                        </template>
+                        <span>{{ type.full }}</span>
+                      </v-tooltip>
+                    </v-radio-group>
+                  </div>
+                  <v-spacer/>
+<!--                  <span style="font-size: 30px">{{ getCost(tour.price) }}</span>-->
+                </div>
+              </v-card-text>
             </v-card>
-
-            <v-container style="display: flex">
-              <!--TODO home redirect-->
+            <v-container class="d-flex">
               <v-btn @click="$router.push({name: 'home'})">Отмена</v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 2">Далее</v-btn>
+              <v-btn color="primary" class="mr-1" @click="e1 = 2">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
@@ -39,9 +56,10 @@
                   <v-list-item-group color="primary">
                     <v-list-item v-for="(tourist, i) in tourists" :key="i" @click="touristClick(i)">
                       <v-list-item-content>
-                        <v-list-item-title v-if="!!tourist.lastname"
-                                           v-text="tourist.lastname + ' ' + tourist.firstname"/>
-                        <v-list-item-title v-else>Фамилия имя</v-list-item-title>
+                        <v-list-item-title
+                            v-text="tourist.lastname + '  ' + tourist.firstname + '  '
+                            + tourist.birthdate + '  ' + tourist.documentType + '  ' + tourist.series + '  '
+                            + tourist.number"/>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
@@ -49,21 +67,21 @@
               </v-list>
             </v-card>
 
-            <v-container style="display: flex">
+            <v-container class="d-flex">
               <v-btn @click="e1 = 1">Назад</v-btn>
               <v-spacer/>
               <v-btn icon @click="addTourist">
                 <v-icon large>mdi-plus-circle-outline</v-icon>
               </v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 3">Далее</v-btn>
+              <v-btn color="primary" class="mr-1" @click="goToPay">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
           <v-stepper-content step="3">
 
-            <v-card class="mb-12" color="lighten-1" elevation="0" style="margin: 10px" min-height="300">
-              <v-row justify="center" style="margin-top: 5px;">
+            <v-card class="mb-12" color="lighten-1" elevation="0" min-height="300">
+              <v-row justify="center" class="mt-1">
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.number" height="38" label="Номер карты"
                                 :error-messages="cardNumberErrors"
@@ -93,15 +111,22 @@
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.cvv" label="CVV" height="38"
                                 :error-messages="cardCVVErrors"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0; padding-top: 2px"/>
+                                style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0;
+                                padding-top: 2px"/>
                 </v-col>
+              </v-row>
+
+              <v-row class="mt-3" justify="center">
+                <span class="text-h5">Итого к оплате: </span>
+                <span class="ml-3" style="font-size: 23px">{{getCost(tour.price)}}</span>
+                <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
 
             <v-container style="display: flex">
               <v-btn @click="e1 = 2">Назад</v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="toPay">Оплатить</v-btn>
+              <v-btn color="primary" class="mr-1" @click="toPay">Оплатить</v-btn>
             </v-container>
           </v-stepper-content>
         </v-stepper-items>
@@ -116,11 +141,13 @@
           <v-container>
             <v-row justify="center">
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field :error-messages="lastnameErrors" v-model="tourist.lastname" label="Фамилия"/>
+                <v-text-field counter="20" maxlength="20" :error-messages="lastnameErrors" v-model="tourist.lastname"
+                              label="Фамилия"/>
               </v-col>
 
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field :error-messages="firstnameErrors" v-model="tourist.firstname" label="Имя"/>
+                <v-text-field counter="20" maxlength="20" :error-messages="firstnameErrors" v-model="tourist.firstname"
+                              label="Имя"/>
               </v-col>
             </v-row>
 
@@ -155,11 +182,13 @@
 
             <v-row>
               <v-col cols="12" md="6" sm="6">
-                <v-text-field :error-messages="seriesErrors" maxlength="4" v-model="tourist.series" label="Серия"/>
+                <v-text-field counter="4" :error-messages="seriesErrors" maxlength="4" v-model="tourist.series"
+                              label="Серия"/>
               </v-col>
 
               <v-col cols="12" md="6" sm="6">
-                <v-text-field :error-messages="numberErrors" maxlength="6" v-model="tourist.number" label="Номер"/>
+                <v-text-field counter="6" :error-messages="numberErrors" maxlength="6" v-model="tourist.number"
+                              label="Номер"/>
               </v-col>
             </v-row>
           </v-container>
@@ -173,9 +202,10 @@
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="maxLimit">
+    <v-snackbar top v-model="maxLimit">
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
+    <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
   </div>
 </template>
 
@@ -186,10 +216,31 @@ export default {
   name: "TourBooking",
   data() {
     return {
+      selectedTypes: ['RO'],
+      typesOfFood: [{short: 'RO', full: 'Без питания'},
+        {short: 'BB', full: 'Только завтраки'},
+        {short: 'HB', full: 'Завтрак и ужин'},
+        {short: 'FB', full: 'Завтрак, обед и ужин'},
+        {short: 'AI', full: 'Всё включено'}
+      ],
+      typeOfFood: 1,
       e1: 1,
+      isSmall: false,
+      tour: {
+        id: 1,
+        name: 'Хаятт Ридженси Сочи',
+        price: 200000,
+        country: "Россия",
+        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
+        description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного\n' +
+            '        проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
+            '        В отеле предоставляется бесплатный Wi-Fi.',
+        rating: 4.5,
+      },
       touristDialog: false,
       birthDayMenu: false,
       maxLimit: false,
+      consistTourist: false,
       loading: false,
       touristID: null,
       tourists: [],
@@ -211,6 +262,9 @@ export default {
     }
   },
   validations: {
+    tourists: {
+      required
+    },
     tourist: {
       firstname: {
         required,
@@ -413,6 +467,15 @@ export default {
         this.saveTourist()
       }
     },
+    goToPay() {
+      this.$v.tourists.$touch()
+
+      if (!this.$v.tourists.$invalid) {
+        this.e1 = 3
+      } else {
+        this.consistTourist = true
+      }
+    },
     sendPay() {
       this.loading = true
     },
@@ -422,13 +485,28 @@ export default {
       if (!this.$v.card.$invalid) {
         this.sendPay()
       }
-    }
+    },
+    onResize() {
+      this.isSmall = window.innerWidth < 900
+    },
+    getCost(price) {
+      return price.toString()
+          .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
+    },
   },
   watch: {
     loading(val) {
       if (!val) return
       setTimeout(() => (this.loading = false), 1000)
     },
+  },
+  beforeDestroy() {
+    if (typeof window === undefined) return
+    window.removeEventListener('resize', this.onResize, {passive: true})
+  },
+  mounted() {
+    this.onResize()
+    window.addEventListener('resize', this.onResize, {passive: true})
   },
 }
 </script>
