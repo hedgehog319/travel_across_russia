@@ -1,4 +1,7 @@
+from datetime import date
+
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import validate_image_file_extension
 from django.db import models
 
 
@@ -74,7 +77,7 @@ class Document(models.Model):
     number = models.IntegerField()
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    birthdate = models.DateField(auto_now_add=True)
+    birthdate = models.DateField(default=date.today)
 
     def __str__(self):
         return f'Id {self.id}: {self.first_name} {self.last_name}'
@@ -92,15 +95,15 @@ class Tourist(models.Model):
 # Забронированные туры
 class BookedTour(models.Model):
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
-    start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField(auto_now_add=True)
+    start_date = models.DateField(default=date.today)
+    end_date = models.DateField(default=date.today)
 
     def __str__(self):
         return f'Id {self.id}: {self.tour.hotel.name}'
 
 
 class Tour(models.Model):
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.PositiveIntegerField()
     count_days = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
     hotel = models.OneToOneField('Hotel', on_delete=models.CASCADE)
@@ -135,7 +138,7 @@ class Airline(models.Model):
 
 
 class Insurance(models.Model):
-    price_for_day = models.DecimalField(max_digits=8, decimal_places=2)
+    price_for_day = models.PositiveIntegerField()
     refund = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
@@ -156,7 +159,7 @@ class Hotel(models.Model):
     number_of_rooms = models.IntegerField()
     description = models.CharField(max_length=500)
     type_of_food = models.PositiveSmallIntegerField(choices=FOOD_CHOICES)
-    price_for_night = models.DecimalField(max_digits=8, decimal_places=2)
+    price_for_night = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -165,8 +168,11 @@ class Hotel(models.Model):
 
 class HotelPhoto(models.Model):
     hotel = models.ForeignKey('Hotel', on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to='hotels_photos', null=True, blank=True)
+    photo = models.ImageField(upload_to='hotels_photos', validators=[validate_image_file_extension])
     # https://habr.com/ru/post/505946/ - интересная статья, про хранение изображений
+
+    def __str__(self):
+        return f'Id {self.id}: to {self.hotel.name}'
 
 
 class City(models.Model):

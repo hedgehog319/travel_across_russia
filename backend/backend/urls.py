@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
-from backend.settings import MEDIA_URL, MEDIA_ROOT
+from backend.settings import MEDIA_URL, MEDIA_ROOT, DEBUG
 from rest_framework.routers import SimpleRouter, DefaultRouter
 
 urlpatterns = [
@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/', include('app.urls')),
 ]
 
-urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
+if DEBUG:
+    urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
