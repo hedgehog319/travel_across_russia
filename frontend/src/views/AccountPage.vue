@@ -31,7 +31,7 @@
                   </tr>
                   <tr>
                     <td>Тип документа</td>
-                    <td>{{ document.name }}</td>
+                    <td>{{ document.type }}</td>
                   </tr>
                   <tr>
                     <td>Имя</td>
@@ -77,7 +77,8 @@
                                   prepend-icon="mdi-calendar"
                                   readonly/>
                   </template>
-                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="document.birthdate" no-title scrollable>
+                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="document.birthdate" no-title
+                                 scrollable>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
                     <v-btn color="primary" text @click="birthDayMenu = false">OK</v-btn>
@@ -102,6 +103,8 @@
         </v-tabs>
       </v-card>
     </v-col>
+
+    <v-snackbar top v-model="updated">Данные пользователя обновлены</v-snackbar>
   </div>
 </template>
 
@@ -113,6 +116,7 @@ export default {
   data() {
     return {
       birthDayMenu: false,
+      updated: false,
       user: {
         username: null,
         email: null,
@@ -238,9 +242,10 @@ export default {
       const document = {
         first_name: this.document.firstname,
         last_name: this.document.lastname,
-        type: 1,
+        birthdate: this.document.birthdate,
         series: this.document.series,
-        number: this.document.number
+        number: this.document.number,
+        type: 1,
       }
 
       this.axios.patch('api/user-profile/', {email: this.user.email}, conf)
@@ -248,6 +253,8 @@ export default {
 
       this.axios.patch('api/document/', document, conf)
           .catch(err => console.log(err.response))
+
+      this.updated = true
     }
   },
   created() {
@@ -265,8 +272,10 @@ export default {
           if (res.data.length > 0) {
             this.document.firstname = res.data[0].first_name
             this.document.lastname = res.data[0].last_name
+            this.document.birthdate = res.data[0].birthdate
             this.document.series = res.data[0].series
             this.document.number = res.data[0].number
+            this.document.type = res.data[0].type
           }
         })
   }

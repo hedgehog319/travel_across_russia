@@ -5,7 +5,7 @@
         <v-card class="round" elevation="2">
           <v-card-title class="text-center">Регистрация</v-card-title>
 
-          <span v-if="invalidUser" class="text-center error--text"
+          <span v-if="invalidUser" class="text-center error--text unselectable"
                 style="position: absolute; text-align: center; left: 77px; top: 50px; max-width: 214px">
             Пользователь с таким логином уже существует
           </span>
@@ -46,7 +46,7 @@
       </v-container>
     </v-form>
 
-    <v-snackbar v-model="saved">Пользователь {{ user.username }} успешно создан</v-snackbar>
+    <v-snackbar top v-model="saved">Пользователь {{ user.username }} успешно создан</v-snackbar>
   </div>
 </template>
 
@@ -117,7 +117,13 @@ export default {
           this.saved = true;
         }
       })
-          .catch(() => this.invalidUser = true)
+          .catch((err) => {
+            try {
+              this.invalidUser = err.response.data.username[0].includes('already exists')
+            } catch {
+              this.invalidUser = false
+            }
+          })
     },
     validateUser() {
       this.$v.$touch()

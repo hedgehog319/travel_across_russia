@@ -140,19 +140,19 @@
           </router-link>
 
           <div v-else-if="!isAuthorized && isSmall">
-            <v-list-item>
-              <v-icon>mdi-login</v-icon>
-              <v-list-item-title class="text-subtitle-1 ml-1"
-                                 @click="this.$router.push({name: 'login'}).catch(()=>{})">
-                Войти
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-icon>mdi-account-plus</v-icon>
-              <v-list-item-title class="text-subtitle-1 ml-1"
-                                 @click="$router.push({name: 'registration'}).catch(() => {})">Регистрация
-              </v-list-item-title>
-            </v-list-item>
+            <router-link class="text-decoration-none hover" to="/login">
+              <v-list-item>
+                <v-icon>mdi-login</v-icon>
+                <v-list-item-title class="text-subtitle-1 ml-1">Войти</v-list-item-title>
+              </v-list-item>
+            </router-link>
+
+            <router-link class="text-decoration-none hover" to="/registration">
+              <v-list-item>
+                <v-icon>mdi-account-plus</v-icon>
+                <v-list-item-title class="text-subtitle-1 ml-1">Регистрация</v-list-item-title>
+              </v-list-item>
+            </router-link>
           </div>
 
           <router-link v-if="isAuthorized" class="text-decoration-none hover" to="/favorites">
@@ -166,12 +166,6 @@
             <v-list-item>
               <v-icon>mdi-map-search-outline</v-icon>
               <v-list-item-title class="text-subtitle-1 ml-1">Поиск тура</v-list-item-title>
-            </v-list-item>
-          </router-link>
-          <router-link class="text-decoration-none hover" to="/booking">
-            <v-list-item>
-              <v-icon>mdi-book-plus</v-icon>
-              <v-list-item-title class="text-subtitle-1 ml-1">Бронирование тура</v-list-item-title>
             </v-list-item>
           </router-link>
         </v-list-item-group>

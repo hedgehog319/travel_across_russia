@@ -6,8 +6,8 @@ export default {
             const res = await axios.get('api/fav-tours/', conf)
             ctx.commit('updateFavTours', res.data)
         },
-        removeFavTour(ctx, tour) {
-            ctx.commit('removeFavTour', tour)
+        removeFavTour(ctx, id) {
+            ctx.commit('removeFavTour', id)
         }
     },
     mutations: {
@@ -15,12 +15,13 @@ export default {
             state.favTours = favTours
         },
         removeFavTour(state, id) {
-            let rem
-            for (let i = 0; i < state.favTours.length; i++)
-                if (state.favTours[i].tour === id) {
+            let rem = -1
+            for (let i = 0; i < state.favTours.length; i++) {
+                if (state.favTours[i].tour_id === id) {
                     rem = i
                     break
                 }
+            }
 
             if (rem >= 0) {
                 state.favTours.splice(rem, 1)

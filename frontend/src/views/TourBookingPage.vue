@@ -37,7 +37,7 @@
                     </v-radio-group>
                   </div>
                   <v-spacer/>
-<!--                  <span style="font-size: 30px">{{ getCost(tour.price) }}</span>-->
+                  <span style="font-size: 30px">{{ getCost(tour.price) }}</span>
                 </div>
               </v-card-text>
             </v-card>

@@ -29,7 +29,6 @@
           <v-row align="center" class="mx-0">
             <!--TODO разобраться with rating-->
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
-            <div class="grey--text ml-4">4.5 (413)</div>
             <v-spacer/>
             <div style="font-weight: 500; font-size: 15px; color: black">
               <v-chip>Продолжительность: 20 дней</v-chip>

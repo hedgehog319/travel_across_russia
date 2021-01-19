@@ -6,7 +6,7 @@
            class="d-block rounded ma-2" :width="isSmall ? undefined : 300"/>
     <v-card-text class="d-flex flex-column justify-md-space-around">
       <div>
-        <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country }}</span>
+        <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
         <v-spacer/>
         <v-btn icon large class="v-btn--absolute" style="top: 5px; right: 5px" @click="favClick">
           <v-icon v-if="tour.is_favourite || favorite" color="#ffd700" large>mdi-heart</v-icon>
@@ -37,7 +37,7 @@ export default {
       type: Object,
       default() {
         return {
-          tour: Number,
+          tour_id: Number,
           name: String,
           price: Number,
           country_name: String,
@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['removeFavTour']),
+    ...mapActions(['removeFavTour', 'removeFavorite']),
     getCost(price) {
       return price.toString()
           .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
@@ -67,19 +67,19 @@ export default {
       this.isSmall = window.innerWidth < 900
     },
     addFav(conf) {
-      console.log(this.tour.tour)
-      this.axios.post('api/fav-tours/', {tour: this.tour.tour}, conf)
+      this.axios.post('api/fav-tours/', {tour: this.tour.tour_id}, conf)
       this.tour.is_favourite = true
     },
     removeFav(conf) {
-      this.axios.delete(`api/fav-tours/${this.tour.tour}/`, conf)
-      this.removeFavTour(this.tour.tour)
+      this.axios.delete(`api/fav-tours/${this.tour.tour_id}/`, conf)
+      this.removeFavTour(this.tour.tour_id)
+      this.removeFavorite(this.tour.tour_id)
+      this.tour.is_favourite = false
     },
     favClick() {
       if (!this.$cookies.isKey('Token')) return
 
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      console.log(this.favorite + ' ' + this.tour.is_favourite)
       if (this.favorite || this.tour.is_favourite) this.removeFav(conf)
       else this.addFav(conf)
     }
