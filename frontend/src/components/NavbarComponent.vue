@@ -36,8 +36,8 @@
       <router-link class="text-decoration-none hover" to="/booking">
         <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
-              <v-icon color="black" dark large style="margin: 10px">mdi-book-plus</v-icon>
+            <v-btn v-bind="attrs" v-on="on" elevation="0" icon class="nav-icon">
+              <v-icon color="black" dark large class="ma-2">mdi-book-plus</v-icon>
             </v-btn>
           </template>
           <span>Бронирование тура</span>
@@ -47,8 +47,8 @@
       <router-link class="text-decoration-none hover" to="/search">
         <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
-              <v-icon color="black" dark large style="margin: 10px">mdi-map-search</v-icon>
+            <v-btn v-bind="attrs" v-on="on" elevation="0" icon class="nav-icon">
+              <v-icon color="black" dark large class="ma-2">mdi-map-search</v-icon>
             </v-btn>
           </template>
           <span>Поиск тура</span>
@@ -58,8 +58,8 @@
       <router-link v-if="isAuthorized" class="text-decoration-none hover" to="/favorites">
         <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" elevation="0" icon style="background: #FFFFFF; width: 50px">
-              <v-icon color="black" dark large style="margin: 10px">mdi-heart-outline</v-icon>
+            <v-btn v-bind="attrs" v-on="on" elevation="0" icon class="nav-icon">
+              <v-icon color="black" dark large class="ma-2">mdi-heart-outline</v-icon>
             </v-btn>
           </template>
           <span>Избранное</span>
@@ -94,7 +94,7 @@
 
                 <v-card>
                   <v-card-title class="headline grey lighten-2">Выход</v-card-title>
-                  <v-card-text style="margin-top: 15px">
+                  <v-card-text class="mt-4">
                     Вы действительно хотите выйти?
                   </v-card-text>
                   <v-divider/>
@@ -111,10 +111,10 @@
 
         <!--TODO поправить на малом экране-->
         <div v-else-if="!isAuthorized && !isSmall">
-          <v-btn elevation="0" class="round" color="primary" style="margin-right: 2px"
+          <v-btn elevation="0" class="round mr-1" color="primary"
                  @click="$router.push({name: 'login'}).catch(()=>{})">Войти
           </v-btn>
-          <v-btn elevation="0" class="round" color="primary" style="margin-left: 2px"
+          <v-btn elevation="0" class="round ml-1" color="primary"
                  @click="$router.push({name: 'registration'}).catch(() => {})">Регистрация
           </v-btn>
         </div>
@@ -135,21 +135,21 @@
                        class="text-decoration-none hover" to="/account">
             <v-list-item>
               <v-icon>mdi-account-box-outline</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Профиль</v-list-item-title>
+              <v-list-item-title class="text-subtitle-1 ml-1">Профиль</v-list-item-title>
             </v-list-item>
           </router-link>
 
           <div v-else-if="!isAuthorized && isSmall">
             <v-list-item>
               <v-icon>mdi-login</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
+              <v-list-item-title class="text-subtitle-1 ml-1"
                                  @click="this.$router.push({name: 'login'}).catch(()=>{})">
                 Войти
               </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-icon>mdi-account-plus</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1"
+              <v-list-item-title class="text-subtitle-1 ml-1"
                                  @click="$router.push({name: 'registration'}).catch(() => {})">Регистрация
               </v-list-item-title>
             </v-list-item>
@@ -158,20 +158,20 @@
           <router-link v-if="isAuthorized" class="text-decoration-none hover" to="/favorites">
             <v-list-item>
               <v-icon>mdi-heart-outline</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Избранное</v-list-item-title>
+              <v-list-item-title class="text-subtitle-1 ml-1">Избранное</v-list-item-title>
             </v-list-item>
           </router-link>
 
           <router-link class="text-decoration-none hover" to="/search">
             <v-list-item>
               <v-icon>mdi-map-search-outline</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Поиск тура</v-list-item-title>
+              <v-list-item-title class="text-subtitle-1 ml-1">Поиск тура</v-list-item-title>
             </v-list-item>
           </router-link>
           <router-link class="text-decoration-none hover" to="/booking">
             <v-list-item>
               <v-icon>mdi-book-plus</v-icon>
-              <v-list-item-title style="margin-left: 5px" class="text-subtitle-1">Бронирование тура</v-list-item-title>
+              <v-list-item-title class="text-subtitle-1 ml-1">Бронирование тура</v-list-item-title>
             </v-list-item>
           </router-link>
         </v-list-item-group>

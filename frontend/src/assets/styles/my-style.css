@@ -69,3 +69,8 @@
 .mw-600 {
     max-width: 600px !important;
 }
+
+.nav-icon {
+    background: #FFFFFF !important;
+    width: 50px !important;
+}

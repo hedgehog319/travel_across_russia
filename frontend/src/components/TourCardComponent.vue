@@ -5,11 +5,11 @@
 
       <div style="position: absolute; bottom: 110px; left: 15px">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
-        <span style="color: #fff; padding-left: 5px">{{ tour.days }} days</span>
+        <span class="white--text pl-1">{{ tour.days }} days</span>
       </div>
 
       <div style="position: absolute; bottom: 110px; right: 15px">
-        <span style="color: #fff; font-size: 25px">От {{ getCost(tour.cost) }}</span>
+        <span class="white--text text-h5">От {{ getCost(tour.cost) }}</span>
       </div>
     </router-link>
 

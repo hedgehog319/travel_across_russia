@@ -5,8 +5,7 @@
         <v-stepper-header>
           <v-stepper-step :complete="e1 > 1" step="1" class="unselectable">Выбор тура</v-stepper-step>
           <v-divider/>
-          <v-stepper-step :complete="e1 > 2" step="2" class="unselectable">Заполнение документов
-          </v-stepper-step>
+          <v-stepper-step :complete="e1 > 2" step="2" class="unselectable">Заполнение документов</v-stepper-step>
           <v-divider/>
           <v-stepper-step step="3" class="unselectable">Оплата тура</v-stepper-step>
           <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom color="primary accent-4"/>
@@ -15,30 +14,37 @@
         <v-stepper-items>
           <v-stepper-content step="1">
 
-            <v-card class="rounded" elevation="0"
+            <v-card class="rounded" elevation="0" min-height="300"
                     :style="isSmall ? 'display: inline-block; margin: 10px': 'display: flex; margin: 10px'">
-              <v-img :src="tour.src" class="rounded" height="200px" style="display: block; margin: 10px"
-                     :width="isSmall ? undefined : 300"/>
-              <v-card-text style="height: 100% !important;">
-                <div style="margin-bottom: 10px">
-                  <span style="font-size: 30px; color: black">{{ tour.name }}, {{ tour.country }}</span>
+              <v-img :src="tour.src" height="300px" class="d-block ma-2 rounded" :width="isSmall ? undefined : 300"/>
+              <v-card-text class="d-flex flex-column justify-md-space-around">
+                <div class="mb-2">
+                  <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country }}</span>
                 </div>
-                <span
-                    style="font-size: 20px; color: #242424; opacity: 0.7; margin-bottom: 10px">{{
-                    tour.description
-                  }}</span>
-                <div style="display: flex; margin-top: 10px">
-                  <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
+                <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
+                  {{ tour.description }}
+                </span>
+                <div class="d-flex mt-2">
+                  <div class="text-center black--text" style="font-size: 20px">
+                    <span>Тип питания</span>
+                    <v-radio-group row v-model="typeOfFood">
+                      <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
+                        <template v-slot:activator="{ on }">
+                          <v-radio :ripple="false" v-on="on" :label="type.short" :value="i"/>
+                        </template>
+                        <span>{{ type.full }}</span>
+                      </v-tooltip>
+                    </v-radio-group>
+                  </div>
                   <v-spacer/>
-                  <span style="right: 10px; bottom: 43px; font-size: 25px">{{ getCost(tour.price) }}</span>
+<!--                  <span style="font-size: 30px">{{ getCost(tour.price) }}</span>-->
                 </div>
               </v-card-text>
             </v-card>
-            <v-container style="display: flex">
-              <!--TODO home redirect-->
+            <v-container class="d-flex">
               <v-btn @click="$router.push({name: 'home'})">Отмена</v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="e1 = 2">Далее</v-btn>
+              <v-btn color="primary" class="mr-1" @click="e1 = 2">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
@@ -51,8 +57,9 @@
                     <v-list-item v-for="(tourist, i) in tourists" :key="i" @click="touristClick(i)">
                       <v-list-item-content>
                         <v-list-item-title
-                            v-text="tourist.lastname + '  ' + tourist.firstname + '  ' + tourist.birthdate + '  '
-                            + tourist.documentType + '  ' + tourist.series + '  ' + tourist.number"/>
+                            v-text="tourist.lastname + '  ' + tourist.firstname + '  '
+                            + tourist.birthdate + '  ' + tourist.documentType + '  ' + tourist.series + '  '
+                            + tourist.number"/>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
@@ -60,21 +67,21 @@
               </v-list>
             </v-card>
 
-            <v-container style="display: flex">
+            <v-container class="d-flex">
               <v-btn @click="e1 = 1">Назад</v-btn>
               <v-spacer/>
               <v-btn icon @click="addTourist">
                 <v-icon large>mdi-plus-circle-outline</v-icon>
               </v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="goToPay">Далее</v-btn>
+              <v-btn color="primary" class="mr-1" @click="goToPay">Далее</v-btn>
             </v-container>
           </v-stepper-content>
 
           <v-stepper-content step="3">
 
-            <v-card class="mb-12" color="lighten-1" elevation="0" style="margin: 10px" min-height="300">
-              <v-row justify="center" style="margin-top: 5px;">
+            <v-card class="mb-12" color="lighten-1" elevation="0" min-height="300">
+              <v-row justify="center" class="mt-1">
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.number" height="38" label="Номер карты"
                                 :error-messages="cardNumberErrors"
@@ -104,15 +111,22 @@
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.cvv" label="CVV" height="38"
                                 :error-messages="cardCVVErrors"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0; padding-top: 2px"/>
+                                style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0;
+                                padding-top: 2px"/>
                 </v-col>
+              </v-row>
+
+              <v-row class="mt-3" justify="center">
+                <span class="text-h5">Итого к оплате: </span>
+                <span class="ml-3" style="font-size: 23px">{{getCost(tour.price)}}</span>
+                <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
 
             <v-container style="display: flex">
               <v-btn @click="e1 = 2">Назад</v-btn>
               <v-spacer/>
-              <v-btn color="primary" style="margin-right: 5px;" @click="toPay">Оплатить</v-btn>
+              <v-btn color="primary" class="mr-1" @click="toPay">Оплатить</v-btn>
             </v-container>
           </v-stepper-content>
         </v-stepper-items>
@@ -173,8 +187,8 @@
               </v-col>
 
               <v-col cols="12" md="6" sm="6">
-                <v-text-field counter="6"
-                              :error-messages="numberErrors" maxlength="6" v-model="tourist.number" label="Номер"/>
+                <v-text-field counter="6" :error-messages="numberErrors" maxlength="6" v-model="tourist.number"
+                              label="Номер"/>
               </v-col>
             </v-row>
           </v-container>
@@ -202,6 +216,14 @@ export default {
   name: "TourBooking",
   data() {
     return {
+      selectedTypes: ['RO'],
+      typesOfFood: [{short: 'RO', full: 'Без питания'},
+        {short: 'BB', full: 'Только завтраки'},
+        {short: 'HB', full: 'Завтрак и ужин'},
+        {short: 'FB', full: 'Завтрак, обед и ужин'},
+        {short: 'AI', full: 'Всё включено'}
+      ],
+      typeOfFood: 1,
       e1: 1,
       isSmall: false,
       tour: {
