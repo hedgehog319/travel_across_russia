@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.forms.models import model_to_dict
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
@@ -53,13 +54,11 @@ class TourView(ModelViewSet):
     def filter_queryset(self, queryset):
         params = self.request.query_params
         if 'city' in params:
-            city = City.objects.get(name=params['city'])
-            queryset = queryset.filter(city=city.id)
+            queryset = queryset.filter(city__name=params['city'])
+
         elif 'country' in params:
-            country = Country.objects.get(name=params['country'])
-            cities = City.objects.all().filter(country=country.id)
-            cities = cities.values_list('id', flat=True)
-            queryset = queryset.filter(city__in=cities)
+            queryset = queryset.filter(city__country__name=params['country'])
+
         if 'count_days' in params:
             queryset = queryset.filter(count_days__lte=params['count_days'])
 
@@ -138,7 +137,7 @@ class CityView(ModelViewSet):
 
 class HotelView(ModelViewSet):
     queryset = Hotel.objects.all()
-    serializer_class = HotelSerializer
+    serializer_class = HotelSerializer  # todo возращает city_id вместо city_name. Это норм?
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['type_of_food']
@@ -146,13 +145,9 @@ class HotelView(ModelViewSet):
     def filter_queryset(self, queryset):
         params = self.request.query_params
         if 'city' in params:
-            city = City.objects.get(name=params['city'])
-            queryset = queryset.filter(city=city.id)
+            queryset = queryset.filter(city__name=params['city'])
         elif 'country' in params:
-            country = Country.objects.get(name=params['country'])
-            cities = City.objects.all().filter(country=country.id)
-            cities = cities.values_list('id', flat=True)
-            queryset = queryset.filter(city__in=cities)
+            queryset = queryset.filter(city__country_name=params['country'])
 
         return super().filter_queryset(queryset)
 
@@ -185,15 +180,18 @@ class TouristView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         booked_tour = request.data.get('booked_tour')
-        for field in request.data:
-            if 'tourist' in field:
-                data = request.data.get(field)
-                document_data = data.get('document')
-                document = Document.objects.create(**document_data)
+        try:
+            for field in request.data:
+                if 'tourist' in field:
+                    data = request.data.get(field)
+                    document_data = data.get('document')
+                    document = Document.objects.create(**document_data)
 
-                Tourist.objects.create(document=document, booked_tour=BookedTour.objects.get(id=booked_tour),
-                                       email=data.get('email'))
-        return Response(status=status.HTTP_201_CREATED)
+                    Tourist.objects.create(document=document, booked_tour=BookedTour.objects.get(id=booked_tour),
+                                           email=data.get('email'))
+            return Response(status=status.HTTP_201_CREATED)
+        except (TypeError, IntegrityError):
+            return Response(status=status.HTTP_400_BAD_REQUEST, data='Not enough some fields ):')
 
     def perform_destroy(self, instance):
         document = instance.document
@@ -206,3 +204,4 @@ class TouristView(ModelViewSet):
 class HotelPhotoView(ModelViewSet):
     queryset = HotelPhoto.objects.all()
     serializer_class = HotelPhotoSerializer
+    permission_classes = [IsAdminOrReadOnly]
