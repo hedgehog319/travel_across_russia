@@ -84,13 +84,13 @@
               <v-row justify="center" class="mt-1">
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.number" height="38" label="Номер карты"
-                                :error-messages="cardNumberErrors"
+                                :error-messages="cardNumberErrors" counter="16" maxlength="16"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
 
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.name" height="38" label="Владелец"
-                                :error-messages="cardNameErrors"
+                                :error-messages="cardNameErrors" counter="20" maxlength="20"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
               </v-row>
@@ -110,15 +110,23 @@
 
                 <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
                   <v-text-field filled v-model="card.cvv" label="CVV" height="38"
-                                :error-messages="cardCVVErrors"
+                                :error-messages="cardCVVErrors" counter="3" maxlength="3"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0;
                                 padding-top: 2px"/>
                 </v-col>
               </v-row>
 
+              <v-row v-if="!$cookies.isKey('Token')" justify="center">
+                <v-col cols="12" lg="6" md="6" sm="6" style="margin: 20px 6px; padding: 0 5px 0 5px;">
+                  <v-text-field filled v-model="email" height="38" label="Email"
+                                :error-messages="emailErrors"
+                                style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
+                </v-col>
+              </v-row>
+
               <v-row class="mt-3" justify="center">
                 <span class="text-h5">Итого к оплате: </span>
-                <span class="ml-3" style="font-size: 23px">{{getCost(tour.price)}}</span>
+                <span class="ml-3" style="font-size: 23px">{{ getCost(tour.price) }}</span>
                 <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
@@ -135,7 +143,19 @@
 
     <v-dialog v-model="touristDialog" max-width="500px">
       <v-card>
-        <v-card-title class="justify-center"><span class="headline">Турист</span></v-card-title>
+        <v-card-title class="justify-center">
+          <span class="headline">Турист</span>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-if="$cookies.isKey('Token')" icon absolute style="right: 5px"
+                     v-on="on" @click="loadDocument">
+                <v-icon>mdi-file-document</v-icon>
+              </v-btn>
+            </template>
+            <span>Загрузить свой документ</span>
+          </v-tooltip>
+        </v-card-title>
 
         <v-card-text>
           <v-container>
@@ -175,7 +195,7 @@
             <v-row>
               <v-col cols="12" md="12" sm="12">
                 <v-select :error-messages="documentTypeErrors" v-model="tourist.documentType"
-                          :items="['Паспорт', 'Загранпаспорт']"
+                          :items="getDocumentTypes"
                           label="Тип документа"/>
               </v-col>
             </v-row>
@@ -210,7 +230,8 @@
 </template>
 
 <script>
-import {required, minLength, numeric} from 'vuelidate/lib/validators'
+import {required, minLength, numeric, email} from 'vuelidate/lib/validators'
+import {mapGetters} from "vuex";
 
 export default {
   name: "TourBooking",
@@ -259,6 +280,7 @@ export default {
         year: '',
         cvv: ''
       },
+      email: null,
     }
   },
   validations: {
@@ -301,6 +323,7 @@ export default {
       },
       number: {
         required,
+        minLength: minLength(16),
         numeric
       },
       month: {
@@ -311,11 +334,17 @@ export default {
       },
       cvv: {
         required,
+        minLength: minLength(3),
         numeric
       }
+    },
+    email: {
+      required,
+      email
     }
   },
   computed: {
+    ...mapGetters(['getDocumentTypes', 'getDocumentType']),
     months() {
       const months = []
       for (let i = 1; i <= 12; i++) {
@@ -398,6 +427,7 @@ export default {
       if (!this.$v.card.number.$dirty) return mess
       if (!this.$v.card.number.required) mess = 'Введите номер карты'
       else if (!this.$v.card.number.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.card.number.minLength) mess = 'Номер карты слишком короткий'
 
       return mess
     },
@@ -420,6 +450,16 @@ export default {
       if (!this.$v.card.cvv.$dirty) return mess
       if (!this.$v.card.cvv.required) mess = 'Введите cvv код'
       else if (!this.$v.card.cvv.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.card.cvv.minLength) mess = 'CVV карты слишком короткий'
+
+      return mess
+    },
+
+    emailErrors() {
+      let mess = ''
+      if (!this.$v.email.$dirty) return mess
+      if (!this.$v.email.required) mess = 'Введите email'
+      else if (!this.$v.email.email) mess = 'Email не верный'
 
       return mess
     }
@@ -432,7 +472,10 @@ export default {
       this.touristDialog = true
     },
     removeTourist() {
-      this.tourists.splice(this.touristID, 1);
+      if (this.touristID >= 0) {
+        this.tourists.splice(this.touristID, 1);
+        this.touristID = -1
+      }
 
       this.touristDialog = false
     },
@@ -482,7 +525,11 @@ export default {
     toPay() {
       this.$v.card.$touch()
 
-      if (!this.$v.card.$invalid) {
+      if (!this.$cookies.isKey('Token'))
+        this.$v.email.$touch()
+
+      if (!this.$v.card.$invalid &&
+          (this.$cookies.isKey('Token') || !this.$v.email.$invalid)) {
         this.sendPay()
       }
     },
@@ -493,6 +540,21 @@ export default {
       return price.toString()
           .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
     },
+    loadDocument() {
+      const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+      this.axios.get('api/document/', conf)
+          .then(res => {
+            if (res.data.length > 0) {
+              this.tourist.firstname = res.data[0].first_name
+              this.tourist.lastname = res.data[0].last_name
+              this.tourist.birthdate = res.data[0].birthdate
+              this.tourist.series = res.data[0].series
+              this.tourist.number = res.data[0].number
+              this.tourist.documentType = this.getDocumentType(res.data[0].type)
+            }
+          })
+
+    }
   },
   watch: {
     loading(val) {

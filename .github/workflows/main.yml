@@ -33,6 +33,14 @@ jobs:
         working-directory: ./backend
         run: python3 manage.py collectstatic
 
+      - name: Migrations
+        working-directory: ./backend
+        run: python3 manage.py makemigrations
+
+      - name: Migrate
+        working-directory: ./backend
+        run: python3 manage.py migrate
+
       - name: Install
         working-directory: ./frontend
         run: npm i

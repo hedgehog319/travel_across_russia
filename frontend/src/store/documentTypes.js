@@ -10,7 +10,6 @@ export default {
     mutations: {
         updateDocumentTypes(state, documentTypes) {
             state.documentTypes = documentTypes
-            console.log('update')
         }
     },
     getters: {

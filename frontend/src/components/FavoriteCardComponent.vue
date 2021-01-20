@@ -2,11 +2,15 @@
   <v-card class="rounded" :style="isSmall
                                   ? 'display: inline-block; margin-bottom: 8px'
                                   : 'display: flex; margin-bottom: 8px'">
-    <v-img src="https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg" height="200px"
-           class="d-block rounded ma-2" :width="isSmall ? undefined : 300"/>
+    <router-link class="text-decoration-none" :to="{name: 'tour', query: {id: tour.tour_id}}">
+      <v-img src="https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg" height="200px"
+             class="d-block rounded ma-2 hover" :width="isSmall ? undefined : 300"/>
+    </router-link>
     <v-card-text class="d-flex flex-column justify-md-space-around">
       <div>
-        <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
+        <router-link class="text-decoration-none hover" :to="{name: 'tour', query: {id: tour.tour_id}}">
+          <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
+        </router-link>
         <v-spacer/>
         <v-btn icon large class="v-btn--absolute" style="top: 5px; right: 5px" @click="favClick">
           <v-icon v-if="tour.is_favourite || favorite" color="#ffd700" large>mdi-heart</v-icon>
@@ -23,6 +27,8 @@
         </span>
       </div>
     </v-card-text>
+
+    <v-snackbar top v-model="favFail">Чтобы добавить тур в избранное, необходимо войти в аккаунт</v-snackbar>
   </v-card>
 </template>
 
@@ -55,6 +61,7 @@ export default {
   data() {
     return {
       isSmall: false,
+      favFail: false,
     }
   },
   methods: {
@@ -77,7 +84,10 @@ export default {
       this.tour.is_favourite = false
     },
     favClick() {
-      if (!this.$cookies.isKey('Token')) return
+      if (!this.$cookies.isKey('Token')) {
+        this.favFail = true
+        return
+      }
 
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
       if (this.favorite || this.tour.is_favourite) this.removeFav(conf)
