@@ -64,7 +64,7 @@
               <form style="margin: 15px" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
-                <v-select :items="typeOfDocuments" :error-messages="documentTypeErrors" v-model="document.type"/>
+                <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors" v-model="document.type"/>
                 <v-text-field v-model="document.firstname" :error-messages="firstnameErrors" label="Имя"/>
                 <v-text-field v-model="document.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
                 <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
@@ -110,6 +110,7 @@
 
 <script>
 import {required, minLength, numeric, email} from "vuelidate/lib/validators";
+import {mapGetters} from "vuex";
 
 export default {
   name: "AccountPage",
@@ -130,7 +131,6 @@ export default {
         birthdate: null,
       },
       invalidUser: false,
-      typeOfDocuments: ['Паспорт', 'Заграничный паспорт']
     }
   },
   validations: {
@@ -170,6 +170,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getDocumentTypes', 'getDocumentType', 'getDocumentId']),
     firstnameErrors() {
       let mess = ''
       if (!this.$v.document.firstname.$dirty) return mess
@@ -245,7 +246,7 @@ export default {
         birthdate: this.document.birthdate,
         series: this.document.series,
         number: this.document.number,
-        type: 1,
+        type: this.getDocumentId(this.document.type),
       }
 
       this.axios.patch('api/user-profile/', {email: this.user.email}, conf)
@@ -275,7 +276,7 @@ export default {
             this.document.birthdate = res.data[0].birthdate
             this.document.series = res.data[0].series
             this.document.number = res.data[0].number
-            this.document.type = res.data[0].type
+            this.document.type = this.getDocumentType(res.data[0].type)
           }
         })
   }
