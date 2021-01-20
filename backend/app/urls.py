@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from app.views import TourView, CountryView, CityView, HotelView, AirlineView, InsuranceView, DocumentView, \
-    FavouriteTourView, UserProfileView, TouristView, HotelPhotoView
+    FavouriteTourView, UserProfileView, TouristView, HotelPhotoView, document_types, access_types, food_types
 
 router = SimpleRouter()
 router.register('tours', TourView)  # ?city=CITY_NAME & country=COUNTRY_NAME & count_days=7
@@ -19,7 +19,10 @@ router.register('insurances', InsuranceView)
 router.register('hotel-photo', HotelPhotoView)
 
 urlpatterns = [
-    path('user-profile/', UserProfileView.as_view())
+    path('user-profile/', UserProfileView.as_view()),
+    path('document/types', document_types),
+    path('users/types', access_types),
+    path('hotels/food-types', food_types),
 ]
 
 # регистрация /auth/users/ POST (username и password)
