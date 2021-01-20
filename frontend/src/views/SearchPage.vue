@@ -44,8 +44,8 @@
                         <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
                           <template v-slot:activator="{ on }">
                             <div v-on="on" class="ma-auto">
-                            <v-checkbox style="max-height: 30px" :ripple="false" :label="type.short"
-                                        :value="type.short" v-model="selectedTypes"/>
+                              <v-checkbox style="max-height: 30px" :ripple="false" :label="type.short"
+                                          :value="type.short" v-model="selectedTypes"/>
                             </div>
                           </template>
                           <span>{{ type.full }}</span>
@@ -70,7 +70,7 @@
 <script>
 import DatePicker from "vue2-datepicker";
 import FavoriteCardComponent from "@/components/FavoriteCardComponent";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "SearchPage",
@@ -103,6 +103,7 @@ export default {
   }),
   computed: mapGetters(['getCitiesName', 'getTours']),
   methods: {
+    ...mapActions(['fetchTours']),
     currentDate(date) {
       const today = new Date()
       const yesterday = new Date(today.getTime() - 24 * 3600 * 1000)
@@ -123,6 +124,9 @@ export default {
     window.removeEventListener('resize', this.onResize, {passive: true})
   },
   mounted() {
+    const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+    this.fetchTours(conf)
+
     this.onResize()
     window.addEventListener('resize', this.onResize, {passive: true})
 
