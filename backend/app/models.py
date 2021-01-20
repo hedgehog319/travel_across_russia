@@ -1,4 +1,5 @@
 from datetime import date
+from django.utils.translation import gettext_lazy as _
 
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_image_file_extension
@@ -6,12 +7,12 @@ from django.db import models
 
 
 class User(AbstractUser):
-    FOOD_CHOICES = (
+    ACCESS_CHOICES = (
         (1, 'Пользователь'),
         (2, 'Турменеджер'),
         (3, 'Админ'),
     )
-    access_right = models.PositiveSmallIntegerField(choices=FOOD_CHOICES, default=0)
+    access_right = models.PositiveSmallIntegerField(choices=ACCESS_CHOICES, default=1)
     document = models.OneToOneField('Document', on_delete=models.SET_NULL, null=True, blank=True)
     fav_tours = models.ManyToManyField('Tour', through='FavouriteTour')
 
@@ -147,18 +148,18 @@ class Insurance(models.Model):
 
 class Hotel(models.Model):
     FOOD_CHOICES = (
-        (1, 'Без питания'),
-        (2, 'Завтрак'),
-        (3, 'Завтрак + ужин'),
-        (4, 'Завтрак + обед + ужин'),
-        (5, 'Все включено'),
+        ('RO', 'Без питания'),
+        ('BB', 'Завтрак'),
+        ('HB', 'Завтрак + ужин'),
+        ('FB', 'Завтрак + обед + ужин'),
+        ('AI', 'Все включено'),
     )
 
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=300)
     number_of_rooms = models.IntegerField()
     description = models.CharField(max_length=500)
-    type_of_food = models.PositiveSmallIntegerField(choices=FOOD_CHOICES)
+    type_of_food = models.CharField(choices=FOOD_CHOICES, max_length=2)
     price_for_night = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
 

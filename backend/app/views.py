@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.forms.models import model_to_dict
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import api_view
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, ListModelMixin, DestroyModelMixin
@@ -147,7 +148,7 @@ class HotelView(ModelViewSet):
         if 'city' in params:
             queryset = queryset.filter(city__name=params['city'])
         elif 'country' in params:
-            queryset = queryset.filter(city__country_name=params['country'])
+            queryset = queryset.filter(city__country__name=params['country'])
 
         return super().filter_queryset(queryset)
 
@@ -205,3 +206,18 @@ class HotelPhotoView(ModelViewSet):
     queryset = HotelPhoto.objects.all()
     serializer_class = HotelPhotoSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+
+@api_view(['GET'])
+def document_types(request):
+    return Response(status=status.HTTP_200_OK, data=dict(Document.TYPE_CHOICES))
+
+
+@api_view(['GET'])
+def access_types(request):
+    return Response(status=status.HTTP_200_OK, data=dict(get_user_model().ACCESS_CHOICES))
+
+
+@api_view(['GET'])
+def food_types(request):
+    return Response(status=status.HTTP_200_OK, data=dict(Hotel.FOOD_CHOICES))
