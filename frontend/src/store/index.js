@@ -7,11 +7,13 @@ Vue.use(Vuex)
 import cities from "@/store/cities";
 import favTours from "@/store/favTours";
 import tours from "@/store/tours";
+import documentTypes from "@/store/documentTypes";
 
 export default new Vuex.Store({
     modules: {
         cities,
         favTours,
         tours,
+        documentTypes,
     }
 })

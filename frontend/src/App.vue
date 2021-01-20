@@ -18,13 +18,14 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
-  methods: mapActions(['fetchCities', 'fetchTours']),
+  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchTours']),
   created() {
     let conf
     if (this.$cookies.isKey('Token'))
       conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
 
     this.fetchCities()
+    this.fetchDocumentTypes()
     this.fetchTours(conf)
   },
 };
@@ -37,6 +38,7 @@ export default {
   padding-top: 60px;
   padding-bottom: 100px;
 }
+
 .bg {
   background-image: url('./assets/img/bg.jpg') !important;
   background-size: cover !important;
