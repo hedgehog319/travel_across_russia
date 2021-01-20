@@ -17,7 +17,9 @@
           <v-icon v-else color="#ffd700" large>mdi-heart-outline</v-icon>
         </v-btn>
       </div>
-      <span class="mb-2 text--secondary text-h6 grey--text">{{ tour.description }}</span>
+      <div class="mb-2 text--secondary text-h6 grey--text" :style="isSmall ? '' : 'max-width: 63%'">
+        <span>{{ divideDescription(tour.description) }}</span>
+      </div>
       <div class="d-flex">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
@@ -65,6 +67,11 @@ export default {
     }
   },
   methods: {
+    divideDescription(str) {
+      if (str.length > 250)
+        return str.slice(0, 250) + '...'
+      return str
+    },
     ...mapActions(['removeFavTour', 'removeFavorite']),
     getCost(price) {
       return price.toString()

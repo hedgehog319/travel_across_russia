@@ -27,8 +27,8 @@
 
         <v-card-text style="margin-left: 25px; width: 95%">
           <v-row align="center" class="mx-0">
-            <!--TODO разобраться with rating-->
-            <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"/>
+            <!--TODO разобраться with rating if auth -->
+            <v-rating :value="0" color="amber" hover dense half-increments size="25"/>
             <v-spacer/>
             <div style="font-weight: 500; font-size: 15px; color: black">
               <v-chip>Продолжительность: 20 дней</v-chip>
