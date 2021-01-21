@@ -14,12 +14,13 @@
         <v-stepper-items>
           <v-stepper-content step="1">
 
-            <v-card class="rounded" elevation="0" min-height="300"
-                    :style="isSmall ? 'display: inline-block; margin: 10px': 'display: flex; margin: 10px'">
+            <v-card class="rounded unselectable" elevation="0" min-height="300"
+                    :style="isSmall ? 'display: inline-block; margin: 10px'
+                    : 'display: flex; margin: 10px;max-width: 65%'">
               <v-img :src="tour.src" height="300px" class="d-block ma-2 rounded" :width="isSmall ? undefined : 300"/>
               <v-card-text class="d-flex flex-column justify-md-space-around">
                 <div class="mb-2">
-                  <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country }}</span>
+                  <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
                 </div>
                 <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
                   {{ tour.description }}
@@ -37,7 +38,7 @@
                     </v-radio-group>
                   </div>
                 </div>
-                <span style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }}</span>
+                <span class="unselectable" style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }} Р</span>
 
               </v-card-text>
             </v-card>
@@ -89,7 +90,8 @@
                 </v-col>
 
                 <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
-                  <v-text-field filled v-model="card.name" height="38" label="Владелец"
+                  <v-text-field filled :value="card.name" height="38" label="Владелец"
+                                @input="input => this.card.name = input.toUpperCase()"
                                 :error-messages="cardNameErrors" counter="20" maxlength="20"
                                 style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
                 </v-col>
@@ -250,10 +252,11 @@ export default {
       e1: 1,
       isSmall: false,
       tour: {
-        id: 1,
+        tour_id: 1,
         name: 'Хаятт Ридженси Сочи',
         price: 200000,
-        country: "Россия",
+        country_name: "Россия",
+        city_name: 'Сочи',
         src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
         description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря ' +
             'и Курортного проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
@@ -572,6 +575,20 @@ export default {
     this.onResize()
     window.addEventListener('resize', this.onResize, {passive: true})
   },
+  created() {
+    this.axios.get(`api/tours/?tour_id=${this.$route.query.id}`).then(resp => {
+      if (resp.statusText === "OK") {
+        console.log(resp)
+        this.tour.tour_id = resp.data[0].tour_id
+        this.tour.name = resp.data[0].name
+        this.tour.country_name = resp.data[0].country_name
+        this.tour.city_name = resp.data[0].city_name
+        this.tour.description = resp.data[0].description
+        this.tour.rating = resp.data[0].rating
+        this.tour.price = resp.data[0].price
+      }
+    })
+  }
 }
 </script>
 

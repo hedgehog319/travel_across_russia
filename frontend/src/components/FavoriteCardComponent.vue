@@ -1,12 +1,12 @@
 <template>
-  <v-card class="rounded" :style="isSmall
+  <v-card class="rounded unselectable" :style="isSmall
                                   ? 'display: inline-block; margin-bottom: 8px'
                                   : 'display: flex; margin-bottom: 8px'">
     <router-link class="text-decoration-none" :to="{name: 'tour', query: {id: tour.tour_id}}">
       <v-img src="https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg" height="200px"
              class="d-block rounded ma-2 hover" :width="isSmall ? undefined : 300"/>
     </router-link>
-    <v-card-text class="d-flex flex-column justify-md-space-around">
+    <v-card-text class="d-flex flex-column justify-md-space-around" :style="isSmall ? '' : 'max-width: 65%'">
       <div>
         <router-link class="text-decoration-none hover" :to="{name: 'tour', query: {id: tour.tour_id}}">
           <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
@@ -17,7 +17,7 @@
           <v-icon v-else color="#ffd700" large>mdi-heart-outline</v-icon>
         </v-btn>
       </div>
-      <div class="mb-2 text--secondary text-h6 grey--text" :style="isSmall ? '' : 'max-width: 63%'">
+      <div class="mb-2 text--secondary text-h6 grey--text">
         <span>{{ divideDescription(tour.description) }}</span>
       </div>
       <div class="d-flex">
@@ -29,6 +29,7 @@
         </span>
       </div>
     </v-card-text>
+
 
     <v-snackbar top v-model="favFail">Чтобы добавить тур в избранное, необходимо войти в аккаунт</v-snackbar>
   </v-card>

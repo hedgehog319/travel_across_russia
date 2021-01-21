@@ -1,6 +1,6 @@
 <template>
   <div id="footer">
-    <v-footer dark default padless>
+    <v-footer dark default padless class="unselectable">
       <v-card class=" lighten-1 white--text text-center" flat tile width="100%">
         <v-card-text>
           <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>

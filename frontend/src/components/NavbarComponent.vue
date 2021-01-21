@@ -32,8 +32,8 @@
           </v-list>
         </v-menu>
       </div>
-
-      <router-link class="text-decoration-none hover" to="/booking">
+      <!-- TODO delete -->
+      <router-link class="text-decoration-none hover" to="/booking?id=1">
         <v-tooltip v-if="!isSmall" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" elevation="0" icon class="nav-icon">
