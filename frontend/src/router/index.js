@@ -79,7 +79,13 @@ const routes = [
         component: TourBookingPage,
         meta: {
             title: 'Бронированние'
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (to.query.id === undefined)
+                next('/')
+            else
+                next()
+        },
     },
     {
         path: '/favorites',

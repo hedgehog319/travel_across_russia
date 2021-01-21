@@ -54,6 +54,11 @@
                     </v-col>
                   </v-row>
                 </v-list-item>
+                <v-list-item class="mt-3">
+                  <v-row>
+                    <v-btn class="ma-auto" width="200">Поиск</v-btn>
+                  </v-row>
+                </v-list-item>
               </v-list>
             </v-container>
           </v-expansion-panel-content>

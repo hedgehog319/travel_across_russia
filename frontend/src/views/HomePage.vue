@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <v-container class="rounded d-flex mb-12" style="background-color: rgba(255,224,138, 0.8)">
+    <v-container class="rounded d-flex mb-12 unselectable" style="background-color: rgba(255,224,138, 0.8)">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">
@@ -11,7 +11,7 @@
             </v-btn>
           </template>
 
-          <v-card>
+          <v-card class="unselectable">
             <v-card-title class="headline grey lighten-2">
               Памятка для туристов на 23.03.2020 (COVID-19)
             </v-card-title>
@@ -78,7 +78,8 @@
       </v-card>
     </v-container>
 
-    <v-container class="rounded mb-12" style="background-color: rgba(255,255,255, 1);border: 3px solid #dedede">
+    <v-container class="rounded mb-12 unselectable"
+                 style="background-color: rgba(255,255,255, 1);border: 3px solid #dedede">
       <span class="text-center text-h4">Почему "Путешествуй по России"?</span>
       <v-container class="justify-center text-center">
         <v-row>
