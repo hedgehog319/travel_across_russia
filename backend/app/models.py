@@ -24,6 +24,9 @@ class FavouriteTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ['user', 'tour']
+
     def tour_id(self):
         return self.tour.id
 
@@ -85,9 +88,9 @@ class Document(models.Model):
 
 
 class Tourist(models.Model):
-    booked_tour = models.ForeignKey('BookedTour', on_delete=models.CASCADE)
+    booked_tour = models.ForeignKey('BookedTour', on_delete=models.CASCADE, related_name='tourists')
     document = models.ForeignKey('Document', on_delete=models.PROTECT)
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
 
     def __str__(self):
         return f'Id {self.id}: {self.email}'
@@ -95,12 +98,12 @@ class Tourist(models.Model):
 
 # Забронированные туры
 class BookedTour(models.Model):
-    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+    tour_id = models.ForeignKey('Tour', on_delete=models.CASCADE)
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(default=date.today)
 
     def __str__(self):
-        return f'Id {self.id}: {self.tour.hotel.name}'
+        return f'Id {self.id}: {self.tour_id.hotel.name}'
 
 
 class Tour(models.Model):
