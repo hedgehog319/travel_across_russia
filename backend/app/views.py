@@ -48,6 +48,7 @@ class TourView(ModelViewSet):
                 fav_tours = FavouriteTour.objects.none()
 
             for tour in response.data:
+                print(type(response.data))
                 tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
                 tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('tour_id')) else False})
         return super().finalize_response(request, response, *args, **kwargs)
@@ -62,6 +63,9 @@ class TourView(ModelViewSet):
 
         if 'count_days' in params:
             queryset = queryset.filter(count_days__lte=params['count_days'])
+
+        if 'tour_id' in params:
+            queryset = queryset.filter(id=params['tour_id'])
 
         return super().filter_queryset(queryset)
 
