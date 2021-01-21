@@ -65,8 +65,10 @@
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
                 <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors" v-model="document.type"/>
-                <v-text-field v-model="document.firstname" :error-messages="firstnameErrors" label="Имя"/>
-                <v-text-field v-model="document.lastname" :error-messages="lastnameErrors" label="Фамилия"/>
+                <v-text-field :value="document.firstname" :error-messages="firstnameErrors"
+                              counter="20" @input="input => document.firstname = input.toUpperCase()" label="Имя"/>
+                <v-text-field :value="document.lastname" :error-messages="lastnameErrors"
+                              counter="20" @input="input => document.lastname = input.toUpperCase()" label="Фамилия"/>
                 <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
                         :close-on-content-click="false"
                         transition="scale-transition">
@@ -84,9 +86,11 @@
                     <v-btn color="primary" text @click="birthDayMenu = false">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
-                <v-text-field v-model="document.series" :error-messages="seriesErrors" label="Серия документа"
+                <v-text-field counter="4" v-model="document.series" :error-messages="seriesErrors"
+                              label="Серия документа"
                               maxlength="4"/>
-                <v-text-field v-model="document.number" :error-messages="numberErrors" label="Номер документа"
+                <v-text-field counter="6" v-model="document.number" :error-messages="numberErrors"
+                              label="Номер документа"
                               maxlength="6"/>
                 <v-btn class="mr-4" type="submit">Применить изменения</v-btn>
               </form>

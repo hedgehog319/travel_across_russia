@@ -168,6 +168,34 @@
               <v-list-item-title class="text-subtitle-1 ml-1">Поиск тура</v-list-item-title>
             </v-list-item>
           </router-link>
+
+            <v-list-item v-if="isAuthorized" class="hover" >
+              <v-dialog v-model="dialog" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon>mdi-logout</v-icon>
+                  <v-list-item-title v-bind="attrs" v-on="on" class="text-subtitle-1 ml-1">Выход
+                  </v-list-item-title>
+                </template>
+
+                <v-card>
+                  <v-card-title class="headline grey lighten-2">Выход</v-card-title>
+                  <v-card-text class="mt-4">
+                    Вы действительно хотите выйти?
+                  </v-card-text>
+                  <v-divider/>
+                  <v-card-actions>
+                    <v-spacer/>
+                    <v-btn color="red" text @click="dialog = false">Нет</v-btn>
+                    <v-btn color="primary" text @click="logout">Да</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-list-item>
+
+          <v-list-item link>
+
+          </v-list-item>
+
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

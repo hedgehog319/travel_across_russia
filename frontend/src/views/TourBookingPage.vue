@@ -36,9 +36,9 @@
                       </v-tooltip>
                     </v-radio-group>
                   </div>
-                  <v-spacer/>
-                  <span style="font-size: 30px">{{ getCost(tour.price) }}</span>
                 </div>
+                <span style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }}</span>
+
               </v-card-text>
             </v-card>
             <v-container class="d-flex">
@@ -131,7 +131,7 @@
               </v-row>
             </v-card>
 
-            <v-container style="display: flex">
+            <v-container class="d-flex">
               <v-btn @click="e1 = 2">Назад</v-btn>
               <v-spacer/>
               <v-btn color="primary" class="mr-1" @click="toPay">Оплатить</v-btn>
@@ -161,12 +161,14 @@
           <v-container>
             <v-row justify="center">
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field counter="20" maxlength="20" :error-messages="lastnameErrors" v-model="tourist.lastname"
+                <v-text-field counter="20" maxlength="20" :error-messages="lastnameErrors" :value="tourist.lastname"
+                              @input="input => tourist.lastname = input.toUpperCase()"
                               label="Фамилия"/>
               </v-col>
 
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field counter="20" maxlength="20" :error-messages="firstnameErrors" v-model="tourist.firstname"
+                <v-text-field counter="20" maxlength="20" :error-messages="firstnameErrors" :value="tourist.firstname"
+                              @input="input => tourist.firstname = input.toUpperCase()"
                               label="Имя"/>
               </v-col>
             </v-row>
@@ -253,9 +255,9 @@ export default {
         price: 200000,
         country: "Россия",
         src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
-        description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря и Курортного\n' +
-            '        проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
-            '        В отеле предоставляется бесплатный Wi-Fi.',
+        description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря ' +
+            'и Курортного проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
+            'В отеле предоставляется бесплатный Wi-Fi.',
         rating: 4.5,
       },
       touristDialog: false,
