@@ -16,13 +16,14 @@ router.register('hotels', HotelView)  # ?city=CITY_NAME & country=COUNTRY_NAME &
 router.register('airlines', AirlineView)
 router.register('insurances', InsuranceView)
 
-router.register('hotel-photo', HotelPhotoView)
+router.register('hotel-photo', HotelPhotoView)  # ?hotel=HOTEL_ID & many=True - все фотки; many=False - одну
+
 
 urlpatterns = [
     path('user-profile/', UserProfileView.as_view()),
-    path('document/types', document_types),
-    path('users/types', access_types),
-    path('hotels/food-types', food_types),
+    path('document/types/', document_types),
+    path('users/types/', access_types),
+    path('hotels/food-types/', food_types),
 ]
 
 # регистрация /auth/users/ POST (username и password)

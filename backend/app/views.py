@@ -172,10 +172,28 @@ class UserProfileView(RetrieveUpdateAPIView):
 
 
 class HotelPhotoView(ModelViewSet):
-    queryset = HotelPhoto.objects.all()
+    queryset = HotelPhoto.objects.all().order_by('time_created')
     serializer_class = HotelPhotoSerializer
     permission_classes = [IsAdminOrReadOnly]
-    lookup_field = 'hotel'
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['hotel']
+
+    def filter_queryset(self, queryset):
+        if 'many' not in self.request.query_params:
+            return queryset.none()
+
+        queryset = super().filter_queryset(queryset)
+        if self.request.query_params['many'].lower() == 'false':
+            hotels = []
+            filters = []
+            for photo in queryset:
+                if photo.hotel.id not in hotels:
+                    filters.append(photo.id)
+                    hotels.append(photo.hotel.id)
+
+            queryset = queryset.filter(id__in=filters)
+
+        return queryset
 
 
 @api_view(['GET'])
@@ -198,4 +216,3 @@ class BookedTourView(ModelViewSet):
     serializer_class = BookedTourSerializer
     permission_classes = [IsAdminOrCreateOnly]
     lookup_field = 'tour_id'
-

@@ -77,7 +77,7 @@ class InsuranceSerializer(ModelSerializer):
 class HotelPhotoSerializer(ModelSerializer):
     class Meta:
         model = HotelPhoto
-        fields = '__all__'
+        fields = ('hotel', 'photo')
 
 
 class DocumentSerializer(ModelSerializer):
