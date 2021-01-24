@@ -71,9 +71,18 @@ class TourAdmin(ModelAdmin):
     inlines = [TourRatingInline]
 
 
+class TouristsInline(admin.TabularInline):
+    model = Tourist
+    extra = 1
+
+
+@admin.register(BookedTour)
+class BookedTourAdmin(ModelAdmin):
+    inlines = [TouristsInline]
+
+
 admin.site.register(Document)
 admin.site.register(Tourist)
-admin.site.register(BookedTour)
 admin.site.register(Airline)
 admin.site.register(Insurance)
 admin.site.register(FavouriteTour)
