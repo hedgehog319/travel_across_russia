@@ -6,4 +6,4 @@ backend/app/migrations/
 __pycache__/
 */__pycache__/
 backend/backend/local_settings.py
-/media/
+backend/media/
