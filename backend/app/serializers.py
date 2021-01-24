@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.serializers import ModelSerializer, Serializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
+import app.signals
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, HotelPhoto, \
     BookedTour
 
@@ -29,7 +30,7 @@ class TourReceivingSerializer(ModelSerializer):
         model = Tour
         fields = (
             'tour_id', 'name', 'price', 'count_days', 'city_name', 'country_name',
-            'description')  # + rating, is_favourite
+            'description', 'food_type')  # + rating, is_favourite
 
 
 class FavouriteTourSerializer(ModelSerializer):

@@ -89,7 +89,7 @@ class Document(models.Model):
 
 class Tourist(models.Model):
     booked_tour = models.ForeignKey('BookedTour', on_delete=models.CASCADE, related_name='tourists')
-    document = models.ForeignKey('Document', on_delete=models.PROTECT)
+    document = models.OneToOneField('Document', on_delete=models.PROTECT)
     email = models.EmailField(blank=True)
 
     def __str__(self):
@@ -129,6 +129,9 @@ class Tour(models.Model):
 
     def description(self):
         return self.hotel.description
+
+    def food_type(self):
+        return self.hotel.type_of_food
 
     def __str__(self):
         return f'Id {self.id}: {self.hotel.name}'

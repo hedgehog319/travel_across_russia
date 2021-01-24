@@ -46,12 +46,12 @@ class TourView(ModelViewSet):
                 fav_tours = FavouriteTour.objects.none()
 
             for tour in response.data:
-                print(type(response.data))
                 tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
                 tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('tour_id')) else False})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
+        # GT >, LT <, GTE >=, LTE <=
         params = self.request.query_params
         if 'city' in params:
             queryset = queryset.filter(city__name=params['city'])
@@ -64,6 +64,17 @@ class TourView(ModelViewSet):
 
         if 'tour_id' in params:
             queryset = queryset.filter(id=params['tour_id'])
+
+        if 'rating' in params:
+            queryset = queryset.filter(rating__gte=params['rating'])
+
+        if 'price' in params:
+            start, end = params['price'].split(',')
+            queryset = queryset.filter(price__range=(start, end))
+
+        if 'type_food' in params:
+            types = list(params['type_food'].split(','))
+            queryset = queryset.filter(hotel__type_of_food__in=types)
 
         return super().filter_queryset(queryset)
 
