@@ -90,24 +90,6 @@ export default {
       return this.$cookies.isKey('Token')
     }
   },
-  created() {
-    let conf = undefined
-    if (this.$cookies.isKey("Token"))
-      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-    this.axios.get(`api/tours/?tour_id=${this.$route.query.id}`, conf).then(resp => {
-      if (resp.statusText === "OK") {
-        this.isLoad = true
-        this.tour.tour_id = resp.data[0].tour_id
-        this.tour.name = resp.data[0].name
-        this.tour.country_name = resp.data[0].country_name
-        this.tour.city_name = resp.data[0].city_name
-        this.tour.description = resp.data[0].description
-        this.tour.is_favourite = resp.data[0].is_favourite
-        this.tour.rating = resp.data[0].rating
-        this.tour.count_days = resp.data[0].count_days
-      }
-    })
-  },
   methods: {
     ...mapActions(['removeFavTour', 'removeFavorite']),
     addFav(conf) {
@@ -130,6 +112,26 @@ export default {
       if (this.favorite || this.tour.is_favourite) this.removeFav(conf)
       else this.addFav(conf)
     }
+  },
+  created() {
+    let conf = undefined
+    if (this.$cookies.isKey("Token"))
+      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+    this.axios.get(`api/tours/?tour_id=${this.$route.query.id}`, conf).then(resp => {
+      if (resp.data.length > 0) {
+        this.isLoad = true
+        this.tour.tour_id = resp.data[0].tour_id
+        this.tour.name = resp.data[0].name
+        this.tour.country_name = resp.data[0].country_name
+        this.tour.city_name = resp.data[0].city_name
+        this.tour.description = resp.data[0].description
+        this.tour.is_favourite = resp.data[0].is_favourite
+        this.tour.rating = resp.data[0].rating
+        this.tour.count_days = resp.data[0].count_days
+      } else {
+        this.$router.push({name: 'notfound'})
+      }
+    })
   }
 }
 </script>

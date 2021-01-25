@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
     actions: {
         async fetchDocumentTypes(ctx) {
-            const res = await axios.get('api/document/types')
+            const res = await axios.get('api/document/types/')
             ctx.commit('updateDocumentTypes', res.data)
         }
     },

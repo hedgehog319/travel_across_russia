@@ -5,7 +5,7 @@
 
       <div style="position: absolute; bottom: 110px; left: 15px">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
-        <span class="white--text pl-1">{{ tour.days }} days</span>
+        <span class="white--text pl-1">{{ tour.days }}</span>
       </div>
 
       <div style="position: absolute; bottom: 110px; right: 15px">

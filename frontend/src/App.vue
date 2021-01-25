@@ -18,7 +18,7 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
-  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchTours']),
+  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchBestTours']),
   created() {
     let conf
     if (this.$cookies.isKey('Token'))
@@ -26,7 +26,7 @@ export default {
 
     this.fetchCities()
     this.fetchDocumentTypes()
-    this.fetchTours(conf)
+    this.fetchBestTours()
   },
 };
 </script>
