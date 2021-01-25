@@ -2,7 +2,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.serializers import ModelSerializer, Serializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
-from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, HotelPhoto
+import app.signals
+from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, HotelPhoto, \
+    BookedTour
 
 
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
@@ -26,7 +28,9 @@ class TourSerializer(ModelSerializer):
 class TourReceivingSerializer(ModelSerializer):
     class Meta:
         model = Tour
-        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating, is_favourite
+        fields = (
+            'tour_id', 'name', 'price', 'count_days', 'city_name', 'country_name',
+            'description', 'food_type')  # + rating, is_favourite
 
 
 class FavouriteTourSerializer(ModelSerializer):
@@ -39,12 +43,6 @@ class FavouriteTourReceivingSerializer(ModelSerializer):
     class Meta:
         model = FavouriteTour
         fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating
-
-
-class DocumentSerializer(ModelSerializer):
-    class Meta:
-        model = Document
-        fields = '__all__'
 
 
 class CountrySerializer(ModelSerializer):
@@ -77,13 +75,39 @@ class InsuranceSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class TouristSerializer(ModelSerializer):
-    class Meta:
-        model = Tourist
-        fields = ('booked_tour',)
-
-
 class HotelPhotoSerializer(ModelSerializer):
     class Meta:
         model = HotelPhoto
-        fields = '__all__'
+        fields = ('hotel', 'photo')
+
+
+class DocumentSerializer(ModelSerializer):
+    class Meta:
+        model = Document
+        fields = ('type', 'series', 'number', 'first_name', 'last_name', 'birthdate')
+
+
+class TouristSerializer(ModelSerializer):
+    document = DocumentSerializer()
+
+    class Meta:
+        model = Tourist
+        fields = ['email', 'document']
+
+
+class BookedTourSerializer(ModelSerializer):
+    tourists = TouristSerializer(many=True)
+
+    class Meta:
+        model = BookedTour
+        fields = ('tour_id', 'tourists')
+
+    def create(self, validated_data):
+        tourists_data = validated_data.pop('tourists')
+        booked_tour = BookedTour.objects.create(**validated_data)
+        for tourist_data in tourists_data:
+            document_data = tourist_data.pop('document')
+            document = Document.objects.create(**document_data)
+
+            Tourist.objects.create(booked_tour=booked_tour, document=document, **tourist_data)
+        return booked_tour

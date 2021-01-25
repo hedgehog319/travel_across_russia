@@ -27,7 +27,7 @@ class CityAdmin(ModelAdmin):
 class HotelShortsInline(admin.TabularInline):
     model = HotelPhoto
     extra = 1
-    readonly_fields = ('get_image', )
+    readonly_fields = ('get_image',)
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.photo.url} width="50" height="60">')
@@ -59,10 +59,30 @@ class HotelPhotoAdmin(ModelAdmin):
     get_image.short_description = 'Preview'
 
 
+class TourRatingInline(admin.TabularInline):
+    model = RatingTour
+    extra = 1
+
+
+@admin.register(Tour)
+class TourAdmin(ModelAdmin):
+    list_display = ('id', 'name', 'city_name', 'country_name')
+    list_display_links = ('name',)
+    inlines = [TourRatingInline]
+
+
+class TouristsInline(admin.TabularInline):
+    model = Tourist
+    extra = 1
+
+
+@admin.register(BookedTour)
+class BookedTourAdmin(ModelAdmin):
+    inlines = [TouristsInline]
+
+
 admin.site.register(Document)
 admin.site.register(Tourist)
-admin.site.register(BookedTour)
-admin.site.register(Tour)
 admin.site.register(Airline)
 admin.site.register(Insurance)
 admin.site.register(FavouriteTour)

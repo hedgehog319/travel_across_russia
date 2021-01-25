@@ -17,11 +17,9 @@ from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document,
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
-    TourReceivingSerializer, FavouriteTourReceivingSerializer, HotelPhotoSerializer
+    TourReceivingSerializer, FavouriteTourReceivingSerializer, HotelPhotoSerializer, BookedTourSerializer
 
 
-# todo фото для отеля
-# todo сдлеать так, чтобы можно было передевать тип документа текстом
 # todo настроить allowed_hosts
 
 def get_tour_rating(tour_id):
@@ -48,12 +46,12 @@ class TourView(ModelViewSet):
                 fav_tours = FavouriteTour.objects.none()
 
             for tour in response.data:
-                print(type(response.data))
                 tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
                 tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('tour_id')) else False})
         return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
+        # GT >, LT <, GTE >=, LTE <=
         params = self.request.query_params
         if 'city' in params:
             queryset = queryset.filter(city__name=params['city'])
@@ -66,6 +64,17 @@ class TourView(ModelViewSet):
 
         if 'tour_id' in params:
             queryset = queryset.filter(id=params['tour_id'])
+
+        if 'rating' in params:
+            queryset = queryset.filter(rating__gte=params['rating'])
+
+        if 'price' in params:
+            start, end = params['price'].split(',')
+            queryset = queryset.filter(price__range=(start, end))
+
+        if 'type_food' in params:
+            types = list(params['type_food'].split(','))
+            queryset = queryset.filter(hotel__type_of_food__in=types)
 
         return super().filter_queryset(queryset)
 
@@ -85,11 +94,6 @@ class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, Gen
             for tour in response.data:
                 tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
         return super().finalize_response(request, response, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        fav_tour = FavouriteTour.objects.all().filter(user=self.request.user, tour=self.request.data['tour'])
-        if not fav_tour:
-            serializer.save(user=self.request.user)
 
     def filter_queryset(self, queryset):
         queryset = queryset.filter(user=self.request.user)
@@ -178,38 +182,29 @@ class UserProfileView(RetrieveUpdateAPIView):
         return get_user_model().objects.get(id=self.request.user.id)
 
 
-class TouristView(ModelViewSet):
-    queryset = Tourist.objects.all()
-    serializer_class = TouristSerializer
-    permission_classes = [IsAdminOrCreateOnly]
-
-    def create(self, request, *args, **kwargs):
-        booked_tour = request.data.get('booked_tour')
-        try:
-            for field in request.data:
-                if 'tourist' in field:
-                    data = request.data.get(field)
-                    document_data = data.get('document')
-                    document = Document.objects.create(**document_data)
-
-                    Tourist.objects.create(document=document, booked_tour=BookedTour.objects.get(id=booked_tour),
-                                           email=data.get('email'))
-            return Response(status=status.HTTP_201_CREATED)
-        except (TypeError, IntegrityError):
-            return Response(status=status.HTTP_400_BAD_REQUEST, data='Not enough some fields ):')
-
-    def perform_destroy(self, instance):
-        document = instance.document
-        user = get_user_model().objects.all().filter(document=document)
-        instance.delete()
-        if not user:
-            document.delete()
-
-
 class HotelPhotoView(ModelViewSet):
-    queryset = HotelPhoto.objects.all()
+    queryset = HotelPhoto.objects.all().order_by('time_created')
     serializer_class = HotelPhotoSerializer
     permission_classes = [IsAdminOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['hotel']
+
+    def filter_queryset(self, queryset):
+        if 'many' not in self.request.query_params:
+            return queryset.none()
+
+        queryset = super().filter_queryset(queryset)
+        if self.request.query_params['many'].lower() == 'false':
+            hotels = []
+            filters = []
+            for photo in queryset:
+                if photo.hotel.id not in hotels:
+                    filters.append(photo.id)
+                    hotels.append(photo.hotel.id)
+
+            queryset = queryset.filter(id__in=filters)
+
+        return queryset
 
 
 @api_view(['GET'])
@@ -225,3 +220,10 @@ def access_types(request):
 @api_view(['GET'])
 def food_types(request):
     return Response(status=status.HTTP_200_OK, data=dict(Hotel.FOOD_CHOICES))
+
+
+class BookedTourView(ModelViewSet):
+    queryset = BookedTour.objects.all()
+    serializer_class = BookedTourSerializer
+    permission_classes = [IsAdminOrCreateOnly]
+    lookup_field = 'tour_id'
