@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
 import app.signals
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, HotelPhoto, \
-    BookedTour
+    BookedTour, RatingTour
 
 
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
@@ -17,20 +18,6 @@ class UserGetUpdateSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('username', 'email')
-
-
-class TourSerializer(ModelSerializer):
-    class Meta:
-        model = Tour
-        fields = '__all__'
-
-
-class TourReceivingSerializer(ModelSerializer):
-    class Meta:
-        model = Tour
-        fields = (
-            'tour_id', 'name', 'price', 'count_days', 'city_name', 'country_name',
-            'description', 'food_type')  # + rating, is_favourite
 
 
 class FavouriteTourSerializer(ModelSerializer):
@@ -111,3 +98,32 @@ class BookedTourSerializer(ModelSerializer):
 
             Tourist.objects.create(booked_tour=booked_tour, document=document, **tourist_data)
         return booked_tour
+
+
+class TourSerializer(ModelSerializer):
+    class Meta:
+        model = Tour
+        fields = '__all__'
+
+
+class TourReceivingSerializer(ModelSerializer):
+    rating = serializers.SerializerMethodField()
+    is_favourite = serializers.SerializerMethodField(method_name='favourite')
+
+    class Meta:
+        model = Tour
+        fields = (
+            'tour_id', 'name', 'price', 'count_days', 'city_name', 'country_name',
+            'description', 'food_type', 'rating', 'is_favourite')
+
+    def favourite(self, obj):
+        user = self.context['request'].user
+        if not user.is_authenticated:
+            return False
+        return True if obj.favourites.filter(user=user.id) else False
+
+    def get_rating(self, obj):
+        marks = RatingTour.objects.all().filter(tour=obj.id).values_list('rating', flat=True)
+        if not marks:
+            return 0
+        return sum(marks) / len(marks) / 2

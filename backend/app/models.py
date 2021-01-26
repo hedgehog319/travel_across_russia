@@ -22,7 +22,7 @@ class User(AbstractUser):
 
 class FavouriteTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
-    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+    tour = models.ForeignKey('Tour', on_delete=models.CASCADE, related_name='favourites')
 
     class Meta:
         unique_together = ['user', 'tour']
