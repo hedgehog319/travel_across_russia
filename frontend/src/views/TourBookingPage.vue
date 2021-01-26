@@ -14,39 +14,43 @@
         <v-stepper-items>
           <v-stepper-content step="1">
 
-            <v-card class="rounded unselectable" elevation="0" min-height="300"
-                    :style="isSmall ? 'display: inline-block; margin: 10px'
-                    : 'display: flex; margin: 10px;max-width: 65%'">
-              <v-img :src="tour.src" height="300px" class="d-block ma-2 rounded" :width="isSmall ? undefined : 300"/>
-              <v-card-text class="d-flex flex-column justify-md-space-around">
-                <div class="mb-2">
-                  <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
-                </div>
-                <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
+            <v-skeleton-loader v-if="!isLoad" type="card" height="300" class="mx-auto white"/>
+
+            <div v-else>
+              <v-card class="rounded unselectable" elevation="0" min-height="300"
+                      :style="isSmall ? 'display: inline-block; margin: 10px'
+                    : 'display: flex; margin: 10px;'">
+                <v-img :src="tour.src" height="300px" class="d-block ma-2 rounded" :width="isSmall ? undefined : 300"/>
+                <v-card-text class="d-flex flex-column justify-md-space-around">
+                  <div class="mb-2">
+                    <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
+                  </div>
+                  <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
                   {{ tour.description }}
                 </span>
-                <div class="d-flex mt-2">
-                  <div class="text-center black--text" style="font-size: 20px">
-                    <span>Тип питания</span>
-                    <v-radio-group row v-model="typeOfFood">
-                      <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
-                        <template v-slot:activator="{ on }">
-                          <v-radio :ripple="false" v-on="on" :label="type.short" :value="i"/>
-                        </template>
-                        <span>{{ type.full }}</span>
-                      </v-tooltip>
-                    </v-radio-group>
+                  <div class="d-flex mt-2">
+                    <div class="text-center black--text" style="font-size: 20px">
+                      <span>Тип питания</span>
+                      <v-radio-group row v-model="typeOfFood">
+                        <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
+                          <template v-slot:activator="{ on }">
+                            <v-radio :ripple="false" v-on="on" :label="type.short" :value="i"/>
+                          </template>
+                          <span>{{ type.full }}</span>
+                        </v-tooltip>
+                      </v-radio-group>
+                    </div>
                   </div>
-                </div>
-                <span class="unselectable" style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }} Р</span>
+                  <span class="unselectable" style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }} Р</span>
 
-              </v-card-text>
-            </v-card>
-            <v-container class="d-flex">
-              <v-btn @click="$router.push({name: 'home'})">Отмена</v-btn>
-              <v-spacer/>
-              <v-btn color="primary" class="mr-1" @click="e1 = 2">Далее</v-btn>
-            </v-container>
+                </v-card-text>
+              </v-card>
+              <v-container class="d-flex">
+                <v-btn @click="$router.push({name: 'home'})">Отмена</v-btn>
+                <v-spacer/>
+                <v-btn color="primary" class="mr-1" @click="e1 = 2">Далее</v-btn>
+              </v-container>
+            </div>
           </v-stepper-content>
 
           <v-stepper-content step="2">
@@ -58,9 +62,9 @@
                     <v-list-item v-for="(tourist, i) in tourists" :key="i" @click="touristClick(i)">
                       <v-list-item-content>
                         <v-list-item-title
-                            v-text="tourist.lastname + '  ' + tourist.firstname + '  '
-                            + tourist.birthdate + '  ' + tourist.documentType + '  ' + tourist.series + '  '
-                            + tourist.number"/>
+                            v-text="tourist.document.lastname + '  ' + tourist.document.firstname + '  '
+                            + tourist.document.birthdate + '  ' + tourist.document.type + '  '
+                            + tourist.document.series + '  ' + tourist.document.number"/>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
@@ -163,14 +167,16 @@
           <v-container>
             <v-row justify="center">
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field counter="20" maxlength="20" :error-messages="lastnameErrors" :value="tourist.lastname"
-                              @input="input => tourist.lastname = input.toUpperCase()"
+                <v-text-field counter="20" maxlength="20" :error-messages="lastnameErrors"
+                              :value="tourist.document.lastname"
+                              @input="input => tourist.document.lastname = input.toUpperCase()"
                               label="Фамилия"/>
               </v-col>
 
               <v-col cols="12" lg="6" md="6" sm="6">
-                <v-text-field counter="20" maxlength="20" :error-messages="firstnameErrors" :value="tourist.firstname"
-                              @input="input => tourist.firstname = input.toUpperCase()"
+                <v-text-field counter="20" maxlength="20" :error-messages="firstnameErrors"
+                              :value="tourist.document.firstname"
+                              @input="input => tourist.document.firstname = input.toUpperCase()"
                               label="Имя"/>
               </v-col>
             </v-row>
@@ -181,13 +187,14 @@
                         :close-on-content-click="false"
                         transition="scale-transition">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-text-field :error-messages="birthdateErrors" v-model="tourist.birthdate" v-bind="attrs"
+                    <v-text-field :error-messages="birthdateErrors" v-model="tourist.document.birthdate" v-bind="attrs"
                                   v-on="on"
                                   label="Дата рождения"
                                   prepend-icon="mdi-calendar"
                                   readonly/>
                   </template>
-                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="tourist.birthdate" no-title scrollable>
+                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="tourist.document.birthdate" no-title
+                                 scrollable>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
                     <v-btn color="primary" text @click="birthDayMenu = false">OK</v-btn>
@@ -198,20 +205,19 @@
 
             <v-row>
               <v-col cols="12" md="12" sm="12">
-                <v-select :error-messages="documentTypeErrors" v-model="tourist.documentType"
-                          :items="getDocumentTypes"
-                          label="Тип документа"/>
+                <v-select :error-messages="documentTypeErrors" v-model="tourist.document.type"
+                          :items="getDocumentTypes" label="Тип документа"/>
               </v-col>
             </v-row>
 
             <v-row>
               <v-col cols="12" md="6" sm="6">
-                <v-text-field counter="4" :error-messages="seriesErrors" maxlength="4" v-model="tourist.series"
+                <v-text-field counter="4" :error-messages="seriesErrors" maxlength="4" v-model="tourist.document.series"
                               label="Серия"/>
               </v-col>
 
               <v-col cols="12" md="6" sm="6">
-                <v-text-field counter="6" :error-messages="numberErrors" maxlength="6" v-model="tourist.number"
+                <v-text-field counter="6" :error-messages="numberErrors" maxlength="6" v-model="tourist.document.number"
                               label="Номер"/>
               </v-col>
             </v-row>
@@ -230,6 +236,7 @@
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
     <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
+    <v-snackbar top v-model="isPaid">Ваш тур оплачен</v-snackbar>
   </div>
 </template>
 
@@ -271,12 +278,15 @@ export default {
       touristID: null,
       tourists: [],
       tourist: {
-        firstname: null,
-        lastname: null,
-        birthdate: null,
-        documentType: null,
-        series: null,
-        number: null
+        email: null,
+        document: {
+          firstname: null,
+          lastname: null,
+          birthdate: null,
+          type: null,
+          series: null,
+          number: null
+        }
       },
       card: {
         name: '',
@@ -286,6 +296,8 @@ export default {
         cvv: ''
       },
       email: null,
+      isPaid: false,
+      isLoad: false
     }
   },
   validations: {
@@ -293,31 +305,33 @@ export default {
       required
     },
     tourist: {
-      firstname: {
-        required,
-        ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
-        numbers: (v) => !(/[0-9]/.test(v)),
-      },
-      lastname: {
-        required,
-        ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
-        numbers: (v) => !(/[0-9]/.test(v)),
-      },
-      birthdate: {
-        required
-      },
-      documentType: {
-        required
-      },
-      series: {
-        required,
-        minLength: minLength(4),
-        numeric
-      },
-      number: {
-        required,
-        minLength: minLength(6),
-        numeric
+      document: {
+        firstname: {
+          required,
+          ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
+          numbers: (v) => !(/[0-9]/.test(v)),
+        },
+        lastname: {
+          required,
+          ruLetter: (v) => !(/[а-я]/.test(v) || /[А-Я]/.test(v)),
+          numbers: (v) => !(/[0-9]/.test(v)),
+        },
+        birthdate: {
+          required
+        },
+        type: {
+          required
+        },
+        series: {
+          required,
+          minLength: minLength(4),
+          numeric
+        },
+        number: {
+          required,
+          minLength: minLength(6),
+          numeric
+        }
       }
     },
     card: {
@@ -349,7 +363,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getDocumentTypes', 'getDocumentType']),
+    ...mapGetters(['getDocumentTypes', 'getDocumentType', 'getDocumentId']),
     months() {
       const months = []
       for (let i = 1; i <= 12; i++) {
@@ -369,51 +383,51 @@ export default {
     },
     firstnameErrors() {
       let mess = ''
-      if (!this.$v.tourist.firstname.$dirty) return mess
-      if (!this.$v.tourist.firstname.required) mess = 'Введите имя'
-      else if (!this.$v.tourist.firstname.ruLetter) mess = 'Имя содержит русские буквы'
-      else if (!this.$v.tourist.firstname.numbers) mess = 'Имя содержит цифры'
+      if (!this.$v.tourist.document.firstname.$dirty) return mess
+      if (!this.$v.tourist.document.firstname.required) mess = 'Введите имя'
+      else if (!this.$v.tourist.document.firstname.ruLetter) mess = 'Имя содержит русские буквы'
+      else if (!this.$v.tourist.document.firstname.numbers) mess = 'Имя содержит цифры'
 
       return mess
     },
     lastnameErrors() {
       let mess = ''
-      if (!this.$v.tourist.lastname.$dirty) return mess
-      if (!this.$v.tourist.lastname.required) mess = 'Введите фамилию'
-      else if (!this.$v.tourist.lastname.ruLetter) mess = 'Фамилия содержит русские буквы'
-      else if (!this.$v.tourist.lastname.numbers) mess = 'Фамилия содержит цифры'
+      if (!this.$v.tourist.document.lastname.$dirty) return mess
+      if (!this.$v.tourist.document.lastname.required) mess = 'Введите фамилию'
+      else if (!this.$v.tourist.document.lastname.ruLetter) mess = 'Фамилия содержит русские буквы'
+      else if (!this.$v.tourist.document.lastname.numbers) mess = 'Фамилия содержит цифры'
 
       return mess
     },
     birthdateErrors() {
       let mess = ''
-      if (!this.$v.tourist.birthdate.$dirty) return mess
-      if (!this.$v.tourist.birthdate.required) mess = 'Укажите дату рождения'
+      if (!this.$v.tourist.document.birthdate.$dirty) return mess
+      if (!this.$v.tourist.document.birthdate.required) mess = 'Укажите дату рождения'
 
       return mess
     },
     documentTypeErrors() {
       let mess = ''
-      if (!this.$v.tourist.documentType.$dirty) return mess
-      if (!this.$v.tourist.documentType.required) mess = 'Выберите тип документа'
+      if (!this.$v.tourist.document.type.$dirty) return mess
+      if (!this.$v.tourist.document.type.required) mess = 'Выберите тип документа'
 
       return mess
     },
     seriesErrors() {
       let mess = ''
-      if (!this.$v.tourist.series.$dirty) return mess
-      if (!this.$v.tourist.series.required) mess = 'Введите серию документа'
-      else if (!this.$v.tourist.series.numeric) mess = 'Вы ввели не число'
-      else if (!this.$v.tourist.series.minLength) mess = 'Введите 4 цифры'
+      if (!this.$v.tourist.document.series.$dirty) return mess
+      if (!this.$v.tourist.document.series.required) mess = 'Введите серию документа'
+      else if (!this.$v.tourist.document.series.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.tourist.document.series.minLength) mess = 'Введите 4 цифры'
 
       return mess
     },
     numberErrors() {
       let mess = ''
-      if (!this.$v.tourist.number.$dirty) return mess
-      if (!this.$v.tourist.number.required) mess = 'Введите номер документа'
-      else if (!this.$v.tourist.number.numeric) mess = 'Вы ввели не число'
-      else if (!this.$v.tourist.number.minLength) mess = 'Введите 6 цифр'
+      if (!this.$v.tourist.document.number.$dirty) return mess
+      if (!this.$v.tourist.document.number.required) mess = 'Введите номер документа'
+      else if (!this.$v.tourist.document.number.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.tourist.document.number.minLength) mess = 'Введите 6 цифр'
 
       return mess
     },
@@ -486,14 +500,17 @@ export default {
     },
     addTourist() {
       if (this.tourists.length < 7) {
-        this.$v.tourist.$reset()
+        this.$v.tourist.document.$reset()
         this.tourist = {
-          firstname: null,
-          lastname: null,
-          birthdate: null,
-          documentType: null,
-          series: null,
-          number: null
+          email: null,
+          document: {
+            first_name: null,
+            last_name: null,
+            birthdate: null,
+            type: null,
+            series: null,
+            number: null
+          }
         }
         this.touristDialog = true
         this.touristID = -1
@@ -509,9 +526,9 @@ export default {
       this.touristDialog = false
     },
     saveClick() {
-      this.$v.tourist.$touch()
+      this.$v.tourist.document.$touch()
 
-      if (!this.$v.tourist.$invalid) {
+      if (!this.$v.tourist.document.$invalid) {
         this.saveTourist()
       }
     },
@@ -524,8 +541,35 @@ export default {
         this.consistTourist = true
       }
     },
-    sendPay() {
+    async sendPay() {
       this.loading = true
+      setTimeout(() => {
+        this.loading = false
+        this.isPaid = true
+      }, 1000)
+
+      if (this.email !== null)
+        this.tourists[0].email = this.email
+      else {
+        const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+        await this.axios.get('/api/document/', conf)
+            .then(res => {
+              if (res.statusText === 'OK')
+                this.tourists[0].email = res.data.email
+            })
+      }
+
+      for (const i of this.tourists) {
+        i.document.type = this.getDocumentId(i.document.type)
+      }
+
+      const booked = {
+        tour_id: this.tour.tour_id,
+        tourists: this.tourists
+      }
+
+      await this.axios.post('/api/booked-tours/', booked)
+          .catch(err => console.log(err.response))
     },
     toPay() {
       this.$v.card.$touch()
@@ -550,22 +594,11 @@ export default {
       this.axios.get('api/document/', conf)
           .then(res => {
             if (res.data.length > 0) {
-              this.tourist.firstname = res.data[0].first_name
-              this.tourist.lastname = res.data[0].last_name
-              this.tourist.birthdate = res.data[0].birthdate
-              this.tourist.series = res.data[0].series
-              this.tourist.number = res.data[0].number
-              this.tourist.documentType = this.getDocumentType(res.data[0].type)
+              this.tourist.document = res.data[0]
+              this.tourist.document.type = this.getDocumentType(this.tourist.document.type)
             }
           })
-
     }
-  },
-  watch: {
-    loading(val) {
-      if (!val) return
-      setTimeout(() => (this.loading = false), 1000)
-    },
   },
   beforeDestroy() {
     if (typeof window === undefined) return
@@ -578,14 +611,8 @@ export default {
   created() {
     this.axios.get(`api/tours/?tour_id=${this.$route.query.id}`).then(resp => {
       if (resp.statusText === "OK") {
-        console.log(resp)
-        this.tour.tour_id = resp.data[0].tour_id
-        this.tour.name = resp.data[0].name
-        this.tour.country_name = resp.data[0].country_name
-        this.tour.city_name = resp.data[0].city_name
-        this.tour.description = resp.data[0].description
-        this.tour.rating = resp.data[0].rating
-        this.tour.price = resp.data[0].price
+        this.tour = resp.data[0]
+        this.isLoad = true
       }
     })
   }

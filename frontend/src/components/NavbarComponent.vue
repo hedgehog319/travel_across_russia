@@ -32,17 +32,6 @@
           </v-list>
         </v-menu>
       </div>
-      <!-- TODO delete -->
-      <router-link class="text-decoration-none hover" to="/booking?id=1">
-        <v-tooltip v-if="!isSmall" bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" elevation="0" icon class="nav-icon">
-              <v-icon color="black" dark large class="ma-2">mdi-book-plus</v-icon>
-            </v-btn>
-          </template>
-          <span>Бронирование тура</span>
-        </v-tooltip>
-      </router-link>
 
       <router-link class="text-decoration-none hover" to="/search">
         <v-tooltip v-if="!isSmall" bottom>
@@ -112,10 +101,10 @@
         <!--TODO поправить на малом экране-->
         <div v-else-if="!isAuthorized && !isSmall">
           <v-btn elevation="0" class="round mr-1" color="primary"
-                 @click="$router.push({name: 'login'}).catch(()=>{})">Войти
+                 :to="{name: 'login'}">Войти
           </v-btn>
           <v-btn elevation="0" class="round ml-1" color="primary"
-                 @click="$router.push({name: 'registration'}).catch(() => {})">Регистрация
+                 :to="{name: 'registration'}">Регистрация
           </v-btn>
         </div>
 
@@ -169,31 +158,26 @@
             </v-list-item>
           </router-link>
 
-            <v-list-item v-if="isAuthorized" class="hover" >
-              <v-dialog v-model="dialog" width="500">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon>mdi-logout</v-icon>
-                  <v-list-item-title v-bind="attrs" v-on="on" class="text-subtitle-1 ml-1">Выход
-                  </v-list-item-title>
-                </template>
+          <v-list-item v-if="isAuthorized" class="hover">
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon>mdi-logout</v-icon>
+                <v-list-item-title v-bind="attrs" v-on="on" class="text-subtitle-1 ml-1">Выход</v-list-item-title>
+              </template>
 
-                <v-card>
-                  <v-card-title class="headline grey lighten-2">Выход</v-card-title>
-                  <v-card-text class="mt-4">
-                    Вы действительно хотите выйти?
-                  </v-card-text>
-                  <v-divider/>
-                  <v-card-actions>
-                    <v-spacer/>
-                    <v-btn color="red" text @click="dialog = false">Нет</v-btn>
-                    <v-btn color="primary" text @click="logout">Да</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-list-item>
-
-          <v-list-item link>
-
+              <v-card>
+                <v-card-title class="headline grey lighten-2">Выход</v-card-title>
+                <v-card-text class="mt-4">
+                  Вы действительно хотите выйти?
+                </v-card-text>
+                <v-divider/>
+                <v-card-actions>
+                  <v-spacer/>
+                  <v-btn color="red" text @click="dialog = false">Нет</v-btn>
+                  <v-btn color="primary" text @click="logout">Да</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-list-item>
 
         </v-list-item-group>
