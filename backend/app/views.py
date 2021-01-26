@@ -38,18 +38,6 @@ class TourView(ModelViewSet):
             return TourReceivingSerializer
         return TourSerializer
 
-    def finalize_response(self, request, response, *args, **kwargs):
-        if request.method == 'GET':
-            if request.user.is_authenticated:
-                fav_tours = FavouriteTour.objects.all().filter(user=request.user)
-            else:
-                fav_tours = FavouriteTour.objects.none()
-
-            for tour in response.data:
-                tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
-                tour.update({'is_favourite': True if fav_tours.filter(tour=tour.get('tour_id')) else False})
-        return super().finalize_response(request, response, *args, **kwargs)
-
     def filter_queryset(self, queryset):
         # GT >, LT <, GTE >=, LTE <=
         params = self.request.query_params
@@ -66,7 +54,11 @@ class TourView(ModelViewSet):
             queryset = queryset.filter(id=params['tour_id'])
 
         if 'rating' in params:
-            queryset = queryset.filter(rating__gte=params['rating'])
+            filters = []
+            for tour in queryset:
+                if get_tour_rating(tour.id) >= int(params['rating']) / 2:
+                    filters.append(tour.id)
+            queryset = queryset.filter(id__in=filters)
 
         if 'price' in params:
             start, end = params['price'].split(',')
