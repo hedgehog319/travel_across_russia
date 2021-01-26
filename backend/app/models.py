@@ -79,12 +79,12 @@ class Document(models.Model):
     type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES)
     series = models.IntegerField()
     number = models.IntegerField()
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
+    firstname = models.CharField(max_length=150)
+    lastname = models.CharField(max_length=150)
     birthdate = models.DateField(default=date.today)
 
     def __str__(self):
-        return f'Id {self.id}: {self.first_name} {self.last_name}'
+        return f'Id {self.id}: {self.firstname} {self.lastname}'
 
 
 class Tourist(models.Model):

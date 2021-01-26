@@ -84,7 +84,7 @@ class HotelPhotoSerializer(ModelSerializer):
 class DocumentSerializer(ModelSerializer):
     class Meta:
         model = Document
-        fields = ('type', 'series', 'number', 'first_name', 'last_name', 'birthdate')
+        fields = ('type', 'series', 'number', 'firstname', 'lastname', 'birthdate')
 
 
 class TouristSerializer(ModelSerializer):
