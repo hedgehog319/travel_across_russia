@@ -28,20 +28,7 @@
                   </div>
                   <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
                   {{ tour.description }}
-                </span>
-                  <div class="d-flex mt-2">
-                    <div class="text-center black--text" style="font-size: 20px">
-                      <span>Тип питания</span>
-                      <v-radio-group row v-model="typeOfFood">
-                        <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
-                          <template v-slot:activator="{ on }">
-                            <v-radio :ripple="false" v-on="on" :label="type.short" :value="i"/>
-                          </template>
-                          <span>{{ type.full }}</span>
-                        </v-tooltip>
-                      </v-radio-group>
-                    </div>
-                  </div>
+                  </span>
                   <span class="unselectable" style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }} Р</span>
 
                 </v-card-text>

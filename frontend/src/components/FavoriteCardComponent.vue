@@ -23,6 +23,10 @@
       <div class="d-flex">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
+        <span style="font-size: 21px">
+          Тип питания: {{ tour.food_type }}
+        </span>
+        <v-spacer/>
         <span style="font-size: 25px">
           {{ getCost(tour.price) }}
           <v-icon size="22">mdi-currency-rub</v-icon>
@@ -51,6 +55,7 @@ export default {
           price: Number,
           country_name: String,
           city_name: String,
+          food_type: String,
           photo: String,
           description: String,
           rating: Number,
@@ -82,7 +87,8 @@ export default {
       this.isSmall = window.innerWidth < 900
     },
     addFav(conf) {
-      this.axios.post('api/fav-tours/', {tour: this.tour.tour_id}, conf)
+      this.axios.post('api/fav-tours/', {tour_id: this.tour.tour_id}, conf)
+          .catch(err => console.log(err.response))
       this.tour.is_favourite = true
     },
     removeFav(conf) {

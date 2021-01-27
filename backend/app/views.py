@@ -77,11 +77,14 @@ class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, Gen
     queryset = FavouriteTour.objects.all()
     serializer_class = FavouriteTourSerializer
     permission_classes = [IsAuthenticated]
-    lookup_field = 'tour'
+    lookup_field = 'tour_id'
 
     def filter_queryset(self, queryset):
         queryset = queryset.filter(user=self.request.user)
         return super().filter_queryset(queryset)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class DocumentView(ModelViewSet):
