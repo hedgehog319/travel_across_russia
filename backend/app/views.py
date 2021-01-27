@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.db.models import QuerySet
 from django.forms.models import model_to_dict
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView, \
-    UpdateAPIView, GenericAPIView
+    UpdateAPIView, GenericAPIView, ListAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, ListModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -216,3 +217,24 @@ class RatingTourView(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class TopTourView(ListAPIView):
+    queryset = Tour.objects.all()
+    serializer_class = TourReceivingSerializer
+
+    def filter_queryset(self, queryset):
+        if 'count' not in self.request.query_params:
+            queryset = queryset.none()
+            return queryset
+
+        tours = []
+        for tour in queryset:
+            tours.append((tour.id, get_tour_rating(tour.id)))
+        tours.sort(key=lambda i: i[1], reverse=True)
+        tours = tours[:int(self.request.query_params['count'])]
+
+        new_queryset = []
+        for j in tours:
+            new_queryset.append(queryset.get(id=j[0]))
+        return new_queryset

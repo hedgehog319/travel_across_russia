@@ -4,7 +4,7 @@ from rest_framework.routers import SimpleRouter
 
 from app.views import TourView, CountryView, CityView, HotelView, AirlineView, InsuranceView, DocumentView, \
     FavouriteTourView, UserProfileView, HotelPhotoView, document_types, access_types, food_types, BookedTourView, \
-    RatingTourView
+    RatingTourView, TopTourView
 
 router = SimpleRouter()
 router.register('tours', TourView)  # ?city=CITY_NAME & country=COUNTRY_NAME & count_days=7
@@ -23,6 +23,7 @@ router.register('hotel-photos', HotelPhotoView)  # ?hotel=HOTEL_ID & many=True -
 urlpatterns = [
     path('user-profile/', UserProfileView.as_view()),
     path('rating-tours/', RatingTourView.as_view()),  # only POST, передать tour_id, rating
+    path('top-tours/', TopTourView.as_view()),
     path('document/types/', document_types),
     path('users/types/', access_types),
     path('hotels/food-types/', food_types),
