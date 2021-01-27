@@ -4,6 +4,7 @@ export default {
     actions: {
         async fetchFavTours(ctx, conf) {
             const res = await axios.get('api/fav-tours/', conf)
+                .catch(err => console.log(err))
             ctx.commit('updateFavTours', res.data)
         },
         removeFavTour(ctx, id) {

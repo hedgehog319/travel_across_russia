@@ -4,6 +4,7 @@ export default {
     actions: {
         async fetchCities(ctx) {
             const res = await axios.get(`/api/cities/`)
+                .catch(err => console.log(err))
             ctx.commit('updateCities', res.data)
         },
     },

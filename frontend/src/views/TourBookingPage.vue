@@ -20,7 +20,8 @@
               <v-card class="rounded unselectable" elevation="0" min-height="300"
                       :style="isSmall ? 'display: inline-block; margin: 10px'
                     : 'display: flex; margin: 10px;'">
-                <v-img :src="tour.src" height="300px" class="d-block ma-2 rounded" :width="isSmall ? undefined : 300"/>
+                <v-img :src="tour.photo" height="300px" class="d-block ma-2 rounded"
+                       :width="isSmall ? undefined : 300"/>
                 <v-card-text class="d-flex flex-column justify-md-space-around">
                   <div class="mb-2">
                     <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
@@ -259,16 +260,14 @@ export default {
       e1: 1,
       isSmall: false,
       tour: {
-        tour_id: 1,
-        name: 'Хаятт Ридженси Сочи',
-        price: 200000,
-        country_name: "Россия",
-        city_name: 'Сочи',
-        src: 'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
-        description: 'Отель Hyatt Regency Sochi расположен в центре Сочи, в 200 метрах от побережья Черного моря ' +
-            'и Курортного проспекта. Прогулка до морского порта и торгового центра «Гранд-Марина» занимает 5 минут.\n' +
-            'В отеле предоставляется бесплатный Wi-Fi.',
-        rating: 4.5,
+        tour_id: Number,
+        name: String,
+        price: Number,
+        country_name: String,
+        city_name: String,
+        photo: String,
+        description: String,
+        rating: Number,
       },
       touristDialog: false,
       birthDayMenu: false,
@@ -504,8 +503,8 @@ export default {
         this.tourist = {
           email: null,
           document: {
-            first_name: null,
-            last_name: null,
+            firstname: null,
+            lastname: null,
             birthdate: null,
             type: null,
             series: null,

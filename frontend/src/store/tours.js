@@ -4,12 +4,13 @@ export default {
     actions: {
         async fetchTours(ctx, [conf, query]) {
             const res = await axios.get(`api/tours/${query}`, conf)
+                .catch(err => console.log(err))
             ctx.commit('updateTours', res.data)
         },
-        // TODO первые 12 туров
-        async fetchBestTours(ctx) {
-            const res = await axios.get('api/tours/')
-            ctx.commit('updateBestTours', res.data)
+        async fetchTopTours(ctx, count) {
+            const res = await axios.get(`api/top-tours/?count=${count}`)
+                .catch(err => console.log(err))
+            ctx.commit('updateTopTours', res.data)
         },
         removeFavorite(ctx, id) {
             ctx.commit('removeFavorite', id)
@@ -19,8 +20,8 @@ export default {
         updateTours(state, tours) {
             state.tours = tours
         },
-        updateBestTours(state, tours) {
-            state.bestTours = tours
+        updateTopTours(state, tours) {
+            state.topTours = tours
         },
         removeFavorite(state, id) {
             for (let i = 0; i < state.tours.length; i++) {
@@ -35,12 +36,12 @@ export default {
         getTours(state) {
             return state.tours
         },
-        getBestTours(state) {
-            return state.bestTours
+        getTopTours(state) {
+            return state.topTours
         }
     },
     state: {
         tours: [],
-        bestTours: []
+        topTours: []
     }
 }

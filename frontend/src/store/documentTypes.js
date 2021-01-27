@@ -4,6 +4,7 @@ export default {
     actions: {
         async fetchDocumentTypes(ctx) {
             const res = await axios.get('api/document/types/')
+                .catch(err => console.log(err))
             ctx.commit('updateDocumentTypes', res.data)
         }
     },

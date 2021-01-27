@@ -1,10 +1,9 @@
 <template>
   <div id="tour">
-    <v-container v-if="!isLoad">
-      <v-skeleton-loader class="mx-auto white" type="card" height="500"/>
-    </v-container>
-    <v-container v-if="isLoad">
-      <v-card elevation="2" class="pa-5">
+    <v-container>
+      <v-skeleton-loader v-if="!isLoad" class="mx-auto white" type="card" height="500"/>
+
+      <v-card v-else elevation="2" class="pa-5">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon large style="position: absolute; top: 10px; right: 12px;" @click="favClick">
@@ -14,6 +13,7 @@
           </template>
           <span>В избранное</span>
         </v-tooltip>
+
         <router-link class="text-decoration-none hover" :to="{name: 'booking', query: {id: tour.tour_id}}">
           <v-btn elevation="1" large style="position: absolute; top: 10px; right: 60px;">
             <span>Купить тур</span>
@@ -28,7 +28,7 @@
             <v-card class="ma-4" height="200" width="300">
               <v-row align="center" class="fill-height" justify="center">
                 <v-scale-transition>
-                  <v-img :src='image'/>
+                  <v-img :src='image.photo'/>
                 </v-scale-transition>
               </v-row>
             </v-card>
@@ -38,9 +38,11 @@
         <v-card-text class="ml-6" style="width: 95%">
           <v-row align="center" class="mx-0">
             <!--TODO разобраться with rating if auth -->
-            <v-rating :value="tour.rating" color="amber" :readonly="!isAuthorized" hover dense half-increments
-                      size="25"/>
+            <v-rating v-model="tour.rating" color="amber" :readonly="!isAuthorized" hover dense half-increments
+                      size="25" @input="rating"/>
+
             <v-spacer/>
+
             <div style="font-weight: 500; font-size: 15px; color: black">
               <v-chip>Продолжительность: {{ tour.count_days }} дней</v-chip>
             </div>
@@ -53,6 +55,8 @@
         </v-card-text>
       </v-card>
     </v-container>
+
+    <v-snackbar top v-model="isRated">Спасибо за ваш отзыв!</v-snackbar>
   </div>
 </template>
 
@@ -69,26 +73,21 @@ export default {
         time: String,
         country_name: String,
         city_name: String,
-        src: String,
+        photo: String,
         description: String,
         rating: Number,
         is_favourite: Boolean,
         count_days: Number,
       },
-      images: ['https://cf.bstatic.com/images/hotel/max1280x900/269/269930027.jpg',
-        'https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg',
-        'https://cf.bstatic.com/images/hotel/max1280x900/186/186135320.jpg',
-        'https://cf.bstatic.com/images/hotel/max1280x900/264/264611854.jpg',
-        'https://cf.bstatic.com/images/hotel/max1280x900/113/113609375.jpg',
-        'https://cf.bstatic.com/images/hotel/max1280x900/255/255641589.jpg',
-      ],
+      images: [],
       isLoad: false,
+      isRated: false,
     }
   },
   computed: {
     isAuthorized() {
       return this.$cookies.isKey('Token')
-    }
+    },
   },
   methods: {
     ...mapActions(['removeFavTour', 'removeFavorite']),
@@ -111,24 +110,31 @@ export default {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
       if (this.favorite || this.tour.is_favourite) this.removeFav(conf)
       else this.addFav(conf)
+    },
+    rating() {
+      const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+      const data = {
+        tour_id: this.tour.tour_id,
+        rating: this.tour.rating
+      }
+
+      this.axios.post('api/rating-tours/', data, conf)
+          .then(res => {
+            if (res.statusText === 'Created')
+              this.isRated = true
+          })
+          .catch(err => console.log(err.response))
     }
   },
-  created() {
+  async created() {
     let conf = undefined
     if (this.$cookies.isKey("Token"))
       conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-    this.axios.get(`api/tours/?tour_id=${this.$route.query.id}`, conf)
+    await this.axios.get(`api/tours/?tour_id=${this.$route.query.id}`, conf)
         .then(resp => {
           if (resp.data.length > 0) {
+            this.tour = resp.data[0]
             this.isLoad = true
-            this.tour.tour_id = resp.data[0].tour_id
-            this.tour.name = resp.data[0].name
-            this.tour.country_name = resp.data[0].country_name
-            this.tour.city_name = resp.data[0].city_name
-            this.tour.description = resp.data[0].description
-            this.tour.is_favourite = resp.data[0].is_favourite
-            this.tour.rating = resp.data[0].rating
-            this.tour.count_days = resp.data[0].count_days
           } else {
             this.$router.push({name: 'notfound'})
           }
@@ -136,6 +142,14 @@ export default {
         .catch(err => {
           console.log(err)
         })
+
+    await this.axios.get(`api/hotel-photos/?tour_id=${this.tour.tour_id}`)
+        .then(res => {
+          if (res.statusText === 'OK') {
+            this.images = res.data
+          }
+        })
+        .catch(err => console.log(err))
   }
 }
 </script>

@@ -127,7 +127,8 @@
     <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.5); width: 80%;">
       <div class="text-center " style="font-size: 30px; font-weight: 500; color: #FFFFFF">Рекомендуемые туры</div>
       <v-row no-gutters class="mb-2 mt-2">
-        <v-col v-for="n in 6" :key="n" align-self="center" cols="12" lg="4" md="6" sm="12" class="mb-3" xs="12">
+        <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="12"
+               class="mb-3" xs="12">
           <tour-card :tour="tour"/>
         </v-col>
       </v-row>
@@ -149,7 +150,6 @@ export default {
     'tour-card': TourCardComponent,
     DatePicker,
   },
-  computed: mapGetters(['getCitiesName']),
   data() {
     return {
       from: null,
@@ -157,15 +157,6 @@ export default {
       dialog: false,
       adults: 2,
       date: null,
-      tour: {
-        title: "Море не помеха!",
-        img: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
-        id: 0,
-        days: "21",
-        country: "Россия",
-        city: "Владивосток",
-        cost: 200000
-      },
       items: [
         {src: require("@/assets/img/moscow.jpg"), title: 'Москва'},
         {src: require("@/assets/img/peterburg.jpg"), title: 'Санкт-Петербург'},
@@ -191,6 +182,7 @@ export default {
       required,
     },
   },
+  computed: mapGetters(['getCitiesName', 'getTopTours']),
   methods: {
     currentDate(date) {
       const today = new Date()

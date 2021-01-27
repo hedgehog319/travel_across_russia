@@ -18,15 +18,12 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
-  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchBestTours']),
+  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchTopTours']),
   created() {
-    let conf
-    if (this.$cookies.isKey('Token'))
-      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
 
     this.fetchCities()
     this.fetchDocumentTypes()
-    this.fetchBestTours()
+    this.fetchTopTours(12)
   },
 };
 </script>

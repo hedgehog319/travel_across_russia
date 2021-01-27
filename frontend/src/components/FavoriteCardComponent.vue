@@ -3,7 +3,7 @@
                                   ? 'display: inline-block; margin-bottom: 8px'
                                   : 'display: flex; margin-bottom: 8px'">
     <router-link class="text-decoration-none" :to="{name: 'tour', query: {id: tour.tour_id}}">
-      <v-img src="https://cf.bstatic.com/images/hotel/max1280x900/269/269929828.jpg" height="200px"
+      <v-img :src="tour.photo" height="200px"
              class="d-block rounded ma-2 hover" :width="isSmall ? undefined : 300"/>
     </router-link>
     <v-card-text class="d-flex flex-column justify-md-space-around" :style="isSmall ? '' : 'max-width: 65%'">
@@ -51,10 +51,10 @@ export default {
           price: Number,
           country_name: String,
           city_name: String,
-          src: String,
+          photo: String,
           description: String,
           rating: Number,
-          is_favourite: Boolean
+          is_favourite: Boolean,
         }
       }
     },
