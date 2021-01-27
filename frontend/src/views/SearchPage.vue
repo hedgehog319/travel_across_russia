@@ -150,8 +150,6 @@ export default {
     window.removeEventListener('resize', this.onResize, {passive: true})
   },
   async mounted() {
-    const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-
     this.onResize()
     window.addEventListener('resize', this.onResize, {passive: true})
     let query = '?'
@@ -169,6 +167,11 @@ export default {
 
       query += '&count_days=' + Math.round((this.queries.date[1] - this.queries.date[0]) / (24 * 3600 * 1000))
     }
+
+    let conf
+    if (this.$cookies.isKey('Token'))
+      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+
     await this.fetchTours([conf, query])
     this.isLoad = true
   },
