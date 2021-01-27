@@ -25,13 +25,13 @@
 
         <v-slide-group center-active class="pa-4" show-arrows>
           <v-slide-item v-for="(image, n) in images" :key="n">
-            <v-card class="ma-4" height="200" width="300">
+            <div class="ma-4" style="height: 200px; width: 300px">
               <v-row align="center" class="fill-height" justify="center">
                 <v-scale-transition>
-                  <v-img width="324" height="216" :src='image.photo'/>
+                  <v-img contain :src='image.photo'/>
                 </v-scale-transition>
               </v-row>
-            </v-card>
+            </div>
           </v-slide-item>
         </v-slide-group>
 
@@ -44,7 +44,8 @@
             <v-spacer/>
 
             <div style="font-weight: 500; font-size: 15px; color: black">
-              <v-chip>Продолжительность: {{ tour.count_days }} дней</v-chip>
+              <v-chip>Продолжительность: {{ formatDays(tour.count_days) }}</v-chip>
+              <v-chip style="margin-left: 5px">Питание: {{ tour.food_type }}</v-chip>
             </div>
           </v-row>
 
@@ -73,6 +74,7 @@ export default {
         time: String,
         country_name: String,
         city_name: String,
+        food_type: String,
         photo: String,
         description: String,
         rating: Number,
@@ -124,7 +126,15 @@ export default {
               this.isRated = true
           })
           .catch(err => console.log(err.response))
-    }
+    },
+    formatDays(str) {
+      const value = +str % 100;
+      const num = +str % 10;
+      if(value > 10 && value < 20) return str + ' ночей';
+      if(num > 1 && num < 5) return str + ' ночи';
+      if(num === 1) return str + ' ночь';
+      return str + ' ночей';
+    },
   },
   async created() {
     let conf = undefined

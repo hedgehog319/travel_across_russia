@@ -5,7 +5,7 @@
 
       <div style="position: absolute; bottom: 110px; left: 15px">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
-        <span class="white--text pl-1">{{ tour.count_days }}</span>
+        <span class="white--text pl-1">{{ formatDays(tour.count_days) }}</span>
       </div>
 
       <div style="position: absolute; bottom: 110px; right: 15px">
@@ -56,7 +56,15 @@ export default {
     getPrice(price) {
       return price.toString()
           .replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1 ")
-    }
+    },
+    formatDays(str) {
+      const value = +str % 100;
+      const num = +str % 10;
+      if(value > 10 && value < 20) return str + ' ночей';
+      if(num > 1 && num < 5) return str + ' ночи';
+      if(num === 1) return str + ' ночь';
+      return str + ' ночей';
+    },
   }
 }
 </script>
