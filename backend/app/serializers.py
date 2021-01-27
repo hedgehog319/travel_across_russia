@@ -129,11 +129,10 @@ class FavouriteTourSerializer(ModelSerializer):
 
     class Meta:
         model = FavouriteTour
-        fields = ('tour', 'tour_id', 'name', 'price', 'city_name', 'country_name', 'description', 'rating')
-        extra_kwargs = {'tour': {'write_only': True}}
+        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description', 'rating')
 
     def get_rating(self, obj):
-        marks = RatingTour.objects.all().filter(tour_id=obj.tour.id).values_list('rating', flat=True)
+        marks = RatingTour.objects.all().filter(tour_id=obj.tour_id.id).values_list('rating', flat=True)
         if not marks:
             return 0
         return sum(marks) / len(marks) / 2
