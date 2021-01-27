@@ -95,6 +95,7 @@ class TourSerializer(ModelSerializer):
 
 
 class TourReceivingSerializer(ModelSerializer):
+    photo = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
     is_favourite = serializers.SerializerMethodField(method_name='favourite')
 
@@ -102,7 +103,11 @@ class TourReceivingSerializer(ModelSerializer):
         model = Tour
         fields = (
             'tour_id', 'name', 'price', 'count_days', 'city_name', 'country_name',
-            'description', 'food_type', 'rating', 'is_favourite')
+            'description', 'food_type', 'rating', 'is_favourite', 'photo')
+
+    def get_photo(self, obj):
+        photos = HotelPhoto.objects.filter(hotel__tour__id=obj.id).order_by('time_created').first()
+        return photos.photo.url
 
     def favourite(self, obj):
         user = self.context['request'].user
