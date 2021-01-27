@@ -20,18 +20,6 @@ class UserGetUpdateSerializer(ModelSerializer):
         fields = ('username', 'email')
 
 
-class FavouriteTourSerializer(ModelSerializer):
-    class Meta:
-        model = FavouriteTour
-        fields = ['tour']
-
-
-class FavouriteTourReceivingSerializer(ModelSerializer):
-    class Meta:
-        model = FavouriteTour
-        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description')  # + rating
-
-
 class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
@@ -127,3 +115,24 @@ class TourReceivingSerializer(ModelSerializer):
         if not marks:
             return 0
         return sum(marks) / len(marks) / 2
+
+
+class FavouriteTourSerializer(ModelSerializer):
+    rating = serializers.SerializerMethodField()
+
+    class Meta:
+        model = FavouriteTour
+        fields = ('tour', 'tour_id', 'name', 'price', 'city_name', 'country_name', 'description', 'rating')
+        extra_kwargs = {'tour': {'write_only': True}}
+
+    def get_rating(self, obj):
+        marks = RatingTour.objects.all().filter(tour=obj.tour.id).values_list('rating', flat=True)
+        if not marks:
+            return 0
+        return sum(marks) / len(marks) / 2
+
+
+class RatingTourSerializer(ModelSerializer):
+    class Meta:
+        model = RatingTour
+        fields = ('tour_id', 'rating')

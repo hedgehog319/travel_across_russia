@@ -64,11 +64,14 @@ class RatingTour(models.Model):
     )
 
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+    tour_id = models.ForeignKey('Tour', on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
 
+    class Meta:
+        unique_together = ['user', 'tour_id']
+
     def __str__(self):
-        return f'User: {self.user.username}; tour: {self.tour.name()}; rating: {self.rating}'
+        return f'User: {self.user.username}; tour: {self.tour_id.name()}; rating: {self.rating / 2}'
 
 
 class Document(models.Model):
