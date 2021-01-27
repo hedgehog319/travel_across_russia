@@ -172,7 +172,11 @@ class HotelPhotoView(ModelViewSet):
 
     def filter_queryset(self, queryset):
         if 'tour_id' in self.request.query_params:
-            queryset = queryset.filter(h)
+            queryset = queryset.filter(hotel__tour__id=self.request.query_params['tour_id'])
+        else:
+            queryset = queryset.none()
+
+        return queryset
 
 
 @api_view(['GET'])
