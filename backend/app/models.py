@@ -22,31 +22,28 @@ class User(AbstractUser):
 
 class FavouriteTour(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
-    tour = models.ForeignKey('Tour', on_delete=models.CASCADE, related_name='favourites')
+    tour_id = models.ForeignKey('Tour', on_delete=models.CASCADE, related_name='favourites')
 
     class Meta:
-        unique_together = ['user', 'tour']
-
-    def tour_id(self):
-        return self.tour.id
+        unique_together = ['user', 'tour_id']
 
     def name(self):
-        return self.tour.name()
+        return self.tour_id.name()
 
     def price(self):
-        return self.tour.price
+        return self.tour_id.price
 
     def city_name(self):
-        return self.tour.city_name()
+        return self.tour_id.city_name()
 
     def country_name(self):
-        return self.tour.country_name()
+        return self.tour_id.country_name()
 
     def description(self):
-        return self.tour.description()
+        return self.tour_id.description()
 
     def __str__(self):
-        return f'{self.user.username} - {self.tour.hotel.name}'
+        return f'{self.user.username} - {self.tour_id.hotel.name}'
 
 
 class RatingTour(models.Model):
