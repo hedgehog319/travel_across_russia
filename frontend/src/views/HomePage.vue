@@ -125,7 +125,7 @@
 
 
     <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.5); width: 80%;">
-      <div class="text-center " style="font-size: 30px; font-weight: 500; color: #FFFFFF">Рекомендуемые туры</div>
+      <div class="text-center " style="font-size: 30px; font-weight: 500; color: #FFFFFF">Лучшие туры</div>
       <v-row no-gutters class="mb-2 mt-2">
         <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="12"
                class="mb-3" xs="12">
