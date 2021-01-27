@@ -24,7 +24,7 @@ from app.serializers import TourSerializer, CountrySerializer, CitySerializer, H
 # todo настроить allowed_hosts
 
 def get_tour_rating(tour_id):
-    marks = RatingTour.objects.all().filter(tour=tour_id).values_list('rating', flat=True)
+    marks = RatingTour.objects.all().filter(tour_id=tour_id).values_list('rating', flat=True)
     if not marks:
         return 0
     return sum(marks) / len(marks) / 2
@@ -169,8 +169,10 @@ class HotelPhotoView(ModelViewSet):
     queryset = HotelPhoto.objects.all().order_by('time_created')
     serializer_class = HotelPhotoSerializer
     permission_classes = [IsAdminOrReadOnly]
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['hotel']
+
+    def filter_queryset(self, queryset):
+        if 'tour_id' in self.request.query_params:
+            queryset = queryset.filter(h)
 
 
 @api_view(['GET'])

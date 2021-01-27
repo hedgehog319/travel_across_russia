@@ -22,7 +22,7 @@ router.register('hotel-photos', HotelPhotoView)  # ?hotel=HOTEL_ID & many=True -
 
 urlpatterns = [
     path('user-profile/', UserProfileView.as_view()),
-    path('rating-tours/', RatingTourView.as_view()),  # only PATCH or POST, передать tour_id, rating
+    path('rating-tours/', RatingTourView.as_view()),  # only POST, передать tour_id, rating
     path('document/types/', document_types),
     path('users/types/', access_types),
     path('hotels/food-types/', food_types),

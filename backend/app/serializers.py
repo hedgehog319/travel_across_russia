@@ -111,7 +111,7 @@ class TourReceivingSerializer(ModelSerializer):
         return True if obj.favourites.filter(user=user.id) else False
 
     def get_rating(self, obj):
-        marks = RatingTour.objects.all().filter(tour=obj.id).values_list('rating', flat=True)
+        marks = RatingTour.objects.all().filter(tour_id=obj.id).values_list('rating', flat=True)
         if not marks:
             return 0
         return sum(marks) / len(marks) / 2
@@ -126,7 +126,7 @@ class FavouriteTourSerializer(ModelSerializer):
         extra_kwargs = {'tour': {'write_only': True}}
 
     def get_rating(self, obj):
-        marks = RatingTour.objects.all().filter(tour=obj.tour.id).values_list('rating', flat=True)
+        marks = RatingTour.objects.all().filter(tour_id=obj.tour.id).values_list('rating', flat=True)
         if not marks:
             return 0
         return sum(marks) / len(marks) / 2
