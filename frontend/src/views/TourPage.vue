@@ -28,7 +28,7 @@
             <v-card class="ma-4" height="200" width="300">
               <v-row align="center" class="fill-height" justify="center">
                 <v-scale-transition>
-                  <v-img :src='image.photo'/>
+                  <v-img width="324" height="216" :src='image.photo'/>
                 </v-scale-transition>
               </v-row>
             </v-card>
@@ -115,7 +115,7 @@ export default {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
       const data = {
         tour_id: this.tour.tour_id,
-        rating: this.tour.rating
+        rating: this.tour.rating * 2
       }
 
       this.axios.post('api/rating-tours/', data, conf)

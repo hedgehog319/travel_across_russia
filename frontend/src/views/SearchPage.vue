@@ -130,7 +130,6 @@ export default {
     async searchTours() {
       this.isLoad = false
       let query = '?'
-      const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
 
       if (this.queries.to !== null) query += 'city=' + this.queries.to
       if (this.queries.date.length > 0) {
@@ -139,6 +138,10 @@ export default {
       if (this.queries.rating !== null) query += '&rating=' + this.queries.rating * 2
       if (this.rangePrice.length !== undefined) query += '&price=' + this.rangePrice[0] + ',' + this.rangePrice[1]
       if (this.queries.foodTypes.length > 0) query += '&type_food=' + this.queries.foodTypes.join(',')
+
+      let conf
+      if (this.$cookies.isKey('Token'))
+        conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
 
       await this.fetchTours([conf, query])
       this.isLoad = true
@@ -150,8 +153,6 @@ export default {
     window.removeEventListener('resize', this.onResize, {passive: true})
   },
   async mounted() {
-    const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-
     this.onResize()
     window.addEventListener('resize', this.onResize, {passive: true})
     let query = '?'
@@ -169,6 +170,11 @@ export default {
 
       query += '&count_days=' + Math.round((this.queries.date[1] - this.queries.date[0]) / (24 * 3600 * 1000))
     }
+
+    let conf
+    if (this.$cookies.isKey('Token'))
+      conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+
     await this.fetchTours([conf, query])
     this.isLoad = true
   },

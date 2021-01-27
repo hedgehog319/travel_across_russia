@@ -82,7 +82,8 @@ export default {
       this.isSmall = window.innerWidth < 900
     },
     addFav(conf) {
-      this.axios.post('api/fav-tours/', {tour: this.tour.tour_id}, conf)
+      this.axios.post('api/fav-tours/', {tour_id: this.tour.tour_id}, conf)
+          .catch(err => console.log(err.response))
       this.tour.is_favourite = true
     },
     removeFav(conf) {
