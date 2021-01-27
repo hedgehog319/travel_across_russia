@@ -4,7 +4,8 @@ from django.forms.models import model_to_dict
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView, \
+    UpdateAPIView, GenericAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, ListModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -17,7 +18,7 @@ from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document,
 from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
-    TourReceivingSerializer, FavouriteTourReceivingSerializer, HotelPhotoSerializer, BookedTourSerializer
+    TourReceivingSerializer, HotelPhotoSerializer, BookedTourSerializer, RatingTourSerializer
 
 
 # todo настроить allowed_hosts
@@ -73,19 +74,9 @@ class TourView(ModelViewSet):
 
 class FavouriteTourView(CreateModelMixin, ListModelMixin, DestroyModelMixin, GenericViewSet):
     queryset = FavouriteTour.objects.all()
+    serializer_class = FavouriteTourSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'tour'
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return FavouriteTourReceivingSerializer
-        return FavouriteTourSerializer
-
-    def finalize_response(self, request, response, *args, **kwargs):
-        if request.method == 'GET':
-            for tour in response.data:
-                tour.update({'rating': get_tour_rating(tour.get('tour_id'))})
-        return super().finalize_response(request, response, *args, **kwargs)
 
     def filter_queryset(self, queryset):
         queryset = queryset.filter(user=self.request.user)
@@ -181,23 +172,6 @@ class HotelPhotoView(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['hotel']
 
-    def filter_queryset(self, queryset):
-        if 'many' not in self.request.query_params:
-            return queryset.none()
-
-        queryset = super().filter_queryset(queryset)
-        if self.request.query_params['many'].lower() == 'false':
-            hotels = []
-            filters = []
-            for photo in queryset:
-                if photo.hotel.id not in hotels:
-                    filters.append(photo.id)
-                    hotels.append(photo.hotel.id)
-
-            queryset = queryset.filter(id__in=filters)
-
-        return queryset
-
 
 @api_view(['GET'])
 def document_types(request):
@@ -219,3 +193,20 @@ class BookedTourView(ModelViewSet):
     serializer_class = BookedTourSerializer
     permission_classes = [IsAdminOrCreateOnly]
     lookup_field = 'tour_id'
+
+
+class RatingTourView(CreateAPIView):
+    queryset = RatingTour.objects.all()
+    serializer_class = RatingTourSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            mark = RatingTour.objects.get(user=request.user, tour_id=request.data['tour_id'])
+            mark.delete()
+            return super().create(request, *args, **kwargs)
+        except:
+            return super().create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
