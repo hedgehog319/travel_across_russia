@@ -4,8 +4,9 @@
       <v-container class="mw-400">
         <v-card class="round" elevation="2">
           <v-card-title class="text-center">Вход</v-card-title>
-          <span v-if="invalidUser" class="text-center error--text unselectable"
-                style="position: absolute; left: 77px; top: 50px">Неверный логин или пароль</span>
+          <span v-if="invalidUser" class="text-center error--text unselectable invalid-alert">
+            Неверный логин или пароль
+          </span>
 
           <v-container>
             <v-text-field v-model="user.username" :error-messages="usernameErrors"
@@ -17,15 +18,14 @@
                           label="Пароль"
                           @input="inputHandler('password')"
                           @keydown.space.prevent=""/>
-            <v-btn icon style="position: absolute; left: auto; right: 10px; top: auto; bottom: 144px"
-                   @click="showPassword = !showPassword">
+            <v-btn icon class="password-icon" @click="showPassword = !showPassword">
               <v-icon>{{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
             </v-btn>
           </v-container>
           <v-card-actions>
             <v-container class="text-center">
               <v-btn block class="rounded-pill primary" elevation="0" type="submit">Войти</v-btn>
-              <div style="margin-top: 10px">
+              <div class="mt-3">
                 <span>Нет аккаунта? </span>
                 <router-link class="text-decoration-none blue--text text--darken-2 hover" to="/registration">
                   Зарегистрируйся
