@@ -1,6 +1,6 @@
 <template>
   <div id="account">
-    <v-col style="margin: auto" cols="12" md="6">
+    <v-col class="ma-auto" cols="12" md="6">
       <v-card>
         <v-toolbar color="primary" dark flat>
           <v-toolbar-title>Профиль</v-toolbar-title>
@@ -12,11 +12,11 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-simple-table style="margin: 10px;">
+              <v-simple-table class="ma-2">
                 <template v-slot:default>
                   <thead>
                   <tr>
-                    <th class="text-left" style="font-size: 30px">Аккаунт</th>
+                    <th class="text-left text-h4">Аккаунт</th>
                     <th class="text-left"/>
                   </tr>
                   </thead>
@@ -61,7 +61,7 @@
           <!-- TODO validation -->
           <v-tab-item>
             <v-card flat class="text-center">
-              <form style="margin: 15px" @submit.prevent="updateUserInfo">
+              <form class="ma-4" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
                 <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors" v-model="document.type"/>
@@ -99,7 +99,7 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-card-text style="text-align: center">
+              <v-card-text class="text-center">
                 <p>Ваш список туров пуст</p>
               </v-card-text>
             </v-card>

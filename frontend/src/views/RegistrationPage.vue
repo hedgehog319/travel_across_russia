@@ -5,8 +5,8 @@
         <v-card class="round" elevation="2">
           <v-card-title class="text-center">Регистрация</v-card-title>
 
-          <span v-if="invalidUser" class="text-center error--text unselectable"
-                style="position: absolute; text-align: center; left: 77px; top: 50px; max-width: 214px">
+          <span v-if="invalidUser" class="text-center error--text unselectable invalid-alert"
+                style="max-width: 214px">
             Пользователь с таким логином уже существует
           </span>
 
@@ -25,8 +25,7 @@
                           label="Пароль"
                           @input="this.$v.user.password.$touch"
                           @keydown.space.prevent=""/>
-            <v-btn icon style="position: absolute; left: auto; right: 10px; top: auto; bottom: 144px"
-                   @click="showPassword = !showPassword">
+            <v-btn icon class="password-icon" @click="showPassword = !showPassword">
               <v-icon>{{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
             </v-btn>
           </v-container>
@@ -34,7 +33,7 @@
             <v-container class="text-center">
               <v-btn block class="rounded-pill primary" elevation="0" type="submit">Зарегистрироваться</v-btn>
 
-              <div style="margin-top: 10px">
+              <div class="mt-3">
                 <span>Уже зарегистрировались?</span>
                 <router-link class="text-decoration-none blue--text text--darken-2 hover" to="/login">
                   Войти

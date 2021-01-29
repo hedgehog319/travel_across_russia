@@ -21,7 +21,7 @@
                     </v-col>
 
                     <v-col cols="12" md="4">
-                      <section style="margin-top: -6px; margin-right: 10px">
+                      <section class="mr-3 mt-n2">
                         <span>Выбрать дату</span>
                         <date-picker :disabled-date="currentDate" v-model="queries.date" confirm range
                                      style="width: 100%"/>
@@ -72,7 +72,13 @@
 
     <v-container>
       <v-skeleton-loader v-if="!isLoad" type="card" height="300" class="mx-auto white"></v-skeleton-loader>
-      <favorite-card v-else v-for="tour in getTours" :key="tour.tour" :tour="tour"/>
+      <div v-else-if="isEmpty()">
+        <favorite-card v-for="tour in getTours" :key="tour.tour" :tour="tour"/>
+      </div>
+      <v-card v-else class="ma-auto d-flex flex-column align-center justify-center grey lighten-2" height="300">
+        <span class="text-h4 text-center">К сожалению, по вашему запросу ничего не найдено. Проверьте правильность
+          ввода или попробуйте изменить запрос.</span>
+      </v-card>
     </v-container>
   </div>
 </template>
@@ -145,6 +151,9 @@ export default {
 
       await this.fetchTours([conf, query])
       this.isLoad = true
+    },
+    isEmpty() {
+      return this.getTours.length > 0;
     }
   },
   beforeDestroy() {

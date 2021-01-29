@@ -6,7 +6,7 @@
       <v-card v-else elevation="2" class="pa-5">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon large style="position: absolute; top: 10px; right: 12px;" @click="favClick">
+            <v-btn v-on="on" icon large class="top-absolute" style="right: 12px;" @click="favClick">
               <v-icon v-if="tour.is_favourite" color="#ffd700" large>mdi-heart</v-icon>
               <v-icon v-else color="#ffd700" large>mdi-heart-outline</v-icon>
             </v-btn>
@@ -15,13 +15,13 @@
         </v-tooltip>
 
         <router-link class="text-decoration-none hover" :to="{name: 'booking', query: {id: tour.tour_id}}">
-          <v-btn elevation="1" large style="position: absolute; top: 10px; right: 60px;">
+          <v-btn elevation="1" large class="top-absolute" style="right: 60px;">
             <span>Купить тур</span>
             <v-icon color="black" large>mdi-book</v-icon>
           </v-btn>
         </router-link>
 
-        <v-card-title class="justify-center mt-4" style="font-size: 30px">{{ tour.name }}</v-card-title>
+        <v-card-title class="justify-center mt-5 text-h4 ">{{ tour.name }}</v-card-title>
 
         <v-slide-group center-active class="pa-4" show-arrows>
           <v-slide-item v-for="(image, n) in images" :key="n">
@@ -43,9 +43,9 @@
 
             <v-spacer/>
 
-            <div style="font-weight: 500; font-size: 15px; color: black">
-              <v-chip>Продолжительность: {{ formatDays(tour.count_days) }}</v-chip>
-              <v-chip style="margin-left: 5px">Питание: {{ tour.food_type }}</v-chip>
+            <div class="text-h5 text--black">
+              <v-chip class="mr-1">Продолжительность: {{ formatDays(tour.count_days) }}</v-chip>
+              <v-chip>Питание: {{ tour.food_type }}</v-chip>
             </div>
           </v-row>
 
@@ -165,5 +165,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <v-card class="rounded unselectable" :style="isSmall
-                                  ? 'display: inline-block; margin-bottom: 8px'
-                                  : 'display: flex; margin-bottom: 8px'">
+  <v-card class="rounded unselectable mb-2" :class="isSmall ? 'd-inline-block' : 'd-flex'">
     <router-link class="text-decoration-none" :to="{name: 'tour', query: {id: tour.tour_id}}">
       <v-img :src="tour.photo" height="200px"
              class="d-block rounded ma-2 hover" :width="isSmall ? undefined : 300"/>
@@ -23,7 +21,7 @@
       <div class="d-flex">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
-        <span style="font-size: 21px">
+        <span v-if="!isSmall" style="font-size: 21px">
           Тип питания: {{ tour.food_type }}
         </span>
         <v-spacer/>
