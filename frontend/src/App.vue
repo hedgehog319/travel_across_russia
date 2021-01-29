@@ -20,6 +20,13 @@ export default {
   },
   methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchTopTours']),
   created() {
+    if (this.$cookies.isKey('Token')) {
+      this.axios.post('auth/jwt/verify/', {token: this.$cookies.get('Token')})
+          .catch(err => {
+            if (err.response.statusText === 'Unauthorized')
+              this.$cookies.remove('Token')
+          })
+    }
 
     this.fetchCities()
     this.fetchDocumentTypes()

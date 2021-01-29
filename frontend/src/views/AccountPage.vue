@@ -280,7 +280,6 @@ export default {
             this.document = {...res.data[0]}
             this.document.type = this.getDocumentType(res.data[0].type)
 
-
             this.changed_document = {...this.document}
           }
         })
