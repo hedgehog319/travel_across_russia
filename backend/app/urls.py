@@ -9,7 +9,7 @@ from app.views import TourView, CountryView, CityView, HotelView, AirlineView, I
 router = SimpleRouter()
 router.register('tours', TourView)  # ?city=CITY_NAME & country=COUNTRY_NAME & count_days=7
 router.register('booked-tours', BookedTourView)
-router.register('document', DocumentView)  # only GET and PATCH
+router.register('documents', DocumentView)  # only GET and PATCH
 router.register('fav-tours', FavouriteTourView)  # /fav-tour/TOUR_ID/ - удаление
 router.register('countries', CountryView)
 router.register('cities', CityView)  # ?country=COUNTRY_ID, или ?country_name=Россия
