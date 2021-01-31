@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo *
+cd backend || exit
 
 python3 -m pip install -r requirements.txt
 
