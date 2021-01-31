@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <v-container class="rounded d-flex mb-12 unselectable"
-                 style="flex-wrap: wrap;background-color: rgba(255,224,138, 0.8)">
+                 style="flex-wrap: wrap;background-color: rgba(255,224,138, 0.8); justify-content: center">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">
@@ -108,7 +108,7 @@
           <v-item-group multiple>
             <v-row>
               <v-col cols="12" lg="4" md="6" sm="6" xs="6" class="pa-0 ma-0"
-                     v-for="(item, i) in items" :key="i" @click="tt(item.title)">
+                     v-for="(item, i) in items" :key="i" @click="citySearch(item.title)">
                 <v-item>
                   <v-img :src='item.src' class="text-right" height="200">
                     <v-sheet class="hover-card text-center"
@@ -128,9 +128,9 @@
     <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.6)">
       <div class="text-center text-h4" style="color: #fff">Рекомендуемые туры</div>
       <v-row no-gutters class="mb-2 mt-2">
-        <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="12"
+        <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="6"
                class="mb-3" xs="12">
-          <tour-card :tour="tour"/>
+          <tour-card :style="isSmall ? 'max-width: 260px' : ''" :tour="tour"/>
         </v-col>
       </v-row>
     </v-container>
@@ -158,6 +158,7 @@ export default {
       dialog: false,
       adults: 2,
       date: null,
+      isSmall: false,
       items: [
         {src: require("@/assets/img/moscow.jpg"), title: 'Москва'},
         {src: require("@/assets/img/peterburg.jpg"), title: 'Санкт-Петербург'},
@@ -205,9 +206,21 @@ export default {
 
       this.$router.push({name: 'search', query: query})
     },
-    tt(title) {
+    citySearch(title) {
       this.$router.push({name: 'search', query: {to: title}})
-    }
+    },
+    onResize() {
+      this.isSmall = window.innerWidth < 760 && window.innerWidth > 600
+    },
+  },
+  beforeDestroy() {
+    if (typeof window === 'undefined') return
+
+    window.removeEventListener('resize', this.onResize, {passive: true})
+  },
+  mounted() {
+    this.onResize()
+    window.addEventListener('resize', this.onResize, {passive: true})
   }
 }
 </script>

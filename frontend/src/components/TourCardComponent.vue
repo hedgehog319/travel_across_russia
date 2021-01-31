@@ -5,7 +5,7 @@
 
       <div style="left: 15px; background-color:rgba(0, 0, 0, 0.4); height: 40px" class="absolute-bottom rounded pa-1">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
-        <span class="white--text pl-1 text-h6">{{ formatDays(tour.count_days) }}</span>
+        <span class="white--text pl-1 text-subtitle-1">{{ formatDays(tour.count_days) }}</span>
       </div>
 
       <div style="right: 15px; background-color:rgba(0, 0, 0, 0.4); height: 40px" class="absolute-bottom rounded pa-1">
