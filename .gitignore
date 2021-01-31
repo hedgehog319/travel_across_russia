@@ -1,9 +1,10 @@
 /venv/
 /.idea/
-/db_claster/
 backend/app/migrations/
 !backend/app/migrations/__init__.py
-__pycache__/
 */__pycache__/
 backend/backend/local_settings.py
 backend/media/
+/documentation/
+/frontend/
+/tasks/
