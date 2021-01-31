@@ -67,3 +67,28 @@
     background: #FFFFFF !important;
     width: 50px !important;
 }
+
+.invalid-alert {
+    position: absolute !important;
+    left: 77px !important;
+    top: 50px !important;
+}
+
+.password-icon {
+    position: absolute !important;
+    left: auto !important;
+    right: 2px !important;
+    top: auto !important;
+    bottom: 18px !important;
+}
+
+.absolute-bottom {
+    position: absolute !important;
+    bottom: 110px !important;
+}
+
+
+.top-absolute {
+    position: absolute !important;
+    top: 10px !important;
+}

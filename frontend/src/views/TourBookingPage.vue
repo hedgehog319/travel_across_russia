@@ -26,10 +26,10 @@
                   <div class="mb-2">
                     <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
                   </div>
-                  <span class="grey--text text--secondary mb-2" style="font-size: 20px;">
-                  {{ tour.description }}
+                  <span class="grey--text text--secondary mb-2 text-h5">
+                  {{ divideDescription(tour.description) }}
                   </span>
-                  <span class="unselectable" style="font-size: 30px">Стоимость тура: {{ getCost(tour.price) }} Р</span>
+                  <span class="unselectable text-h5">Стоимость тура: {{ getCost(tour.price) }} Р</span>
 
                 </v-card-text>
               </v-card>
@@ -44,7 +44,7 @@
           <v-stepper-content step="2">
             <v-card class="mb-12" color="lighten-1" elevation="0" height="300px">
               <v-list rounded>
-                <v-subheader class="justify-center" style="font-size: 20px">Туристы</v-subheader>
+                <v-subheader class="justify-center text-h5">Туристы</v-subheader>
                 <div class="scrollbar round-track" style="height: 275px">
                   <v-list-item-group color="primary">
                     <v-list-item v-for="(tourist, i) in tourists" :key="i" @click="touristClick(i)">
@@ -75,52 +75,48 @@
 
             <v-card class="mb-12" color="lighten-1" elevation="0" min-height="300">
               <v-row justify="center" class="mt-1">
-                <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
+                <v-col cols="12" lg="3" md="3" sm="3" class="mar-pad">
                   <v-text-field filled v-model="card.number" height="38" label="Номер карты"
                                 :error-messages="cardNumberErrors" counter="16" maxlength="16"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
+                                clas="border"/>
                 </v-col>
 
-                <v-col cols="12" lg="3" md="3" sm="3" style="margin: 0 6px; padding: 0;">
+                <v-col cols="12" lg="3" md="3" sm="3" class="mar-pad">
                   <v-text-field filled :value="card.name" height="38" label="Владелец"
                                 @input="input => this.card.name = input.toUpperCase()"
                                 :error-messages="cardNameErrors" counter="20" maxlength="20"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
+                                class="border"/>
                 </v-col>
               </v-row>
 
               <v-row justify="center">
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 20px 6px; padding: 0 5px 0 5px;">
+                <v-col cols="12" lg="2" md="2" sm="2" class="full-space">
                   <v-select v-model="card.month" :items="months" dense label="Месяц"
                             :error-messages="cardMonthErrors"
                             solo/>
                 </v-col>
 
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 20px 6px; padding: 0 5px 0 5px;">
+                <v-col cols="12" lg="2" md="2" sm="2" class="full-space">
                   <v-select v-model="card.year" :items="years" dense label="Год"
-                            :error-messages="cardYearErrors"
-                            solo/>
+                            :error-messages="cardYearErrors" solo/>
                 </v-col>
 
-                <v-col cols="12" lg="2" md="2" sm="2" style="margin: 0 6px; padding: 0;">
-                  <v-text-field filled v-model="card.cvv" label="CVV" height="38"
-                                :error-messages="cardCVVErrors" counter="3" maxlength="3"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px; margin-top: 0;
-                                padding-top: 2px"/>
+                <v-col cols="12" lg="2" md="2" sm="2" class="mar-pad">
+                  <v-text-field filled v-model="card.cvv" label="CVV" height="38" class="mt-0 pt-1 border"
+                                :error-messages="cardCVVErrors" counter="3" maxlength="3"/>
                 </v-col>
               </v-row>
 
               <v-row v-if="!$cookies.isKey('Token')" justify="center">
-                <v-col cols="12" lg="6" md="6" sm="6" style="margin: 20px 6px; padding: 0 5px 0 5px;">
+                <v-col cols="12" lg="6" md="6" sm="6" class="full-space">
                   <v-text-field filled v-model="email" height="38" label="Email"
-                                :error-messages="emailErrors"
-                                style="border-top-left-radius: 5px; border-top-right-radius: 5px;"/>
+                                :error-messages="emailErrors" class="border"/>
                 </v-col>
               </v-row>
 
               <v-row class="mt-3" justify="center">
                 <span class="text-h5">Итого к оплате: </span>
-                <span class="ml-3" style="font-size: 23px">{{ getCost(tour.price) }}</span>
+                <span class="ml-3 text-h6">{{ getCost(tour.price) }}</span>
                 <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
@@ -584,7 +580,12 @@ export default {
               this.tourist.document.type = this.getDocumentType(this.tourist.document.type)
             }
           })
-    }
+    },
+    divideDescription(str) {
+      if (str.length > 250)
+        return str.slice(0, 250) + '...'
+      return str
+    },
   },
   beforeDestroy() {
     if (typeof window === undefined) return
@@ -606,5 +607,18 @@ export default {
 </script>
 
 <style scoped>
+.mar-pad {
+  margin: 0 6px;
+  padding: 0;
+}
 
+.full-space {
+  margin: 20px 6px;
+  padding: 0 5px 0 5px;
+}
+
+.border {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
 </style>
