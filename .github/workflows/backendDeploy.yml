@@ -1,4 +1,4 @@
-name: Deploy
+name: Backend
 
 on:
   push:
@@ -21,4 +21,4 @@ jobs:
       - name: Deploy
         run: |
           cd backend && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . ${{ secrets.user }}@${{ secrets.host }}:${{ secrets.backendDir }}
-          ssh ${{ secrets.user }}@${{ secrets.host }} 'sh /backend/deploy.sh'
+          ssh -i $HOME/.ssh/key ${{ secrets.user }}@${{ secrets.host }} 'sh /backend/deploy.sh'
