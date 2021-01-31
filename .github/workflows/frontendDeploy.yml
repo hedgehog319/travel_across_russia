@@ -23,7 +23,7 @@ jobs:
         run: npm i
       # Build
       - name: Build
-        run: npm run build --if-present
+        run: npm run build
       # Deploy
       - name: Deploy
         run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . travel-across-russia@95.154.70.73://home/travel-across-russia/frontend
