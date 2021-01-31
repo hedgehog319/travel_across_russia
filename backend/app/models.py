@@ -68,7 +68,8 @@ class RatingTour(models.Model):
         unique_together = ['user', 'tour_id']
 
     def __str__(self):
-        return f'User: {self.user.username}; tour: {self.tour_id.name()}; rating: {self.rating / 2}'
+        return f'User: {"Deleted User" if not self.user else self.user.username}; ' \
+               f'tour: {self.tour_id.name()}; rating: {self.rating / 2}'
 
 
 class Document(models.Model):
@@ -107,7 +108,6 @@ class BookedTour(models.Model):
 
 
 class Tour(models.Model):
-    price = models.PositiveIntegerField()
     count_days = models.PositiveIntegerField()
     city = models.ForeignKey('City', on_delete=models.CASCADE)
     hotel = models.OneToOneField('Hotel', on_delete=models.CASCADE)
@@ -132,6 +132,9 @@ class Tour(models.Model):
 
     def food_type(self):
         return self.hotel.type_of_food
+
+    def price(self):
+        return self.count_days * (self.hotel.price_for_night + self.insurance.price_for_day)
 
     def __str__(self):
         return f'Id {self.id}: {self.hotel.name}'

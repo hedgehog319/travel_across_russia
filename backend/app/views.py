@@ -63,8 +63,14 @@ class TourView(ModelViewSet):
             queryset = queryset.filter(id__in=filters)
 
         if 'price' in params:
-            start, end = params['price'].split(',')
-            queryset = queryset.filter(price__range=(start, end))
+            start, end = map(int, params['price'].split(','))
+            filters = []
+            for tour in queryset:
+                if start <= tour.price() <= end:
+                    filters.append(tour.id)
+            queryset = queryset.filter(id__in=filters)
+
+            # queryset = queryset.filter(price__range=(start, end))
 
         if 'type_food' in params:
             types = list(params['type_food'].split(','))
