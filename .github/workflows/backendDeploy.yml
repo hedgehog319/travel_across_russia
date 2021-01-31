@@ -19,4 +19,6 @@ jobs:
           chmod 600 "$HOME/.ssh/key"
       # Deploy
       - name: Deploy
-        run: cd backend && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . ${{ secrets.user }}@${{ secrets.host }}:${{ secrets.backendDir }}
+        run: |
+          cd backend && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress . ${{ secrets.user }}@${{ secrets.host }}:${{ secrets.backendDir }}
+          ssh ${{ secrets.user }}@${{ secrets.host }} 'sh /backend/deploy.sh'
