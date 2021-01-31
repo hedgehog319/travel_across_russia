@@ -21,7 +21,7 @@ npm install -g @vue/cli @vue/cli-service-global
 ### Project packages
 
 ```
-npm install axios vue-axios vuelidate vuetify --save
+npm install axios vue-axios vuelidate vuetify vue-cookies-reactive --save 
 ```
 
 ### Compiles and hot-reloads for development

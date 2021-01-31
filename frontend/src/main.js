@@ -6,12 +6,17 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vuelidate from 'vuelidate'
+import VueCookies from 'vue-cookies-reactive'
 
 import vuetify from './plugins/vuetify';
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(VueAxios, axios)
 Vue.use(Vuelidate)
+Vue.use(VueCookies)
+
+Vue.$cookies.config('2d')
+Vue.axios.defaults.baseURL = 'http://travel-across-russia.tk/'
 
 Vue.config.productionTip = false
 
