@@ -24,7 +24,7 @@ urlpatterns = [
     path('user-profile/', UserProfileView.as_view()),
     path('rating-tours/', RatingTourView.as_view()),  # only POST, передать tour_id, rating
     path('top-tours/', TopTourView.as_view()),
-    path('document/types/', document_types),
+    path('documents/types/', document_types),
     path('users/types/', access_types),
     path('hotels/food-types/', food_types),
 ]
