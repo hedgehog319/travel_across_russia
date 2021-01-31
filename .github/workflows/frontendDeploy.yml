@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-node@v1
       # Setup key
       - name: Setup key
-        run: set -eu |
+        run: |
+          set -eu
           mkdir "$HOME/.ssh"
           echo "${{ secrets.key }}" > "$HOME/.ssh/key"
           chmod 600 "$HOME/.ssh/key"
