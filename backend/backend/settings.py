@@ -6,6 +6,8 @@ try:
     from .local_settings import *
 except ImportError:
     from .productions_settings import *
+
+SECRET_KEY = 'kji3n2zdjud7#$ovbvs0+_c3br8va@vuin!*lqfo%w^7nwektv'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -28,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework_json_api',
     'rest_framework_simplejwt',
 
+    'django_filters',
     'corsheaders',
     'app',
 ]
@@ -45,11 +48,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
+    "http://127.0.0.1:8080"
 ]
+
+CORS_URLS_REGEX = r'^/(api|auth)/.*$'
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -114,13 +118,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
-# STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_DIR = os.path.join(BASE_DIR, "static")
-# STATICFILES_DIRS = [
-#     STATIC_DIR,
-# ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = '/media/'
