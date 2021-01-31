@@ -1,6 +1,5 @@
 /venv/
 /.idea/
-/db_claster/
 backend/app/migrations/
 !backend/app/migrations/__init__.py
 __pycache__/
