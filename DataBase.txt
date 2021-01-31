@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
-<!-- Active URL: https://ondras.zarovi.cz/sql/demo/ -->
+<!-- Active URL: https://ondras.zarovi.cz/sql/demo/?keyword=default -->
 <sql>
 <datatypes db="mysql">
 	<group label="Numeric" color="rgb(238,238,170)">
@@ -35,15 +35,12 @@
 		<type label="SET" length="1" sql="SET" quote=""/>
 		<type label="Bit" length="0" sql="bit" quote=""/>
 	</group>
-</datatypes><table x="623" y="42" name=" tours">
+</datatypes><table x="670" y="44" name=" tours">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="name" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="price" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
 <default>NULL</default></row>
 <row name="count_days" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -68,7 +65,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="446" y="233" name="booked_tours">
+<table x="479" y="205" name="booked_tours">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -86,7 +83,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1085" y="61" name="countres">
+<table x="1077" y="11" name="countres">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -100,7 +97,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="877" y="55" name="cities">
+<table x="888" y="9" name="cities">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -115,7 +112,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="751" y="320" name="airlines">
+<table x="913" y="388" name="airlines">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -126,7 +123,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="733" y="424" name="insurences">
+<table x="849" y="498" name="insurences">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -140,7 +137,11 @@
 <part>id</part>
 </key>
 </table>
-<table x="902" y="192" name="hotels">
+<table x="896" y="142" name="hotels">
+<row name="city_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="cities" row="id" />
+</row>
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -159,10 +160,6 @@
 <row name="price_for_night" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="city_id" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="cities" row="id" />
-</row>
 <row name="description" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -170,7 +167,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="492" y="413" name="tourists">
+<table x="527" y="365" name="tourists">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -189,7 +186,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="280" y="431" name="documents">
+<table x="264" y="363" name="documents">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -215,7 +212,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="76" y="312" name="users">
+<table x="21" y="232" name="users">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -239,7 +236,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="143" y="54" name="favorite_tour">
+<table x="245" y="21" name="favorite_tour">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -255,7 +252,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="169" y="164" name="rating_tour">
+<table x="249" y="143" name="rating_tour">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -274,7 +271,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1076.8148193359375" y="241" name="hotel_photo">
+<table x="1106" y="189" name="hotel_photo">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
