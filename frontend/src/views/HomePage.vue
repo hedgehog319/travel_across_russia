@@ -1,6 +1,7 @@
 <template>
   <div id="home">
-    <v-container class="rounded d-flex mb-12 unselectable" style="background-color: rgba(255,224,138, 0.8)">
+    <v-container class="rounded d-flex mb-12 unselectable"
+                 style="flex-wrap: wrap;background-color: rgba(255,224,138, 0.8)">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">

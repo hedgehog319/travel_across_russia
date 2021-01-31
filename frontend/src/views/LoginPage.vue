@@ -13,14 +13,16 @@
                           label="Логин"
                           @input="inputHandler('username')"
                           @keydown.space.prevent=""/> <!--@keydown.space.prevent - перехватывает пробел-->
-            <v-text-field v-model="user.password" :error-messages="passwordErrors"
-                          :type="showPassword ? 'text' : 'password'"
-                          label="Пароль"
-                          @input="inputHandler('password')"
-                          @keydown.space.prevent=""/>
-            <v-btn icon class="password-icon" @click="showPassword = !showPassword">
-              <v-icon>{{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
-            </v-btn>
+            <div style="position: relative">
+              <v-text-field v-model="user.password" :error-messages="passwordErrors"
+                            :type="showPassword ? 'text' : 'password'"
+                            label="Пароль"
+                            @input="inputHandler('password')"
+                            @keydown.space.prevent=""/>
+              <v-btn icon class="password-icon" @click="showPassword = !showPassword">
+                <v-icon>{{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
+              </v-btn>
+            </div>
           </v-container>
           <v-card-actions>
             <v-container class="text-center">

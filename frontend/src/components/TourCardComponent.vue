@@ -3,14 +3,16 @@
     <router-link :to="{name: 'tour', query: {id: tour.tour_id}}">
       <v-img :src="tour.photo" height="200px" style="position: relative; border-radius: 10px"/>
 
-      <div style="left: 15px" class="absolute-bottom">
+      <div style="left: 15px; background-color:rgba(0, 0, 0, 0.4); height: 40px" class="absolute-bottom rounded pa-1">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
-        <span class="white--text pl-1">{{ formatDays(tour.count_days) }}</span>
+        <span class="white--text pl-1 text-h6">{{ formatDays(tour.count_days) }}</span>
       </div>
 
-      <div style="right: 15px" class="absolute-bottom">
-        <span class="white--text text-h5">От {{ getPrice(tour.price) }}</span>
-        <v-icon class="white--text text-h5" size="22" style="bottom: 4px">mdi-currency-rub</v-icon>
+      <div style="right: 15px; background-color:rgba(0, 0, 0, 0.4); height: 40px" class="absolute-bottom rounded pa-1">
+        <span class="white--text text-h4">От {{ getPrice(tour.price) }}</span>
+        <v-icon class="white--text text-h5" size="22" style="bottom: 4px">
+          mdi-currency-rub
+        </v-icon>
       </div>
     </router-link>
 

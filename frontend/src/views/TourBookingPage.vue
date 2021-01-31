@@ -27,7 +27,7 @@
                     <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
                   </div>
                   <span class="grey--text text--secondary mb-2 text-h5">
-                  {{ tour.description }}
+                  {{ divideDescription(tour.description) }}
                   </span>
                   <span class="unselectable text-h5">Стоимость тура: {{ getCost(tour.price) }} Р</span>
 
@@ -580,7 +580,12 @@ export default {
               this.tourist.document.type = this.getDocumentType(this.tourist.document.type)
             }
           })
-    }
+    },
+    divideDescription(str) {
+      if (str.length > 250)
+        return str.slice(0, 250) + '...'
+      return str
+    },
   },
   beforeDestroy() {
     if (typeof window === undefined) return

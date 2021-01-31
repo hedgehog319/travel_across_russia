@@ -77,9 +77,9 @@
 .password-icon {
     position: absolute !important;
     left: auto !important;
-    right: 10px !important;
+    right: 2px !important;
     top: auto !important;
-    bottom: 144px !important;
+    bottom: 18px !important;
 }
 
 .absolute-bottom {
