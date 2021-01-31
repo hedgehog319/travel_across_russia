@@ -1,6 +1,6 @@
 <template>
   <div id="account">
-    <v-col style="margin: auto" cols="12" md="6">
+    <v-col class="ma-auto" cols="12" md="6">
       <v-card>
         <v-toolbar color="primary" dark flat>
           <v-toolbar-title>Профиль</v-toolbar-title>
@@ -12,11 +12,11 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-simple-table style="margin: 10px;">
+              <v-simple-table class="ma-2">
                 <template v-slot:default>
                   <thead>
                   <tr>
-                    <th class="text-left" style="font-size: 30px">Аккаунт</th>
+                    <th class="text-left text-h4">Аккаунт</th>
                     <th class="text-left"/>
                   </tr>
                   </thead>
@@ -58,38 +58,37 @@
               </v-simple-table>
             </v-card>
           </v-tab-item>
-          <!-- TODO validation -->
           <v-tab-item>
             <v-card flat class="text-center">
-              <form style="margin: 15px" @submit.prevent="updateUserInfo">
+              <form class="ma-4" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
-                <v-text-field v-model="user.email" :error-messages="emailErrors" label="Email"/>
-                <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors" v-model="document.type"/>
-                <v-text-field :value="document.firstname" :error-messages="firstnameErrors"
-                              counter="20" @input="input => document.firstname = input.toUpperCase()" label="Имя"/>
-                <v-text-field :value="document.lastname" :error-messages="lastnameErrors"
-                              counter="20" @input="input => document.lastname = input.toUpperCase()" label="Фамилия"/>
+                <v-text-field v-model="new_email" :error-messages="emailErrors" label="Email"/>
+                <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors" v-model="changed_document.type"/>
+                <v-text-field :value="changed_document.firstname" :error-messages="firstnameErrors"
+                              counter="20" @input="input => changed_document.firstname = input.toUpperCase()" label="Имя"/>
+                <v-text-field :value="changed_document.lastname" :error-messages="lastnameErrors"
+                              counter="20" @input="input => changed_document.lastname = input.toUpperCase()" label="Фамилия"/>
                 <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
                         :close-on-content-click="false"
                         transition="scale-transition">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-text-field :error-messages="birthdateErrors" v-model="document.birthdate" v-bind="attrs"
+                    <v-text-field :error-messages="birthdateErrors" v-model="changed_document.birthdate" v-bind="attrs"
                                   v-on="on"
                                   label="Дата рождения"
                                   prepend-icon="mdi-calendar"
                                   readonly/>
                   </template>
-                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="document.birthdate" no-title
+                  <v-date-picker :max="new Date().toJSON().slice(0,10)" v-model="changed_document.birthdate" no-title
                                  scrollable>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="birthDayMenu = false">Отмена</v-btn>
                     <v-btn color="primary" text @click="birthDayMenu = false">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
-                <v-text-field counter="4" v-model="document.series" :error-messages="seriesErrors"
+                <v-text-field counter="4" v-model="changed_document.series" :error-messages="seriesErrors"
                               label="Серия документа"
                               maxlength="4"/>
-                <v-text-field counter="6" v-model="document.number" :error-messages="numberErrors"
+                <v-text-field counter="6" v-model="changed_document.number" :error-messages="numberErrors"
                               label="Номер документа"
                               maxlength="6"/>
                 <v-btn class="mr-4" type="submit">Применить изменения</v-btn>
@@ -99,7 +98,7 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-card-text style="text-align: center">
+              <v-card-text class="text-center">
                 <p>Ваш список туров пуст</p>
               </v-card-text>
             </v-card>
@@ -134,17 +133,24 @@ export default {
         number: null,
         birthdate: null,
       },
+      new_email: null,
+      changed_document: {
+        firstname: null,
+        lastname: null,
+        type: null,
+        series: null,
+        number: null,
+        birthdate: null,
+      },
       invalidUser: false,
     }
   },
   validations: {
-    user: {
-      email: {
-        required,
-        email
-      }
+    new_email: {
+      required,
+      email
     },
-    document: {
+    changed_document: {
       firstname: {
         required,
         ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
@@ -177,59 +183,59 @@ export default {
     ...mapGetters(['getDocumentTypes', 'getDocumentType', 'getDocumentId']),
     firstnameErrors() {
       let mess = ''
-      if (!this.$v.document.firstname.$dirty) return mess
-      if (!this.$v.document.firstname.required) mess = 'Введите имя'
-      else if (!this.$v.document.firstname.ruLetter) mess = 'Укажите имя на латинице'
-      else if (!this.$v.document.firstname.numbers) mess = 'Имя содержит цифры'
+      if (!this.$v.changed_document.firstname.$dirty) return mess
+      if (!this.$v.changed_document.firstname.required) mess = 'Введите имя'
+      else if (!this.$v.changed_document.firstname.ruLetter) mess = 'Укажите имя на латинице'
+      else if (!this.$v.changed_document.firstname.numbers) mess = 'Имя содержит цифры'
 
       return mess
     },
     lastnameErrors() {
       let mess = ''
-      if (!this.$v.document.lastname.$dirty) return mess
-      if (!this.$v.document.lastname.required) mess = 'Введите фамилию'
-      else if (!this.$v.document.lastname.ruLetter) mess = 'Укажите фамилию на латинице'
-      else if (!this.$v.document.lastname.numbers) mess = 'Фамилия содержит цифры'
+      if (!this.$v.changed_document.lastname.$dirty) return mess
+      if (!this.$v.changed_document.lastname.required) mess = 'Введите фамилию'
+      else if (!this.$v.changed_document.lastname.ruLetter) mess = 'Укажите фамилию на латинице'
+      else if (!this.$v.changed_document.lastname.numbers) mess = 'Фамилия содержит цифры'
 
       return mess
     },
     emailErrors() {
       let mess = ''
-      if (!this.$v.user.email.$dirty) return mess
-      if (!this.$v.user.email.required) mess = 'Введите email'
-      else if (!this.$v.user.email.email) mess = 'Введён неверный email'
+      if (!this.$v.new_email.$dirty) return mess
+      if (!this.$v.new_email.required) mess = 'Введите email'
+      else if (!this.$v.new_email) mess = 'Введён неверный email'
 
       return mess
     },
     seriesErrors() {
       let mess = ''
-      if (!this.$v.document.series.$dirty) return mess
-      if (!this.$v.document.series.required) mess = 'Введите серию документа'
-      else if (!this.$v.document.series.numeric) mess = 'Вы ввели не число'
-      else if (!this.$v.document.series.minLength) mess = 'Введите 4 цифры'
+      if (!this.$v.changed_document.series.$dirty) return mess
+      if (!this.$v.changed_document.series.required) mess = 'Введите серию документа'
+      else if (!this.$v.changed_document.series.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.changed_document.series.minLength) mess = 'Введите 4 цифры'
 
       return mess
     },
     numberErrors() {
       let mess = ''
-      if (!this.$v.document.number.$dirty) return mess
-      if (!this.$v.document.number.required) mess = 'Введите номер документа'
-      else if (!this.$v.document.number.numeric) mess = 'Вы ввели не число'
-      else if (!this.$v.document.number.minLength) mess = 'Введите 6 цифр'
+      if (!this.$v.changed_document.number.$dirty) return mess
+      if (!this.$v.changed_document.number.required) mess = 'Введите номер документа'
+      else if (!this.$v.changed_document.number.numeric) mess = 'Вы ввели не число'
+      else if (!this.$v.changed_document.number.minLength) mess = 'Введите 6 цифр'
 
       return mess
     },
     birthdateErrors() {
       let mess = ''
-      if (!this.$v.document.birthdate.$dirty) return mess
-      if (!this.$v.document.birthdate.required) mess = 'Введите дату рождения'
+      if (!this.$v.changed_document.birthdate.$dirty) return mess
+      if (!this.$v.changed_document.birthdate.required) mess = 'Введите дату рождения'
 
       return mess
     },
     documentTypeErrors() {
       let mess = ''
-      if (!this.$v.document.type.$dirty) return mess
-      if (!this.$v.document.type.required) mess = 'Введите тип документа'
+      if (!this.$v.changed_document.type.$dirty) return mess
+      if (!this.$v.changed_document.type.required) mess = 'Введите тип документа'
 
       return mess
     }
@@ -244,22 +250,18 @@ export default {
     },
     patchUserInfo() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      const document = {
-        first_name: this.document.firstname,
-        last_name: this.document.lastname,
-        birthdate: this.document.birthdate,
-        series: this.document.series,
-        number: this.document.number,
-        type: this.getDocumentId(this.document.type),
-      }
+      const document = {...this.changed_document}
+      document.type = this.getDocumentId(this.changed_document.type)
 
-      this.axios.patch('api/user-profile/', {email: this.user.email}, conf)
-          .catch(err => console.log(err.response))
+      this.axios.patch('api/user-profile/', {email: this.new_email}, conf)
+          .catch(err => console.log(err))
 
-      this.axios.patch('api/document/', document, conf)
-          .catch(err => console.log(err.response))
+      this.axios.patch('api/documents/', document, conf)
+          .catch(err => console.log(err))
 
       this.updated = true
+      this.user.email = this.new_email
+      this.document = {...this.changed_document}
     }
   },
   created() {
@@ -267,20 +269,18 @@ export default {
     this.axios.get('api/user-profile/', conf)
         .then(res => {
           if (res.statusText === 'OK') {
-            this.user.username = res.data.username
-            this.user.email = res.data.email
+            this.user = res.data
+            this.new_email = res.data.email
           }
         })
 
-    this.axios.get('api/document/', conf)
+    this.axios.get('api/documents/', conf)
         .then(res => {
           if (res.data.length > 0) {
-            this.document.firstname = res.data[0].first_name
-            this.document.lastname = res.data[0].last_name
-            this.document.birthdate = res.data[0].birthdate
-            this.document.series = res.data[0].series
-            this.document.number = res.data[0].number
+            this.document = {...res.data[0]}
             this.document.type = this.getDocumentType(res.data[0].type)
+
+            this.changed_document = {...this.document}
           }
         })
   }

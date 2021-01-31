@@ -46,12 +46,12 @@
     </v-container>
 
 
-    <v-container class="rounded mb-12" style="background-color: rgba(255,255,255, 1);border: 3px solid #8a8a8a">
+    <v-container class="rounded mb-12" style="background-color: rgba(255,255,255, 1);border: 2px solid #808a8a8a">
       <v-card flat width="100%">
-        <span class="headline" style="margin-left: 20px">Поиск тура</span>
+        <span class="headline ml-6">Поиск тура</span>
         <v-card-text>
           <v-form @submit.prevent="findTour">
-            <v-container style="display: flex">
+            <v-container class="d-flex">
               <v-row>
                 <v-col cols="12" md="3">
                   <v-autocomplete v-model="from" :items="getCitiesName" dense filled label="Откуда"/>
@@ -62,13 +62,13 @@
                 </v-col>
 
                 <v-col cols="12" md="4">
-                  <section style="margin-top: -6px; margin-right: 10px">
+                  <section class="" style="margin-top: -6px; margin-right: 10px">
                     <span>Выбрать дату</span>
                     <date-picker :disabled-date="currentDate" v-model="date" confirm range style="width: 100%"/>
                   </section>
                 </v-col>
-                <v-col cols="12" md="1">
-                  <v-btn large class="mb-2" type="submit">Поиск</v-btn>
+                <v-col cols="12" md="2" class="text-center">
+                  <v-btn width="150" height="40" class="mt-2" type="submit">Поиск</v-btn>
                 </v-col>
 
               </v-row>
@@ -79,7 +79,7 @@
     </v-container>
 
     <v-container class="rounded mb-12 unselectable"
-                 style="background-color: rgba(255,255,255, 1);border: 3px solid #dedede">
+                 style="background-color: rgba(255,255,255, 1);border: 2px solid #dedede">
       <span class="text-center text-h4">Почему "Путешествуй по России"?</span>
       <v-container class="justify-center text-center">
         <v-row>
@@ -101,9 +101,9 @@
       </v-container>
     </v-container>
 
-    <v-container class="rounded text-center mt-12 mb-12" style="background-color: #6ba3dd;">
+    <v-container class="rounded text-center mt-12 mb-12">
       <v-card class="mx-auto" max-width="100%">
-        <v-container class="pa-1">
+        <v-container class="pa-0">
           <v-item-group multiple>
             <v-row>
               <v-col cols="12" lg="4" md="6" sm="6" xs="6" class="pa-0 ma-0"
@@ -124,8 +124,8 @@
     </v-container>
 
 
-    <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.5); width: 80%;">
-      <div class="text-center " style="font-size: 30px; font-weight: 500; color: #FFFFFF">Рекомендуемые туры</div>
+    <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.6)">
+      <div class="text-center text-h4" style="color: #fff">Рекомендуемые туры</div>
       <v-row no-gutters class="mb-2 mt-2">
         <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="12"
                class="mb-3" xs="12">
