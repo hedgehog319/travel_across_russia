@@ -29,7 +29,6 @@ export default {
   methods: {
     ...mapActions(['fetchFavTours']),
     isEmpty() {
-      console.log(1)
       return this.getFavTours.length > 0
     }
   },
