@@ -6,6 +6,10 @@
           <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
             <v-icon size="24px"> {{ icon }}</v-icon>
           </v-btn>
+          <div class="mt-2 block">
+            <span class="text-h6">Телефон обратной связи</span>
+            <span class="blue--text text-h6"> +7 950-285-85-68</span>
+          </div>
         </v-card-text>
 
         <v-divider/>
