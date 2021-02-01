@@ -239,7 +239,7 @@ export default {
         {short: 'AI', full: 'Всё включено'}
       ],
       typeOfFood: 1,
-      e1: 3,
+      e1: 1,
       isSmall: false,
       tour: {
         tour_id: Number,
