@@ -72,7 +72,7 @@
 
           <v-stepper-content step="3">
 
-            <v-card class="mb-12" color="lighten-1" elevation="0" min-height="300">
+            <v-card class="mb-12 pa-5" color="lighten-1" elevation="0" min-height="300">
               <v-row justify="center" class="mt-1">
                 <v-col cols="12" lg="3" md="3" sm="3" class="mar-pad">
                   <v-text-field filled v-model="card.number" height="38" label="Номер карты"
@@ -239,7 +239,7 @@ export default {
         {short: 'AI', full: 'Всё включено'}
       ],
       typeOfFood: 1,
-      e1: 1,
+      e1: 3,
       isSmall: false,
       tour: {
         tour_id: Number,
