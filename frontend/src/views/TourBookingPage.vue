@@ -534,7 +534,7 @@ export default {
         this.tourists[0].email = this.email
       else {
         const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-        await this.axios.get('/api/document/', conf)
+        await this.axios.get('/api/documents/', conf)
             .then(res => {
               if (res.statusText === 'OK')
                 this.tourists[0].email = res.data.email
@@ -573,7 +573,7 @@ export default {
     },
     loadDocument() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
-      this.axios.get('api/document/', conf)
+      this.axios.get('api/documents/', conf)
           .then(res => {
             if (res.data.length > 0) {
               this.tourist.document = res.data[0]

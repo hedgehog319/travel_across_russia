@@ -256,7 +256,7 @@ export default {
       this.axios.patch('api/user-profile/', {email: this.new_email}, conf)
           .catch(err => console.log(err))
 
-      this.axios.patch('api/document/', document, conf)
+      this.axios.patch('api/documents/', document, conf)
           .catch(err => console.log(err))
 
       this.updated = true
@@ -274,12 +274,11 @@ export default {
           }
         })
 
-    this.axios.get('api/document/', conf)
+    this.axios.get('api/documents/', conf)
         .then(res => {
           if (res.data.length > 0) {
             this.document = {...res.data[0]}
             this.document.type = this.getDocumentType(res.data[0].type)
-
 
             this.changed_document = {...this.document}
           }
