@@ -8,3 +8,4 @@ backend/media/
 /documentation/
 /frontend/
 /tasks/
+.env
