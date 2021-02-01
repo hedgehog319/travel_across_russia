@@ -31,7 +31,7 @@ class FavouriteTour(models.Model):
         return self.tour_id.name()
 
     def price(self):
-        return self.tour_id.price
+        return self.tour_id.price()
 
     def city_name(self):
         return self.tour_id.city_name()
