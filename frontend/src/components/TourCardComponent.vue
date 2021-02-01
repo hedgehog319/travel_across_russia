@@ -1,14 +1,14 @@
 <template>
-  <v-card class="mx-auto" max-width="344" style="border-radius: 10px">
+  <v-card class="mx-auto bor-rad-10" max-width="344">
     <router-link :to="{name: 'tour', query: {id: tour.tour_id}}">
-      <v-img :src="tour.photo" height="200px" style="position: relative; border-radius: 10px"/>
+      <v-img :src="tour.photo" height="200px" class="bor-rad-10" style="position: relative"/>
 
-      <div style="left: 15px; background-color:rgba(0, 0, 0, 0.4); height: 40px" class="absolute-bottom rounded pa-1">
+      <div style="left: 15px" class="absolute-bottom rounded pa-1 bg-height-40">
         <v-icon color="#fff">mdi-calendar-clock</v-icon>
         <span class="white--text pl-1 text-subtitle-1">{{ formatDays(tour.count_days) }}</span>
       </div>
 
-      <div style="right: 15px; background-color:rgba(0, 0, 0, 0.4); height: 40px" class="absolute-bottom rounded pa-1">
+      <div style="right: 15px" class="absolute-bottom rounded pa-1 bg-height-40">
         <span class="white--text text-h4">От {{ getPrice(tour.price) }}</span>
         <v-icon class="white--text text-h5" size="22" style="bottom: 4px">
           mdi-currency-rub
@@ -72,5 +72,12 @@ export default {
 </script>
 
 <style scoped>
+.bor-rad-10 {
+  border-radius: 10px
+}
+
+.bg-height-40 {
+  background-color:rgba(0, 0, 0, 0.4); height: 40px
+}
 
 </style>

@@ -17,9 +17,8 @@
             <v-skeleton-loader v-if="!isLoad" type="card" height="300" class="mx-auto white"/>
 
             <div v-else>
-              <v-card class="rounded unselectable" elevation="0" min-height="300"
-                      :style="isSmall ? 'display: inline-block; margin: 10px'
-                    : 'display: flex; margin: 10px;'">
+              <v-card class="rounded unselectable ma-3" elevation="0" min-height="300"
+                      :class="isSmall ? 'd-inline-block' : 'd-flex'">
                 <v-img :src="tour.photo" height="300px" class="d-block ma-2 rounded"
                        :width="isSmall ? undefined : 300"/>
                 <v-card-text class="d-flex flex-column justify-md-space-around">

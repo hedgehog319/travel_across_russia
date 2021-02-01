@@ -63,13 +63,15 @@
               <form class="ma-4" @submit.prevent="updateUserInfo">
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="new_email" :error-messages="emailErrors" label="Email"/>
-                <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors" v-model="changed_document.type"/>
+                <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors"
+                          v-model="changed_document.type"/>
                 <v-text-field :value="changed_document.firstname" :error-messages="firstnameErrors"
-                              counter="20" @input="input => changed_document.firstname = input.toUpperCase()" label="Имя"/>
+                              counter="20" @input="input => changed_document.firstname = input.toUpperCase()"
+                              label="Имя"/>
                 <v-text-field :value="changed_document.lastname" :error-messages="lastnameErrors"
-                              counter="20" @input="input => changed_document.lastname = input.toUpperCase()" label="Фамилия"/>
-                <v-menu ref="menu" v-model="birthDayMenu" :max-width="290"
-                        :close-on-content-click="false"
+                              counter="20" @input="input => changed_document.lastname = input.toUpperCase()"
+                              label="Фамилия"/>
+                <v-menu ref="menu" v-model="birthDayMenu" :max-width="290" :close-on-content-click="false"
                         transition="scale-transition">
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field :error-messages="birthdateErrors" v-model="changed_document.birthdate" v-bind="attrs"
