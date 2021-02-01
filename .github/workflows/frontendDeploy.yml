@@ -29,4 +29,4 @@ jobs:
       # Deploy
       - name: Deploy
         working-directory: ./frontend
-        run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . travel-across-russia@95.154.70.73://home/travel-across-russia/frontend
+        run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ${{ secrets.user }}@${{ secrets.host }}:${{ secrets.frontendDir }}
