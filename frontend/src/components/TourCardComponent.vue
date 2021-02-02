@@ -9,8 +9,8 @@
       </div>
 
       <div style="right: 15px" class="absolute-bottom rounded pa-1 bg-height-40">
-        <span class="white--text text-h4">От {{ getPrice(tour.price) }}</span>
-        <v-icon class="white--text text-h5" size="22" style="bottom: 4px">
+        <span class="white--text text-h6">От {{ getPrice(tour.price) }}</span>
+        <v-icon class="white--text text-h6" size="22" style="bottom: 4px">
           mdi-currency-rub
         </v-icon>
       </div>
