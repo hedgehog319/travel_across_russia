@@ -109,6 +109,8 @@ class TourReceivingSerializer(ModelSerializer):
         photos = HotelPhoto.objects.filter(hotel__tour__id=obj.id).order_by('time_created').first()
         request = self.context.get('request')
 
+        if not photos:
+            return ''
         return request.build_absolute_uri(photos.photo.url)
 
     def favourite(self, obj):
