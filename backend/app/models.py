@@ -138,7 +138,7 @@ class Tour(models.Model):
     """Тур"""
     count_days = models.PositiveIntegerField("Кол-во дней")
     city = models.ForeignKey('City', verbose_name="Город", on_delete=models.CASCADE)
-    hotel = models.OneToOneField('Hotel', verbose_name="Отель", on_delete=models.CASCADE)
+    hotel = models.ForeignKey('Hotel', verbose_name="Отель", on_delete=models.CASCADE)
     airline = models.ForeignKey('Airline', verbose_name="Авиакомпания", on_delete=models.PROTECT)
     insurance = models.ForeignKey('Insurance', verbose_name="Страховка", on_delete=models.SET_NULL, null=True)
     rating = models.ManyToManyField('User', verbose_name="Оценки", through='RatingTour')
