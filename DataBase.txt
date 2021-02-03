@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
-<!-- Active URL: https://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<!-- Active URL: https://ondras.zarovi.cz/sql/demo/ -->
 <sql>
 <datatypes db="mysql">
 	<group label="Numeric" color="rgb(238,238,170)">
@@ -65,7 +65,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="479" y="205" name="booked_tours">
+<table x="479" y="256" name="booked_tours">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -79,6 +79,10 @@
 <row name="end_date" null="1" autoincrement="0">
 <datatype>DATETIME</datatype>
 <default>NULL</default></row>
+<row name="owner" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="users" row="id" />
+</row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
@@ -167,7 +171,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="527" y="365" name="tourists">
+<table x="533" y="448" name="tourists">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -186,7 +190,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="264" y="363" name="documents">
+<table x="253" y="415" name="documents">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
