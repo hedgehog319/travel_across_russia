@@ -2,7 +2,7 @@ from datetime import date
 from django.utils.translation import gettext_lazy as _
 
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import validate_image_file_extension, int_list_validator
+from django.core.validators import validate_image_file_extension, int_list_validator, RegexValidator, validate_slug
 from django.db import models
 
 
@@ -19,7 +19,7 @@ class User(AbstractUser):
     fav_tours = models.ManyToManyField('Tour', through='FavouriteTour')
 
     def __str__(self):
-        return f'Id: {self.id}: {self.username}'
+        return self.username
 
 
 class FavouriteTour(models.Model):
@@ -86,11 +86,13 @@ class Document(models.Model):
         (1, 'Паспорт'),
         (2, 'Загранпаспорт'),
     )
-    type = models.PositiveSmallIntegerField("Тип", choices=TYPE_CHOICES)
-    series = models.CharField("Серия", max_length=4, validators=[int_list_validator()])
-    number = models.CharField("Номер", max_length=6, validators=[int_list_validator()])
-    firstname = models.CharField("Имя", max_length=150)
-    lastname = models.CharField("Фамилия", max_length=150)
+    type = models.PositiveSmallIntegerField("Тип документа", choices=TYPE_CHOICES)
+    series = models.CharField("Серия", max_length=4,
+                              validators=[int_list_validator(message="Допустимы только цифры.")])
+    number = models.CharField("Номер", max_length=6,
+                              validators=[int_list_validator(message="Допустимы только цифры.")])
+    firstname = models.CharField("Имя", max_length=150, help_text='Латиница в верхнем регистре')
+    lastname = models.CharField("Фамилия", max_length=150, help_text='Латиница в верхнем регистре')
     birthdate = models.DateField("Дата рождения", default=date.today)
 
     class Meta:
@@ -98,7 +100,7 @@ class Document(models.Model):
         verbose_name_plural = "Документы"
 
     def __str__(self):
-        return f'Id {self.id}: {self.firstname} {self.lastname}'
+        return f'{self.firstname} {self.lastname}'
 
 
 class Tourist(models.Model):
@@ -129,7 +131,7 @@ class BookedTour(models.Model):
         verbose_name_plural = "Забронированные туры"
 
     def __str__(self):
-        return f'Id {self.id}: {self.tour_id.hotel.name}'
+        return f'{self.tour_id.name()}, {self.tour_id.city_name()}, {self.tour_id.country_name()}'
 
 
 class Tour(models.Model):
@@ -167,7 +169,7 @@ class Tour(models.Model):
         return self.count_days * (self.hotel.price_for_night + self.insurance.price_for_day)
 
     def __str__(self):
-        return f'Id {self.id}: {self.hotel.name}'
+        return f'{self.name()}, {self.city_name()}, {self.country_name()}'
 
 
 class Airline(models.Model):
@@ -246,7 +248,7 @@ class City(models.Model):
         verbose_name_plural = "Города"
 
     def __str__(self):
-        return f'Id {self.id}: {self.name}'
+        return self.name
 
 
 class Country(models.Model):
@@ -259,4 +261,4 @@ class Country(models.Model):
         verbose_name_plural = "Страны"
 
     def __str__(self):
-        return f'Id {self.id}: {self.name}'
+        return self.name
