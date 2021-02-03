@@ -71,7 +71,7 @@ class TouristSerializer(ModelSerializer):
 
 
 class BookedTourSerializer(ModelSerializer):
-    tourists = TouristSerializer(many=True)
+    tourists = TouristSerializer(many=True, write_only=True)
 
     class Meta:
         model = BookedTour

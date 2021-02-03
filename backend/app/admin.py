@@ -88,8 +88,11 @@ admin.site.register(Insurance)
 admin.site.register(FavouriteTour)
 admin.site.register(RatingTour)
 
-admin.site.site_title = 'Django Travel-Across-Russia'
-admin.site.site_header = 'Django Travel-Across-Russia'
+admin.site.site_title = 'Панел Администратора Travel-Across-Russia'
+admin.site.site_header = 'Панел Администратора Travel-Across-Russia'
 
 # для настройки отображения в админке
 # https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/Admin_site
+
+# для добавления favicon в админку
+# https://www.djangotricks.com/tricks/9RM5Mk6tRThd/
