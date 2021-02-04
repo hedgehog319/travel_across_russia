@@ -86,7 +86,7 @@ export default {
     },
     addFav(conf) {
       this.axios.post('api/fav-tours/', {tour_id: this.tour.tour_id}, conf)
-          .catch(err => console.log(err.response))
+          .catch(err => console.log(err))
       this.tour.is_favourite = true
     },
     removeFav(conf) {

@@ -18,7 +18,7 @@ export default {
     FooterComponent,
     NavbarComponent,
   },
-  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchTopTours']),
+  methods: mapActions(['fetchCities', 'fetchDocumentTypes', 'fetchTopTours', 'fetchFoodTypes']),
   created() {
     if (this.$cookies.isKey('Token')) {
       this.axios.post('auth/jwt/verify/', {token: this.$cookies.get('Token')})
@@ -31,6 +31,7 @@ export default {
     this.fetchCities()
     this.fetchDocumentTypes()
     this.fetchTopTours(12)
+    this.fetchFoodTypes()
   },
 };
 </script>

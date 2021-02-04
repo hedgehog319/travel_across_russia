@@ -48,10 +48,19 @@
                   <v-list-item-group color="primary">
                     <v-list-item v-for="(tourist, i) in tourists" :key="i" @click="touristClick(i)">
                       <v-list-item-content>
-                        <v-list-item-title
-                            v-text="tourist.document.lastname + '  ' + tourist.document.firstname + '  '
-                            + tourist.document.birthdate + '  ' + tourist.document.type + '  '
-                            + tourist.document.series + '  ' + tourist.document.number"/>
+                        <v-list-item-title class="d-flex">
+                          <span>{{ tourist.document.lastname }}</span>
+                          <v-spacer/>
+                          <span>{{ tourist.document.firstname }}</span>
+                          <v-spacer/>
+                          <span>{{ tourist.document.birthdate }}</span>
+                          <v-spacer/>
+                          <span>{{ tourist.document.type }}</span>
+                          <v-spacer/>
+                          <span>{{ tourist.document.series }}</span>
+                          <v-spacer/>
+                          <span>{{ tourist.document.number }}</span>
+                        </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
@@ -527,6 +536,7 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.isPaid = true
+        this.router.push({name: 'home'})
       }, 1000)
 
       if (this.email !== null)
@@ -550,7 +560,7 @@ export default {
       }
 
       await this.axios.post('/api/booked-tours/', booked)
-          .catch(err => console.log(err.response))
+          .catch(err => console.log(err))
     },
     toPay() {
       this.$v.card.$touch()
