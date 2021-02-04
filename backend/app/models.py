@@ -91,8 +91,8 @@ class Document(models.Model):
                               validators=[int_list_validator(message="Допустимы только цифры.")])
     number = models.CharField("Номер", max_length=6,
                               validators=[int_list_validator(message="Допустимы только цифры.")])
-    firstname = models.CharField("Имя", max_length=150, help_text='Латиница в верхнем регистре')
-    lastname = models.CharField("Фамилия", max_length=150, help_text='Латиница в верхнем регистре')
+    firstname = models.CharField("Имя", max_length=200, help_text='Латиница в верхнем регистре')
+    lastname = models.CharField("Фамилия", max_length=200, help_text='Латиница в верхнем регистре')
     birthdate = models.DateField("Дата рождения", default=date.today)
 
     class Meta:
