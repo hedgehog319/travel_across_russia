@@ -21,7 +21,7 @@
       <div class="d-flex">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
-        <span v-if="!isSmall" style="font-size: 21px">
+        <span v-if="!isSmall" class="text-h5">
           Тип питания: {{ tour.food_type }}
         </span>
         <v-spacer/>
@@ -86,7 +86,7 @@ export default {
     },
     addFav(conf) {
       this.axios.post('api/fav-tours/', {tour_id: this.tour.tour_id}, conf)
-          .catch(err => console.log(err.response))
+          .catch(err => console.log(err))
       this.tour.is_favourite = true
     },
     removeFav(conf) {

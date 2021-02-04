@@ -45,7 +45,12 @@
 
             <div class="text-h5 text--black">
               <v-chip class="mr-1">Продолжительность: {{ formatDays(tour.count_days) }}</v-chip>
-              <v-chip>Питание: {{ tour.food_type }}</v-chip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-chip v-on="on">Питание: {{ tour.food_type }}</v-chip>
+                </template>
+                <span>{{ getFoodType(tour.food_type) }}</span>
+              </v-tooltip>
             </div>
           </v-row>
 
@@ -62,7 +67,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "TourPage",
@@ -87,6 +92,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getFoodType']),
     isAuthorized() {
       return this.$cookies.isKey('Token')
     },
@@ -125,14 +131,14 @@ export default {
             if (res.statusText === 'Created')
               this.isRated = true
           })
-          .catch(err => console.log(err.response))
+          .catch(err => console.log(err))
     },
     formatDays(str) {
       const value = +str % 100;
       const num = +str % 10;
-      if(value > 10 && value < 20) return str + ' ночей';
-      if(num > 1 && num < 5) return str + ' ночи';
-      if(num === 1) return str + ' ночь';
+      if (value > 10 && value < 20) return str + ' ночей';
+      if (num > 1 && num < 5) return str + ' ночи';
+      if (num === 1) return str + ' ночь';
       return str + ' ночей';
     },
   },

@@ -1,7 +1,6 @@
 <template>
   <div id="home">
-    <v-container class="rounded d-flex mb-12 unselectable"
-                 style="flex-wrap: wrap;background-color: rgba(255,224,138, 0.8); justify-content: center">
+    <v-container class="rounded d-flex mb-12 unselectable covid-info">
       <v-icon>mdi-shield-alert</v-icon>
       <h3>Информация для путешественников во время COVID-19:</h3>
       <div class="text-center">
@@ -19,7 +18,7 @@
 
             <v-card-text>
               <p>Оперативная информация Ростуризма по ссылке: <a target="_blank" rel="noopener noreferrer"
-                                                                 href="https://www.russiatourism.ru/news/16620/">
+                                                                 href="https://tourism.gov.ru/news/16620/">
                 https://www.russiatourism.ru/news/16620/</a></p>
               <p>Чтобы предотвратить распространение коронавируса и других респираторных заболеваний,
                 соблюдайте меры предосторожности.
@@ -47,7 +46,7 @@
     </v-container>
 
 
-    <v-container class="rounded mb-12" style="background-color: rgba(255,255,255, 1);border: 2px solid #808a8a8a">
+    <v-container class="rounded mb-12 background-1" style="border: 2px solid #808a8a8a">
       <v-card flat width="100%">
         <span class="headline ml-6">Поиск тура</span>
         <v-card-text>
@@ -63,7 +62,7 @@
                 </v-col>
 
                 <v-col cols="12" md="4">
-                  <section class="" style="margin-top: -6px; margin-right: 10px">
+                  <section class="mt-n2 mr-2">
                     <span>Выбрать дату</span>
                     <date-picker :disabled-date="currentDate" v-model="date" confirm range style="width: 100%"/>
                   </section>
@@ -79,8 +78,7 @@
       </v-card>
     </v-container>
 
-    <v-container class="rounded mb-12 unselectable"
-                 style="background-color: rgba(255,255,255, 1);border: 2px solid #dedede">
+    <v-container class="rounded mb-12 unselectable background-1" style="border: 2px solid #dedede">
       <span class="text-center text-h4">Почему "Путешествуй по России"?</span>
       <v-container class="justify-center text-center">
         <v-row>
@@ -111,9 +109,8 @@
                      v-for="(item, i) in items" :key="i" @click="citySearch(item.title)">
                 <v-item>
                   <v-img :src='item.src' class="text-right" height="200">
-                    <v-sheet class="hover-card text-center"
-                             style="width: 100%; height: 100%; background-color: rgba(44,44,47,0.3);">
-                      <span style="color: #fff; font-size: 30px" class="unselectable">{{ item.title }}</span>
+                    <v-sheet class="hover-card text-center full-bg">
+                      <span class="unselectable text-h4 white--text">{{ item.title }}</span>
                     </v-sheet>
                   </v-img>
                 </v-item>
@@ -126,7 +123,7 @@
 
 
     <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.6)">
-      <div class="text-center text-h4" style="color: #fff">Рекомендуемые туры</div>
+      <div class="text-center text-h4 white--text">Рекомендуемые туры</div>
       <v-row no-gutters class="mb-2 mt-2">
         <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="6"
                class="mb-3" xs="12">
@@ -226,5 +223,18 @@ export default {
 </script>
 
 <style scoped>
+.covid-info {
+  flex-wrap: wrap !important;
+  background-color: rgba(255,224,138, 0.8) !important;
+  justify-content: center !important;
+}
+.background-1 {
+  background-color: rgba(255,255,255, 1) !important;
+}
+.full-bg {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(44,44,47,0.3) !important;
+}
 
 </style>
