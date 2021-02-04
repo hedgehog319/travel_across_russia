@@ -124,7 +124,7 @@
 
               <v-row class="mt-3" justify="center">
                 <span class="text-h5">Итого к оплате: </span>
-                <span class="ml-3 text-h6">{{ getCost(tour.price) }}</span>
+                <span class="ml-3 text-h6">{{ tourists.length * getCost(tour.price) - (tour.price * 0.10 * tourists.length) }}</span>
                 <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
@@ -536,7 +536,7 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.isPaid = true
-        this.router.push({name: 'home'})
+        this.$router.push({name: 'home'})
       }, 1000)
 
       if (this.email !== null)

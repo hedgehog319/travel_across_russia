@@ -30,7 +30,7 @@
                   </v-row>
                 </v-list-item>
                 <v-list-item>
-                  <v-row class="mb-1" style="max-width: 100%">
+                  <v-row>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Рейтинг отеля</span>
                       <v-rating class="mt-2" v-model="queries.rating" color="amber" dense half-increments size="30"/>
@@ -75,7 +75,7 @@
       <div v-else-if="isEmpty()">
         <favorite-card v-for="tour in getTours" :key="tour.tour" :tour="tour"/>
       </div>
-      <v-card v-else class="ma-auto d-flex flex-column align-center justify-center grey lighten-3" height="300">
+      <v-card v-else class="ma-auto d-flex flex-column align-center justify-center grey lighten-2" height="300">
         <span class="text-h4 text-center">К сожалению, по вашему запросу ничего не найдено. Проверьте правильность
           ввода или попробуйте изменить запрос.</span>
       </v-card>
@@ -95,12 +95,6 @@ export default {
     'favorite-card': FavoriteCardComponent
   },
   data: () => ({
-    typesOfFood: [{short: 'RO', full: 'Без питания'},
-      {short: 'BB', full: 'Только завтраки'},
-      {short: 'HB', full: 'Завтрак и ужин'},
-      {short: 'FB', full: 'Завтрак, обед и ужин'},
-      {short: 'AI', full: 'Всё включено'}
-    ],
     queries: {
       from: null,
       to: null,
@@ -119,7 +113,7 @@ export default {
       end: null,
     },
   }),
-  computed: mapGetters(['getCitiesName', 'getTours']),
+  computed: mapGetters(['getCitiesName', 'getTours', 'getFoodTypes']),
   methods: {
     ...mapActions(['fetchTours']),
     currentDate(date) {
