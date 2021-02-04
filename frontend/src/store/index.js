@@ -8,6 +8,7 @@ import cities from "@/store/cities";
 import favTours from "@/store/favTours";
 import tours from "@/store/tours";
 import documentTypes from "@/store/documentTypes";
+import foodTypes from "@/store/foodTypes";
 
 export default new Vuex.Store({
     modules: {
@@ -15,5 +16,6 @@ export default new Vuex.Store({
         favTours,
         tours,
         documentTypes,
+        foodTypes,
     }
 })

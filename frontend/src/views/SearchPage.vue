@@ -44,7 +44,7 @@
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Тип питания</span>
                       <div :class="isMobile ? 'd-block' : 'd-flex'">
-                        <v-tooltip bottom v-for="(type, i) in typesOfFood" :key="i">
+                        <v-tooltip bottom v-for="(type, i) in getFoodTypes" :key="i">
                           <template v-slot:activator="{ on }">
                             <div v-on="on" class="ma-auto">
                               <v-checkbox style="max-height: 30px" :ripple="false" :label="type.short"

@@ -4,7 +4,7 @@ export default {
     actions: {
         async fetchTours(ctx, [conf, query]) {
             const res = await axios.get(`api/tours/${query}`, conf)
-                .catch(err => console.log(err.response))
+                .catch(err => console.log(err))
             ctx.commit('updateTours', res.data)
         },
         async fetchTopTours(ctx, count) {
