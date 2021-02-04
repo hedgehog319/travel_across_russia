@@ -240,14 +240,6 @@ export default {
   name: "TourBooking",
   data() {
     return {
-      selectedTypes: ['RO'],
-      typesOfFood: [{short: 'RO', full: 'Без питания'},
-        {short: 'BB', full: 'Только завтраки'},
-        {short: 'HB', full: 'Завтрак и ужин'},
-        {short: 'FB', full: 'Завтрак, обед и ужин'},
-        {short: 'AI', full: 'Всё включено'}
-      ],
-      typeOfFood: 1,
       e1: 1,
       isSmall: false,
       tour: {
