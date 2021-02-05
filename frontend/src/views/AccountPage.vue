@@ -65,7 +65,7 @@
                 <h2>Изменение профиля</h2>
                 <v-text-field v-model="new_email" :error-messages="emailErrors" label="Email"/>
                 <v-select :items="getDocumentTypes" :error-messages="documentTypeErrors"
-                          v-model="changed_document.type"/>
+                          v-model="changed_document.type" label="Тип документа"/>
                 <v-text-field :value="changed_document.firstname" :error-messages="firstnameErrors"
                               counter="20" @input="input => changed_document.firstname = input.toUpperCase()"
                               label="Имя"/>
