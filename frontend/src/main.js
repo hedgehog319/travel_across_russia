@@ -16,7 +16,7 @@ Vue.use(Vuelidate)
 Vue.use(VueCookies)
 
 Vue.$cookies.config('2d')
-Vue.axios.defaults.baseURL = 'https://travel-across-russia.tk/'
+Vue.axios.defaults.baseURL = 'http://travel-across-russia.tk/'
 
 Vue.config.productionTip = false
 
