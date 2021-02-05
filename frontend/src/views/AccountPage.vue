@@ -58,6 +58,7 @@
               </v-simple-table>
             </v-card>
           </v-tab-item>
+
           <v-tab-item>
             <v-card flat class="text-center">
               <form class="ma-4" @submit.prevent="updateUserInfo">
@@ -101,7 +102,10 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="text-center">
-                <p>Ваш список туров пуст</p>
+                <p v-if="bookedTours.length === 0">Ваш список туров пуст</p>
+                <div v-else>
+                  <favorite-card v-for="tour in bookedTours" :key="tour.tour" :tour="tour"/>
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -116,9 +120,13 @@
 <script>
 import {required, minLength, numeric, email} from "vuelidate/lib/validators";
 import {mapGetters} from "vuex";
+import FavoriteCardComponent from "@/components/FavoriteCardComponent";
 
 export default {
   name: "AccountPage",
+  components: {
+    'favorite-card': FavoriteCardComponent
+  },
   data() {
     return {
       birthDayMenu: false,
@@ -145,7 +153,7 @@ export default {
         birthdate: null,
       },
       invalidUser: false,
-      bookedTours: null,
+      bookedTours: [],
     }
   },
   validations: {
