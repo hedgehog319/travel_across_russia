@@ -230,10 +230,11 @@
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
     <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
-    <v-dialog v-model="isPaid">
+    <v-dialog v-model="isPaid" max-width="200px">
       <v-card>
-        <v-card-title>Ваш тур оплачен</v-card-title>
+        <v-card-title class="grey lighten-2">Ваш тур оплачен</v-card-title>
         <v-card-actions>
+          <v-spacer/>
           <v-btn color="blue darken-1" :to="{name: 'home'}">Ок</v-btn>
         </v-card-actions>
       </v-card>
