@@ -124,7 +124,9 @@
 
               <v-row class="mt-3" justify="center">
                 <span class="text-h5">Итого к оплате: </span>
-                <span class="ml-3 text-h6">{{ getCost(tourists.length * tour.price - (tour.price * 0.10 * (tourists.length - 1))) }}</span>
+                <span class="ml-3 text-h6">{{
+                    getCost(tourists.length * tour.price - (tour.price * 0.10 * (tourists.length - 1)))
+                  }}</span>
                 <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
@@ -228,7 +230,14 @@
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
     <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
-    <v-snackbar top v-model="isPaid">Ваш тур оплачен</v-snackbar>
+    <v-dialog v-model="isPaid">
+      <v-card>
+        <v-card-title>Ваш тур оплачен</v-card-title>
+        <v-card-actions>
+          <v-btn color="blue darken-1" :to="{name: 'home'}">Ок</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
