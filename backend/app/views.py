@@ -16,7 +16,7 @@ from rest_framework import status
 
 from app.models import Tour, Country, City, Hotel, Airline, Insurance, Document, FavouriteTour, Tourist, BookedTour, \
     RatingTour, HotelPhoto
-from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers, IsAuthForGetOrCreateOnly
+from app.permissions import IsAdminOrReadOnly, IsAdminOrCreateOnly, GetPatchPostForAuthUsers
 from app.serializers import TourSerializer, CountrySerializer, CitySerializer, HotelSerializer, AirlineSerializer, \
     InsuranceSerializer, DocumentSerializer, FavouriteTourSerializer, UserGetUpdateSerializer, TouristSerializer, \
     TourReceivingSerializer, HotelPhotoSerializer, BookedTourSerializer, RatingTourSerializer
@@ -207,18 +207,8 @@ def food_types(request):
 class BookedTourView(ModelViewSet):
     queryset = BookedTour.objects.all()
     serializer_class = BookedTourSerializer
-    permission_classes = [IsAuthForGetOrCreateOnly]
+    permission_classes = [IsAdminOrCreateOnly]
     lookup_field = 'tour_id'
-
-    def filter_queryset(self, queryset):
-        queryset = queryset.filter(owner=self.request.user)
-        return queryset
-
-    def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
-            serializer.save(owner=self.request.user)
-            return
-        serializer.save()
 
 
 class RatingTourView(CreateAPIView):
