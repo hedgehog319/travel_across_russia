@@ -3,7 +3,7 @@
     <v-container>
       <v-skeleton-loader v-if="!isLoad" class="mx-auto white" type="card" height="500"/>
 
-      <v-card v-else elevation="2" class="pa-5">
+      <v-card v-else elevation="2" class=" pt-6">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon large class="top-absolute" style="right: 12px;" @click="favClick">
@@ -100,7 +100,8 @@ export default {
   methods: {
     ...mapActions(['removeFavTour', 'removeFavorite']),
     addFav(conf) {
-      this.axios.post('api/fav-tours/', {tour: this.tour.tour_id}, conf)
+      this.axios.post('api/fav-tours/', {tour_id: this.tour.tour_id}, conf)
+          .catch(err => console.log(err))
       this.tour.is_favourite = true
     },
     removeFav(conf) {

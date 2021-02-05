@@ -81,7 +81,7 @@
 
           <v-stepper-content step="3">
 
-            <v-card class="mb-12" color="lighten-1" elevation="0" min-height="300">
+            <v-card class="mb-12 pa-5" color="lighten-1" elevation="0" min-height="300">
               <v-row justify="center" class="mt-1">
                 <v-col cols="12" lg="3" md="3" sm="3" class="mar-pad">
                   <v-text-field filled v-model="card.number" height="38" label="Номер карты"
@@ -124,7 +124,9 @@
 
               <v-row class="mt-3" justify="center">
                 <span class="text-h5">Итого к оплате: </span>
-                <span class="ml-3 text-h6">{{ getCost(tour.price) }}</span>
+                <span class="ml-3 text-h6">{{
+                    getCost(tourists.length * tour.price - (tour.price * 0.10 * (tourists.length - 1)))
+                  }}</span>
                 <v-icon>mdi-currency-rub</v-icon>
               </v-row>
             </v-card>
@@ -139,7 +141,7 @@
       </v-stepper>
     </v-container>
 
-    <v-dialog v-model="touristDialog" max-width="500px">
+    <v-dialog v-model="touristDialog" max-width="500px" @click:outside="$router.push({name: 'home'})">
       <v-card>
         <v-card-title class="justify-center">
           <span class="headline">Турист</span>
@@ -228,7 +230,15 @@
       Нельзя зарегистрировать больше 7 туристов. Для регистрации группы более 7 человек обратитесь к туроператору
     </v-snackbar>
     <v-snackbar top v-model="consistTourist">Укажите хотя бы одного туриста</v-snackbar>
-    <v-snackbar top v-model="isPaid">Ваш тур оплачен</v-snackbar>
+    <v-dialog v-model="isPaid" width="220px">
+      <v-card>
+        <v-card-title>Ваш тур оплачен</v-card-title>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="blue darken-1" :to="{name: 'home'}">Ок</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -240,14 +250,6 @@ export default {
   name: "TourBooking",
   data() {
     return {
-      selectedTypes: ['RO'],
-      typesOfFood: [{short: 'RO', full: 'Без питания'},
-        {short: 'BB', full: 'Только завтраки'},
-        {short: 'HB', full: 'Завтрак и ужин'},
-        {short: 'FB', full: 'Завтрак, обед и ужин'},
-        {short: 'AI', full: 'Всё включено'}
-      ],
-      typeOfFood: 1,
       e1: 1,
       isSmall: false,
       tour: {
@@ -536,7 +538,6 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.isPaid = true
-        this.router.push({name: 'home'})
       }, 1000)
 
       if (this.email !== null)

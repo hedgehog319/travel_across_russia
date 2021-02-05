@@ -43,7 +43,7 @@
                     </v-col>
                     <v-col cols="12" md="4" class="text-center">
                       <span class="text-h6">Тип питания</span>
-                      <div class="d-flex">
+                      <div :class="isMobile ? 'd-block' : 'd-flex'">
                         <v-tooltip bottom v-for="(type, i) in getFoodTypes" :key="i">
                           <template v-slot:activator="{ on }">
                             <div v-on="on" class="ma-auto">
@@ -168,7 +168,7 @@ export default {
     if (this.$route.query.startDate !== undefined) {
       this.queries.date.push(new Date(this.$route.query.startDate.toString()))
 
-      if (this.$route.query.endDate !== undefined) this.date.push(new Date(this.$route.query.endDate.toString()))
+      if (this.$route.query.endDate !== undefined) this.queries.date.push(new Date(this.$route.query.endDate.toString()))
       else this.queries.date.push(new Date(this.$route.query.startDate.toString()))
 
       query += '&count_days=' + Math.round((this.queries.date[1] - this.queries.date[0]) / (24 * 3600 * 1000))

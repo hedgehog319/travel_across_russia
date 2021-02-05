@@ -123,11 +123,12 @@
 
 
     <v-container class="round pa-1" style="background-color:rgba(0, 0, 0, 0.6)">
-      <div class="text-center text-h4 white--text">Рекомендуемые туры</div>
+      <div class="text-center text-h4 white--text">Лучшие туры</div>
       <v-row no-gutters class="mb-2 mt-2">
-        <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4" md="6" sm="6"
+        <v-col v-for="tour in getTopTours" :key="tour.tour_id" align-self="center" cols="12" lg="4"
+               :sm="isSmall ? '12' : '6'"
                class="mb-3" xs="12">
-          <tour-card :style="isSmall ? 'max-width: 260px' : ''" :tour="tour"/>
+          <tour-card :tour="tour"/>
         </v-col>
       </v-row>
     </v-container>
