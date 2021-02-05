@@ -537,7 +537,6 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.isPaid = true
-        this.$router.push({name: 'home'})
       }, 1000)
 
       if (this.email !== null)
