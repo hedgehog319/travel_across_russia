@@ -168,7 +168,7 @@ export default {
     if (this.$route.query.startDate !== undefined) {
       this.queries.date.push(new Date(this.$route.query.startDate.toString()))
 
-      if (this.$route.query.endDate !== undefined) this.date.push(new Date(this.$route.query.endDate.toString()))
+      if (this.$route.query.endDate !== undefined) this.queries.date.push(new Date(this.$route.query.endDate.toString()))
       else this.queries.date.push(new Date(this.$route.query.startDate.toString()))
 
       query += '&count_days=' + Math.round((this.queries.date[1] - this.queries.date[0]) / (24 * 3600 * 1000))
