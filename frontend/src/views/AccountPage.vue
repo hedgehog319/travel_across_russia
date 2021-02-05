@@ -145,6 +145,7 @@ export default {
         birthdate: null,
       },
       invalidUser: false,
+      bookedTours: null,
     }
   },
   validations: {
@@ -284,6 +285,12 @@ export default {
 
             this.changed_document = {...this.document}
           }
+        })
+
+    this.axios.get('api/booked-tours/', conf)
+        .then(res => {
+          if (res.data.length > 0)
+            this.bookedTours = res.data
         })
   }
 }
