@@ -1,10 +1,10 @@
 <template>
-  <v-card class="rounded unselectable mb-2" :class="isSmall ? 'd-inline-block' : 'd-flex'">
+  <v-card class="rounded unselectable mb-2" :class="isSmall || myTour ? 'd-inline-block' : 'd-flex'">
     <router-link class="text-decoration-none" :to="{name: 'tour', query: {id: tour.tour_id}}">
       <v-img :src="tour.photo" height="200px"
-             class="d-block rounded ma-2 hover" :width="isSmall ? undefined : 300"/>
+             class="d-block rounded ma-2 hover" :width="isSmall || myTour ? undefined : 300"/>
     </router-link>
-    <v-card-text class="d-flex flex-column justify-md-space-around" :style="isSmall ? '' : 'max-width: 65%'">
+    <v-card-text class="d-flex flex-column justify-md-space-around" :style="isSmall || myTour ? '' : 'max-width: 65%'">
       <div>
         <router-link class="text-decoration-none hover" :to="{name: 'tour', query: {id: tour.tour_id}}">
           <span class="text-h4 black--text">{{ tour.name }}, {{ tour.country_name }}</span>
@@ -21,7 +21,7 @@
       <div class="d-flex">
         <v-rating :value="tour.rating" color="amber" dense half-increments readonly size="20"/>
         <v-spacer/>
-        <span v-if="!isSmall" class="text-h5">
+        <span v-if="!isSmall && !myTour" class="text-h5">
           Тип питания: {{ tour.food_type }}
         </span>
         <v-spacer/>
@@ -62,6 +62,7 @@ export default {
       }
     },
     favorite: Boolean,
+    myTour: Boolean,
   },
   computed: mapGetters(['getFavTours']),
   data() {

@@ -104,7 +104,7 @@
               <v-card-text class="text-center">
                 <p v-if="bookedTours.length === 0">Ваш список туров пуст</p>
                 <div v-else>
-                  <favorite-card v-for="tour in bookedTours" :key="tour.tour" :tour="tour"/>
+                  <favorite-card v-for="tour in bookedTours" :key="tour.tour" :tour="tour" my-tour/>
                 </div>
               </v-card-text>
             </v-card>
