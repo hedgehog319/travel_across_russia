@@ -21,7 +21,8 @@ class CountryAdmin(ModelAdmin):
 
 @admin.register(City)
 class CityAdmin(ModelAdmin):
-    list_display = ('name', 'country', 'id')
+    list_display = ('id', 'name', 'country')
+    list_display_links = ('name',)
 
 
 class HotelShortsInline(admin.TabularInline):
@@ -37,9 +38,10 @@ class HotelShortsInline(admin.TabularInline):
 
 @admin.register(Hotel)
 class HotelAdmin(ModelAdmin):
-    list_display = ('name', 'city', 'id')
+    list_display = ('id', 'name', 'city')
+    list_display_links = ('name',)
     list_filter = ('name', 'city')
-    search_fields = ('city__name',)
+    search_fields = ('city__name', 'name')
     inlines = [HotelShortsInline]
     save_on_top = True
     save_as = True
@@ -73,23 +75,58 @@ class TourAdmin(ModelAdmin):
 
 class TouristsInline(admin.TabularInline):
     model = Tourist
-    extra = 1
+    extra = 0
 
 
 @admin.register(BookedTour)
 class BookedTourAdmin(ModelAdmin):
+    list_display = ('tour_id', 'start_date', 'end_date')
+    readonly_fields = ('tour_id', 'start_date', 'end_date', 'owner')
     inlines = [TouristsInline]
 
 
-admin.site.register(Document)
-admin.site.register(Tourist)
-admin.site.register(Airline)
-admin.site.register(Insurance)
-admin.site.register(FavouriteTour)
-admin.site.register(RatingTour)
+@admin.register(Airline)
+class AirlineAdmin(ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('name',)
 
-admin.site.site_title = 'Django Travel-Across-Russia'
-admin.site.site_header = 'Django Travel-Across-Russia'
+
+@admin.register(Document)
+class DocumentAdmin(ModelAdmin):
+    list_display = ('id', 'firstname', 'lastname', 'series', 'number')
+    list_display_links = ('firstname', 'lastname')
+
+
+@admin.register(FavouriteTour)
+class FavouriteTourAdmin(ModelAdmin):
+    list_display = ('user', 'tour_id')
+    readonly_fields = ('user', 'tour_id')
+
+
+@admin.register(RatingTour)
+class RatingTourAdmin(ModelAdmin):
+    list_display = ('id', 'tour_id', 'rating')
+    list_display_links = ('tour_id',)
+    readonly_fields = ('rating',)
+
+
+@admin.register(Insurance)
+class InsuranceAdmin(ModelAdmin):
+    list_display = ('id', 'price_for_day', 'refund')
+    list_display_links = ('price_for_day', 'refund')
+
+
+@admin.register(Tourist)
+class TouristAdmin(ModelAdmin):
+    list_display = ('id', 'document', 'booked_tour')
+    list_display_links = ('document', )
+
+
+admin.site.site_title = 'Панел Администратора Travel-Across-Russia'
+admin.site.site_header = 'Панел Администратора Travel-Across-Russia'
 
 # для настройки отображения в админке
 # https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/Admin_site
+
+# для добавления favicon в админку
+# https://www.djangotricks.com/tricks/9RM5Mk6tRThd/

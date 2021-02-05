@@ -235,7 +235,7 @@
         <v-card-title>Ваш тур оплачен</v-card-title>
         <v-card-actions>
           <v-spacer/>
-          <v-btn color="blue darken-1" :to="{name: 'home'}">Ок</v-btn>
+          <v-btn color="primary" :to="{name: 'home'}">Ок</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -534,6 +534,8 @@ export default {
       }
     },
     async sendPay() {
+      const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+
       this.loading = true
       setTimeout(() => {
         this.loading = false
@@ -543,7 +545,6 @@ export default {
       if (this.email !== null)
         this.tourists[0].email = this.email
       else {
-        const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
         await this.axios.get('/api/documents/', conf)
             .then(res => {
               if (res.statusText === 'OK')
@@ -560,7 +561,7 @@ export default {
         tourists: this.tourists
       }
 
-      await this.axios.post('/api/booked-tours/', booked)
+      await this.axios.post('/api/booked-tours/', booked, conf)
           .catch(err => console.log(err))
     },
     toPay() {

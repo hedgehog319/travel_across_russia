@@ -71,7 +71,7 @@ class TouristSerializer(ModelSerializer):
 
 
 class BookedTourSerializer(ModelSerializer):
-    tourists = TouristSerializer(many=True)
+    tourists = TouristSerializer(many=True, write_only=True)
 
     class Meta:
         model = BookedTour
@@ -128,16 +128,25 @@ class TourReceivingSerializer(ModelSerializer):
 
 class FavouriteTourSerializer(ModelSerializer):
     rating = serializers.SerializerMethodField()
+    photo = serializers.SerializerMethodField()
 
     class Meta:
         model = FavouriteTour
-        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description', 'rating')
+        fields = ('tour_id', 'name', 'price', 'city_name', 'country_name', 'description', 'rating', 'photo')
 
     def get_rating(self, obj):
         marks = RatingTour.objects.all().filter(tour_id=obj.tour_id.id).values_list('rating', flat=True)
         if not marks:
             return 0
         return sum(marks) / len(marks) / 2
+
+    def get_photo(self, obj):
+        photos = HotelPhoto.objects.filter(hotel__tour__id=obj.tour_id.id).order_by('time_created').first()
+        request = self.context.get('request')
+
+        if not photos:
+            return ''
+        return request.build_absolute_uri(photos.photo.url)
 
 
 class RatingTourSerializer(ModelSerializer):

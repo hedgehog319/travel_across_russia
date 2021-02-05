@@ -297,7 +297,7 @@ export default {
 
     this.axios.get('api/booked-tours/', conf)
         .then(res => {
-          if (res.data.length > 0)
+          if (res.statusText === 'OK')
             this.bookedTours = res.data
         })
   }
