@@ -141,7 +141,7 @@
       </v-stepper>
     </v-container>
 
-    <v-dialog v-model="touristDialog" max-width="500px" @click:outside="$router.push({name: 'home'})">
+    <v-dialog v-model="touristDialog" max-width="500px" @click:outside="removeTourist">
       <v-card>
         <v-card-title class="justify-center">
           <span class="headline">Турист</span>
