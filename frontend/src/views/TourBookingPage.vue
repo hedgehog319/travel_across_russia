@@ -235,7 +235,7 @@
         <v-card-title>Ваш тур оплачен</v-card-title>
         <v-card-actions>
           <v-spacer/>
-          <v-btn color="blue darken-1" :to="{name: 'home'}">Ок</v-btn>
+          <v-btn color="primary" :to="{name: 'home'}">Ок</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
