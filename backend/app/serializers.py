@@ -73,9 +73,21 @@ class TouristSerializer(ModelSerializer):
 class BookedTourSerializer(ModelSerializer):
     tourists = TouristSerializer(many=True, write_only=True)
 
+    name = serializers.CharField(source='tour_id.name', read_only=True)
+    price = serializers.IntegerField(source='tour_id.price', read_only=True)
+    count_days = serializers.IntegerField(source='tour_id.count_days', read_only=True)
+    city_name = serializers.CharField(source='tour_id.city_name', read_only=True)
+    country_name = serializers.CharField(source='tour_id.country_name', read_only=True)
+    description = serializers.CharField(source='tour_id.description', read_only=True)
+    food_type = serializers.CharField(source='tour_id.food_type', read_only=True)
+    photo = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    is_favourite = serializers.SerializerMethodField(method_name='favourite')
+
     class Meta:
         model = BookedTour
-        fields = ('tour_id', 'tourists')
+        fields = ('tour_id', 'tourists', 'name', 'price', 'count_days', 'city_name', 'country_name',
+                  'description', 'food_type', 'rating', 'is_favourite', 'photo')
 
     def create(self, validated_data):
         tourists_data = validated_data.pop('tourists')
@@ -86,6 +98,26 @@ class BookedTourSerializer(ModelSerializer):
 
             Tourist.objects.create(booked_tour=booked_tour, document=document, **tourist_data)
         return booked_tour
+
+    def get_photo(self, obj):
+        photos = HotelPhoto.objects.filter(hotel__tour__id=obj.tour_id.id).order_by('time_created').first()
+        request = self.context.get('request')
+
+        if not photos:
+            return ''
+        return request.build_absolute_uri(photos.photo.url)
+
+    def favourite(self, obj):
+        user = self.context['request'].user
+        if not user.is_authenticated:
+            return False
+        return True if FavouriteTour.objects.filter(user=user.id, tour_id=obj.tour_id.id) else False
+
+    def get_rating(self, obj):
+        marks = RatingTour.objects.all().filter(tour_id=obj.tour_id.id).values_list('rating', flat=True)
+        if not marks:
+            return 0
+        return sum(marks) / len(marks) / 2
 
 
 class TourSerializer(ModelSerializer):
